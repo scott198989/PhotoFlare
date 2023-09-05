@@ -47,9 +47,10 @@ Photo Flare uses a range of gems to deliver its core functionalities. Here are t
 debug: Debugging tool.
 web-console: Console on exception pages.
 capybara, selenium-webdriver, webdrivers: System testing tools.
-To set up all the necessary gems, navigate to the project directory and run:
 
 ---
+
+To set up all the necessary gems, navigate to the project directory and run:
 
 bash
 
@@ -60,21 +61,21 @@ Clone the Repository
 
 bash
  
-$ git clone https://github.com/scott198989/PhotoFlare.git
-$ cd PhotoFlare
+- $ git clone https://github.com/scott198989/PhotoFlare.git
+- $ cd PhotoFlare
 
 Install Dependencies
 
 bash
 
-$ bundle install
-$ Database Setup
+- $ bundle install
+- $ Database Setup
 
 bash
 
-$ rails db:create
-$ rails db:migrate
-$ Starting the Server
+- $ rails db:create
+- $ rails db:migrate
+- $ Starting the Server
 
 bash
 
