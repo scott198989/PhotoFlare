@@ -8,9 +8,9 @@ Welcome to Photo Flare, a robust and modern web application designed to be an al
 
 ## Features 🌟
 
-Share Photos: Capture your favorite moments and share them with the world.
-Comment on Photos: Engage with the community by commenting on their posts.
-Like and Follow: Show appreciation by liking photos and follow users to keep up with their latest posts.
+- Share Photos: Capture your favorite moments and share them with the world.
+- Comment on Photos: Engage with the community by commenting on their posts.
+- Like and Follow: Show appreciation by liking photos and follow users to keep up with their latest posts.
 
 ---
 
