@@ -1,0 +1,10 @@
+LOAD DATABASE
+     FROM sqlite:///Users/scotttuschl/Desktop/PhotoFlare
+     INTO postgresql://scotttuschl@localhost/PhotoFlare_development
+
+WITH include no tables,
+     data only
+
+ALTER SCHEMA 'main' RENAME TO 'public';
+
+

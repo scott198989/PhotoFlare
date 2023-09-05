@@ -1,0 +1,60 @@
+PRAGMA foreign_keys=OFF;
+BEGIN TRANSACTION;
+CREATE TABLE IF NOT EXISTS "schema_migrations" ("version" varchar NOT NULL PRIMARY KEY);
+INSERT INTO schema_migrations VALUES('20220818002546');
+INSERT INTO schema_migrations VALUES('20220818174705');
+INSERT INTO schema_migrations VALUES('20220818174720');
+INSERT INTO schema_migrations VALUES('20220829150052');
+INSERT INTO schema_migrations VALUES('20220901143543');
+INSERT INTO schema_migrations VALUES('20220911194246');
+INSERT INTO schema_migrations VALUES('20221007133604');
+CREATE TABLE IF NOT EXISTS "ar_internal_metadata" ("key" varchar NOT NULL PRIMARY KEY, "value" varchar, "created_at" datetime(6) NOT NULL, "updated_at" datetime(6) NOT NULL);
+INSERT INTO ar_internal_metadata VALUES('environment','development','2023-09-05 15:07:04.096319','2023-09-05 15:07:04.096319');
+CREATE TABLE IF NOT EXISTS "users" ("id" integer PRIMARY KEY AUTOINCREMENT NOT NULL, "email" varchar DEFAULT '' NOT NULL, "encrypted_password" varchar DEFAULT '' NOT NULL, "full_name" varchar, "username" varchar, "phone_number" varchar, "reset_password_token" varchar, "reset_password_sent_at" datetime(6), "remember_created_at" datetime(6), "created_at" datetime(6) NOT NULL, "updated_at" datetime(6) NOT NULL, "bio" text, "private" boolean DEFAULT 1);
+INSERT INTO users VALUES(1,'scott-tuschl@comcast.net','$2a$12$ZtLs8lZ5M/urvkhM3QS4eOE7vXWM/9stnIrCTlLVMAZ.0gtUAOEcC','scott','scott1989',NULL,NULL,NULL,NULL,'2023-09-05 15:07:48.024718','2023-09-05 15:07:48.024718',NULL,1);
+CREATE TABLE IF NOT EXISTS "posts" ("id" integer PRIMARY KEY AUTOINCREMENT NOT NULL, "caption" varchar, "longitude" float, "latitude" float, "user_id" integer NOT NULL, "allow_comments" boolean, "show_likes_count" boolean, "created_at" datetime(6) NOT NULL, "updated_at" datetime(6) NOT NULL, CONSTRAINT "fk_rails_5b5ddfd518"
+FOREIGN KEY ("user_id")
+  REFERENCES "users" ("id")
+);
+CREATE TABLE IF NOT EXISTS "active_storage_blobs" ("id" integer PRIMARY KEY AUTOINCREMENT NOT NULL, "key" varchar NOT NULL, "filename" varchar NOT NULL, "content_type" varchar, "metadata" text, "service_name" varchar NOT NULL, "byte_size" bigint NOT NULL, "checksum" varchar, "created_at" datetime(6) NOT NULL);
+CREATE TABLE IF NOT EXISTS "active_storage_attachments" ("id" integer PRIMARY KEY AUTOINCREMENT NOT NULL, "name" varchar NOT NULL, "record_type" varchar NOT NULL, "record_id" bigint NOT NULL, "blob_id" bigint NOT NULL, "created_at" datetime(6) NOT NULL, CONSTRAINT "fk_rails_c3b3935057"
+FOREIGN KEY ("blob_id")
+  REFERENCES "active_storage_blobs" ("id")
+);
+CREATE TABLE IF NOT EXISTS "active_storage_variant_records" ("id" integer PRIMARY KEY AUTOINCREMENT NOT NULL, "blob_id" bigint NOT NULL, "variation_digest" varchar NOT NULL, CONSTRAINT "fk_rails_993965df05"
+FOREIGN KEY ("blob_id")
+  REFERENCES "active_storage_blobs" ("id")
+);
+CREATE TABLE IF NOT EXISTS "likes" ("id" integer PRIMARY KEY AUTOINCREMENT NOT NULL, "user_id" integer NOT NULL, "post_id" integer NOT NULL, "created_at" datetime(6) NOT NULL, "updated_at" datetime(6) NOT NULL, CONSTRAINT "fk_rails_1e09b5dabf"
+FOREIGN KEY ("user_id")
+  REFERENCES "users" ("id")
+, CONSTRAINT "fk_rails_87a8aac469"
+FOREIGN KEY ("post_id")
+  REFERENCES "posts" ("id")
+);
+CREATE TABLE IF NOT EXISTS "comments" ("id" integer PRIMARY KEY AUTOINCREMENT NOT NULL, "user_id" integer NOT NULL, "post_id" integer NOT NULL, "body" text, "created_at" datetime(6) NOT NULL, "updated_at" datetime(6) NOT NULL, CONSTRAINT "fk_rails_03de2dc08c"
+FOREIGN KEY ("user_id")
+  REFERENCES "users" ("id")
+, CONSTRAINT "fk_rails_2fd19c0db7"
+FOREIGN KEY ("post_id")
+  REFERENCES "posts" ("id")
+);
+CREATE TABLE IF NOT EXISTS "follows" ("id" integer PRIMARY KEY AUTOINCREMENT NOT NULL, "follower_id" integer, "followed_id" integer, "accepted" boolean DEFAULT 0, "created_at" datetime(6) NOT NULL, "updated_at" datetime(6) NOT NULL);
+DELETE FROM sqlite_sequence;
+INSERT INTO sqlite_sequence VALUES('users',1);
+CREATE UNIQUE INDEX "index_users_on_email" ON "users" ("email");
+CREATE UNIQUE INDEX "index_users_on_reset_password_token" ON "users" ("reset_password_token");
+CREATE INDEX "index_posts_on_user_id" ON "posts" ("user_id");
+CREATE UNIQUE INDEX "index_active_storage_blobs_on_key" ON "active_storage_blobs" ("key");
+CREATE INDEX "index_active_storage_attachments_on_blob_id" ON "active_storage_attachments" ("blob_id");
+CREATE UNIQUE INDEX "index_active_storage_attachments_uniqueness" ON "active_storage_attachments" ("record_type", "record_id", "name", "blob_id");
+CREATE UNIQUE INDEX "index_active_storage_variant_records_uniqueness" ON "active_storage_variant_records" ("blob_id", "variation_digest");
+CREATE INDEX "index_likes_on_user_id" ON "likes" ("user_id");
+CREATE INDEX "index_likes_on_post_id" ON "likes" ("post_id");
+CREATE UNIQUE INDEX "index_likes_on_user_id_and_post_id" ON "likes" ("user_id", "post_id");
+CREATE INDEX "index_comments_on_user_id" ON "comments" ("user_id");
+CREATE INDEX "index_comments_on_post_id" ON "comments" ("post_id");
+CREATE INDEX "index_follows_on_follower_id" ON "follows" ("follower_id");
+CREATE INDEX "index_follows_on_followed_id" ON "follows" ("followed_id");
+CREATE UNIQUE INDEX "index_follows_on_follower_id_and_followed_id" ON "follows" ("follower_id", "followed_id");
+COMMIT;
