@@ -94,6 +94,8 @@ Your contributions are always welcome! Please open an issue first if you want to
 
 This project is intended for educational purposes only and does not claim any rights or authenticity to the design or functionality of similar products.
 
+---
+
 ## Contact 
 
 Thank you for checking out my app, if you would like to contact me I can be reached by email at scott-tuschl@comcast.net , connect with me on linkedin at https://www.linkedin.com/in/scott-tuschl , or checkout my portfolio at https://www.scott-tuschl.com  !
