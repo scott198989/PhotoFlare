@@ -6,9 +6,9 @@ Welcome to Photo Flare, a robust and modern web application designed to be an al
 
 ---
 
-## Live Link
+## Live Link 🔗
 
-- https://photo-flare.onrender.com/users/sign_in
+Experience the app live: https://photo-flare.onrender.com/users/sign_in
 
 ---
 
