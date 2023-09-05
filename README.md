@@ -44,7 +44,7 @@ Photo Flare uses a range of gems to deliver its core functionalities. Here are t
 - activestorage-validator: Validations for Active Storage.
 - For development and testing purposes:
 
-debug: Debugging tool.
+- debug: Debugging tool.
 web-console: Console on exception pages.
 capybara, selenium-webdriver, webdrivers: System testing tools.
 
