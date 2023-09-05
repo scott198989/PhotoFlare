@@ -54,7 +54,7 @@ To set up all the necessary gems, navigate to the project directory and run:
 
 bash
 
-$ bundle install
+- $ bundle install
 
 Setup and Installation 🚀
 Clone the Repository
@@ -79,7 +79,7 @@ bash
 
 bash
 
-$ rails s
+- $ rails s
 
 ---
 
