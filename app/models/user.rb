@@ -5,6 +5,13 @@ class User < ApplicationRecord
          :recoverable, :rememberable, :validatable
 
   has_many :posts
+  has_many :stories, dependent: :destroy
+  has_many :story_views, dependent: :destroy
+  has_many :conversation_participants, dependent: :destroy
+  has_many :conversations, through: :conversation_participants
+  has_many :sent_messages, class_name: 'Message', foreign_key: 'sender_id', dependent: :destroy
+  has_many :notifications, foreign_key: 'recipient_id', dependent: :destroy
+  has_many :sent_notifications, class_name: 'Notification', foreign_key: 'actor_id', dependent: :destroy
   has_one_attached :profile_pic
 
   has_many :likes
@@ -37,4 +44,12 @@ class User < ApplicationRecord
     self.waiting_sent_requests.find_by(followed: user)&.destroy
   end
 
+  # Stories helpers
+  def active_stories
+    stories.active.recent
+  end
+
+  def has_active_story?
+    stories.active.exists?
+  end
 end

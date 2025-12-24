@@ -1,0 +1,321 @@
+// PhotoFlare Design System - CSS Custom Properties
+// ================================================
+// This file defines all design tokens as CSS custom properties
+// for seamless light/dark theme switching
+
+:root {
+  // ==========================================
+  // COLOR PALETTE - LIGHT THEME (Default)
+  // ==========================================
+
+  // Primary Brand Colors
+  --pf-primary: #6366f1;
+  --pf-primary-light: #818cf8;
+  --pf-primary-dark: #4f46e5;
+  --pf-primary-rgb: 99, 102, 241;
+
+  // Secondary & Accent Colors
+  --pf-secondary: #f472b6;
+  --pf-secondary-light: #f9a8d4;
+  --pf-secondary-dark: #ec4899;
+
+  --pf-accent: #22d3ee;
+  --pf-accent-light: #67e8f9;
+  --pf-accent-dark: #06b6d4;
+
+  // Success, Warning, Error
+  --pf-success: #10b981;
+  --pf-success-light: #34d399;
+  --pf-warning: #f59e0b;
+  --pf-warning-light: #fbbf24;
+  --pf-error: #ef4444;
+  --pf-error-light: #f87171;
+
+  // Background Colors
+  --pf-bg-primary: #ffffff;
+  --pf-bg-secondary: #f8fafc;
+  --pf-bg-tertiary: #f1f5f9;
+  --pf-bg-elevated: #ffffff;
+  --pf-bg-overlay: rgba(0, 0, 0, 0.5);
+
+  // Surface Colors (cards, modals, etc.)
+  --pf-surface: #ffffff;
+  --pf-surface-hover: #f8fafc;
+  --pf-surface-active: #f1f5f9;
+  --pf-surface-elevated: #ffffff;
+
+  // Text Colors
+  --pf-text-primary: #0f172a;
+  --pf-text-secondary: #475569;
+  --pf-text-tertiary: #64748b;
+  --pf-text-muted: #94a3b8;
+  --pf-text-inverse: #ffffff;
+  --pf-text-link: #6366f1;
+  --pf-text-link-hover: #4f46e5;
+
+  // Border Colors
+  --pf-border-light: #e2e8f0;
+  --pf-border-medium: #cbd5e1;
+  --pf-border-dark: #94a3b8;
+  --pf-border-focus: #6366f1;
+
+  // ==========================================
+  // SHADOWS & EFFECTS
+  // ==========================================
+
+  --pf-shadow-xs: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
+  --pf-shadow-sm: 0 1px 3px 0 rgba(0, 0, 0, 0.1), 0 1px 2px -1px rgba(0, 0, 0, 0.1);
+  --pf-shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -2px rgba(0, 0, 0, 0.1);
+  --pf-shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -4px rgba(0, 0, 0, 0.1);
+  --pf-shadow-xl: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 8px 10px -6px rgba(0, 0, 0, 0.1);
+  --pf-shadow-2xl: 0 25px 50px -12px rgba(0, 0, 0, 0.25);
+  --pf-shadow-inner: inset 0 2px 4px 0 rgba(0, 0, 0, 0.05);
+
+  // Glow Effects
+  --pf-glow-primary: 0 0 20px rgba(99, 102, 241, 0.4);
+  --pf-glow-secondary: 0 0 20px rgba(244, 114, 182, 0.4);
+  --pf-glow-accent: 0 0 20px rgba(34, 211, 238, 0.4);
+
+  // Glass Morphism
+  --pf-glass-bg: rgba(255, 255, 255, 0.8);
+  --pf-glass-border: rgba(255, 255, 255, 0.5);
+  --pf-glass-blur: blur(16px);
+  --pf-glass-saturate: saturate(180%);
+
+  // ==========================================
+  // GRADIENTS
+  // ==========================================
+
+  --pf-gradient-primary: linear-gradient(135deg, #6366f1 0%, #8b5cf6 50%, #d946ef 100%);
+  --pf-gradient-secondary: linear-gradient(135deg, #f472b6 0%, #fb923c 100%);
+  --pf-gradient-accent: linear-gradient(135deg, #06b6d4 0%, #6366f1 100%);
+  --pf-gradient-warm: linear-gradient(135deg, #f97316 0%, #ec4899 100%);
+  --pf-gradient-cool: linear-gradient(135deg, #3b82f6 0%, #8b5cf6 100%);
+  --pf-gradient-instagram: linear-gradient(45deg, #f09433 0%, #e6683c 25%, #dc2743 50%, #cc2366 75%, #bc1888 100%);
+  --pf-gradient-story-ring: conic-gradient(from 0deg, #f09433, #e6683c, #dc2743, #cc2366, #bc1888, #f09433);
+
+  // Background Gradients
+  --pf-gradient-bg-radial: radial-gradient(ellipse at top, #e0e7ff 0%, #f8fafc 50%, #ffffff 100%);
+  --pf-gradient-bg-mesh: linear-gradient(135deg, #f0f9ff 0%, #e0f2fe 25%, #f0fdf4 50%, #fdf4ff 75%, #fff7ed 100%);
+
+  // ==========================================
+  // SPACING SCALE
+  // ==========================================
+
+  --pf-space-0: 0;
+  --pf-space-px: 1px;
+  --pf-space-0-5: 0.125rem;
+  --pf-space-1: 0.25rem;
+  --pf-space-1-5: 0.375rem;
+  --pf-space-2: 0.5rem;
+  --pf-space-2-5: 0.625rem;
+  --pf-space-3: 0.75rem;
+  --pf-space-3-5: 0.875rem;
+  --pf-space-4: 1rem;
+  --pf-space-5: 1.25rem;
+  --pf-space-6: 1.5rem;
+  --pf-space-7: 1.75rem;
+  --pf-space-8: 2rem;
+  --pf-space-9: 2.25rem;
+  --pf-space-10: 2.5rem;
+  --pf-space-12: 3rem;
+  --pf-space-14: 3.5rem;
+  --pf-space-16: 4rem;
+  --pf-space-20: 5rem;
+  --pf-space-24: 6rem;
+  --pf-space-32: 8rem;
+
+  // ==========================================
+  // BORDER RADIUS
+  // ==========================================
+
+  --pf-radius-none: 0;
+  --pf-radius-sm: 0.25rem;
+  --pf-radius-md: 0.375rem;
+  --pf-radius-lg: 0.5rem;
+  --pf-radius-xl: 0.75rem;
+  --pf-radius-2xl: 1rem;
+  --pf-radius-3xl: 1.5rem;
+  --pf-radius-full: 9999px;
+
+  // ==========================================
+  // TYPOGRAPHY
+  // ==========================================
+
+  // Font Families
+  --pf-font-sans: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  --pf-font-display: 'Outfit', var(--pf-font-sans);
+  --pf-font-mono: 'JetBrains Mono', 'Fira Code', monospace;
+
+  // Font Sizes
+  --pf-text-xs: 0.75rem;
+  --pf-text-sm: 0.875rem;
+  --pf-text-base: 1rem;
+  --pf-text-lg: 1.125rem;
+  --pf-text-xl: 1.25rem;
+  --pf-text-2xl: 1.5rem;
+  --pf-text-3xl: 1.875rem;
+  --pf-text-4xl: 2.25rem;
+  --pf-text-5xl: 3rem;
+
+  // Line Heights
+  --pf-leading-none: 1;
+  --pf-leading-tight: 1.25;
+  --pf-leading-snug: 1.375;
+  --pf-leading-normal: 1.5;
+  --pf-leading-relaxed: 1.625;
+  --pf-leading-loose: 2;
+
+  // Font Weights
+  --pf-font-light: 300;
+  --pf-font-normal: 400;
+  --pf-font-medium: 500;
+  --pf-font-semibold: 600;
+  --pf-font-bold: 700;
+  --pf-font-extrabold: 800;
+
+  // Letter Spacing
+  --pf-tracking-tighter: -0.05em;
+  --pf-tracking-tight: -0.025em;
+  --pf-tracking-normal: 0;
+  --pf-tracking-wide: 0.025em;
+  --pf-tracking-wider: 0.05em;
+
+  // ==========================================
+  // TRANSITIONS & ANIMATIONS
+  // ==========================================
+
+  --pf-transition-fast: 150ms cubic-bezier(0.4, 0, 0.2, 1);
+  --pf-transition-normal: 250ms cubic-bezier(0.4, 0, 0.2, 1);
+  --pf-transition-slow: 350ms cubic-bezier(0.4, 0, 0.2, 1);
+  --pf-transition-slower: 500ms cubic-bezier(0.4, 0, 0.2, 1);
+
+  // Easing Functions
+  --pf-ease-in: cubic-bezier(0.4, 0, 1, 1);
+  --pf-ease-out: cubic-bezier(0, 0, 0.2, 1);
+  --pf-ease-in-out: cubic-bezier(0.4, 0, 0.2, 1);
+  --pf-ease-bounce: cubic-bezier(0.68, -0.55, 0.265, 1.55);
+
+  // ==========================================
+  // Z-INDEX SCALE
+  // ==========================================
+
+  --pf-z-dropdown: 1000;
+  --pf-z-sticky: 1020;
+  --pf-z-fixed: 1030;
+  --pf-z-modal-backdrop: 1040;
+  --pf-z-modal: 1050;
+  --pf-z-popover: 1060;
+  --pf-z-tooltip: 1070;
+  --pf-z-toast: 1080;
+
+  // ==========================================
+  // COMPONENT-SPECIFIC TOKENS
+  // ==========================================
+
+  // Navbar
+  --pf-navbar-height: 60px;
+  --pf-navbar-bg: var(--pf-glass-bg);
+
+  // Cards
+  --pf-card-bg: var(--pf-surface);
+  --pf-card-border: var(--pf-border-light);
+  --pf-card-radius: var(--pf-radius-xl);
+  --pf-card-shadow: var(--pf-shadow-md);
+
+  // Buttons
+  --pf-btn-radius: var(--pf-radius-lg);
+  --pf-btn-font-weight: var(--pf-font-semibold);
+
+  // Inputs
+  --pf-input-bg: var(--pf-bg-secondary);
+  --pf-input-border: var(--pf-border-light);
+  --pf-input-radius: var(--pf-radius-lg);
+
+  // Avatar
+  --pf-avatar-ring: var(--pf-gradient-story-ring);
+
+  // Stories
+  --pf-story-size: 66px;
+  --pf-story-size-lg: 80px;
+}
+
+// ==========================================
+// DARK THEME
+// ==========================================
+
+[data-theme="dark"] {
+  // Background Colors
+  --pf-bg-primary: #0f172a;
+  --pf-bg-secondary: #1e293b;
+  --pf-bg-tertiary: #334155;
+  --pf-bg-elevated: #1e293b;
+  --pf-bg-overlay: rgba(0, 0, 0, 0.7);
+
+  // Surface Colors
+  --pf-surface: #1e293b;
+  --pf-surface-hover: #334155;
+  --pf-surface-active: #475569;
+  --pf-surface-elevated: #334155;
+
+  // Text Colors
+  --pf-text-primary: #f8fafc;
+  --pf-text-secondary: #e2e8f0;
+  --pf-text-tertiary: #cbd5e1;
+  --pf-text-muted: #64748b;
+  --pf-text-link: #818cf8;
+  --pf-text-link-hover: #a5b4fc;
+
+  // Border Colors
+  --pf-border-light: #334155;
+  --pf-border-medium: #475569;
+  --pf-border-dark: #64748b;
+
+  // Shadows (stronger in dark mode)
+  --pf-shadow-xs: 0 1px 2px 0 rgba(0, 0, 0, 0.3);
+  --pf-shadow-sm: 0 1px 3px 0 rgba(0, 0, 0, 0.4), 0 1px 2px -1px rgba(0, 0, 0, 0.4);
+  --pf-shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.5), 0 2px 4px -2px rgba(0, 0, 0, 0.5);
+  --pf-shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.5), 0 4px 6px -4px rgba(0, 0, 0, 0.5);
+  --pf-shadow-xl: 0 20px 25px -5px rgba(0, 0, 0, 0.5), 0 8px 10px -6px rgba(0, 0, 0, 0.5);
+
+  // Glow Effects (more vibrant in dark mode)
+  --pf-glow-primary: 0 0 30px rgba(99, 102, 241, 0.5);
+  --pf-glow-secondary: 0 0 30px rgba(244, 114, 182, 0.5);
+  --pf-glow-accent: 0 0 30px rgba(34, 211, 238, 0.5);
+
+  // Glass Morphism
+  --pf-glass-bg: rgba(30, 41, 59, 0.85);
+  --pf-glass-border: rgba(51, 65, 85, 0.5);
+
+  // Gradients
+  --pf-gradient-bg-radial: radial-gradient(ellipse at top, #1e1b4b 0%, #0f172a 50%, #020617 100%);
+  --pf-gradient-bg-mesh: linear-gradient(135deg, #0f172a 0%, #1e1b4b 25%, #0f172a 50%, #1e1b4b 75%, #0f172a 100%);
+
+  // Component overrides
+  --pf-navbar-bg: rgba(15, 23, 42, 0.9);
+  --pf-input-bg: var(--pf-bg-tertiary);
+}
+
+// ==========================================
+// SYSTEM PREFERENCE DETECTION
+// ==========================================
+
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    // Apply dark theme variables when system prefers dark
+    // and no explicit theme is set
+  }
+}
+
+// ==========================================
+// REDUCED MOTION
+// ==========================================
+
+@media (prefers-reduced-motion: reduce) {
+  :root {
+    --pf-transition-fast: 0ms;
+    --pf-transition-normal: 0ms;
+    --pf-transition-slow: 0ms;
+    --pf-transition-slower: 0ms;
+  }
+}

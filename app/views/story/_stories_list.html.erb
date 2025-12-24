@@ -1,5 +1,59 @@
-<div class="card d-flex flex-row align-items-center gap-3 px-3" style="width: 25rem; height: 7rem; overflow-x:scroll;" >
-  <% (0...7).each do %>
-    <%= render "story/story" %>
+<%# Stories List - Feed Header %>
+<% stories_by_user = @stories_by_user || Story.feed_for(current_user) rescue {} %>
+
+<%# Add Story Button (Your Story) %>
+<div class="pf-story-bubble pf-story-add" data-controller="story-upload">
+  <div class="pf-story-avatar">
+    <% if current_user.profile_pic.attached? %>
+      <%= image_tag current_user.profile_pic %>
+    <% else %>
+      <%= image_tag 'user-pp.png' %>
+    <% end %>
+    <button type="button" class="pf-story-add-btn" data-action="click->story-upload#openPicker">
+      <i class="fa-solid fa-plus"></i>
+    </button>
+  </div>
+  <span class="pf-story-username">Your story</span>
+  <%= form_with url: stories_path, method: :post, data: { controller: "story-upload", story_upload_target: "form" }, html: { class: "pf-hidden-form" } do |f| %>
+    <%= f.file_field :media, accept: "image/*,video/*", class: "pf-hidden-input", data: { story_upload_target: "input", action: "change->story-upload#upload" } %>
   <% end %>
 </div>
+
+<%# Current user's active stories %>
+<% if current_user.has_active_story? %>
+  <div class="pf-story-bubble pf-story-own"
+       data-action="click->story-viewer#open"
+       data-user-id="<%= current_user.id %>"
+       data-username="<%= current_user.username %>"
+       data-stories="<%= current_user.active_stories.map { |s| { id: s.id, media: url_for(s.media), created_at: s.created_at.iso8601, viewed: true } }.to_json %>">
+    <div class="pf-story-avatar pf-story-ring pf-story-ring-own">
+      <% if current_user.profile_pic.attached? %>
+        <%= image_tag current_user.profile_pic %>
+      <% else %>
+        <%= image_tag 'user-pp.png' %>
+      <% end %>
+    </div>
+    <span class="pf-story-username">Your story</span>
+  </div>
+<% end %>
+
+<%# Stories from other users %>
+<% stories_by_user.each do |user, stories| %>
+  <% next if user == current_user %>
+  <% all_viewed = stories.all? { |s| s.viewed_by?(current_user) } %>
+  <div class="pf-story-bubble <%= 'viewed' if all_viewed %>"
+       data-action="click->story-viewer#open"
+       data-user-id="<%= user.id %>"
+       data-username="<%= user.username %>"
+       data-profile-pic="<%= user.profile_pic.attached? ? url_for(user.profile_pic) : asset_path('user-pp.png') %>"
+       data-stories="<%= stories.map { |s| { id: s.id, media: url_for(s.media), created_at: s.created_at.iso8601, viewed: s.viewed_by?(current_user) } }.to_json %>">
+    <div class="pf-story-avatar pf-story-ring">
+      <% if user.profile_pic.attached? %>
+        <%= image_tag user.profile_pic %>
+      <% else %>
+        <%= image_tag 'user-pp.png' %>
+      <% end %>
+    </div>
+    <span class="pf-story-username"><%= user.username.truncate(10) %></span>
+  </div>
+<% end %>

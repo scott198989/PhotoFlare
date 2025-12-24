@@ -1,0 +1,122 @@
+<div class="pf-messages-page" data-controller="messages" data-messages-conversation-id-value="<%= @conversation.id %>">
+  <div class="pf-messages-container">
+    <%# Sidebar with conversation list %>
+    <aside class="pf-messages-sidebar">
+      <div class="pf-messages-header">
+        <h1><%= current_user.username %></h1>
+        <button type="button" class="pf-messages-new-btn" title="New Message">
+          <i class="fa-regular fa-pen-to-square"></i>
+        </button>
+      </div>
+
+      <div class="pf-messages-tabs">
+        <button type="button" class="pf-messages-tab active">Messages</button>
+        <button type="button" class="pf-messages-tab">Requests</button>
+      </div>
+
+      <div class="pf-conversations-list">
+        <% current_user.conversations.includes(participants: { profile_pic_attachment: :blob }, messages: :sender).ordered.each do |conversation| %>
+          <% other_user = conversation.other_participant(current_user) %>
+          <% last_message = conversation.last_message %>
+          <% unread_count = conversation.unread_count_for(current_user) %>
+
+          <%= link_to conversation_path(conversation), class: "pf-conversation-item #{'active' if conversation == @conversation} #{'unread' if unread_count > 0}" do %>
+            <div class="pf-conversation-avatar">
+              <% if other_user.profile_pic.attached? %>
+                <%= image_tag other_user.profile_pic, class: "pf-avatar pf-avatar-lg" %>
+              <% else %>
+                <%= image_tag 'user-pp.png', class: "pf-avatar pf-avatar-lg" %>
+              <% end %>
+            </div>
+            <div class="pf-conversation-info">
+              <span class="pf-conversation-name"><%= other_user.username %></span>
+              <% if last_message %>
+                <span class="pf-conversation-preview">
+                  <% if last_message.sender == current_user %>You: <% end %>
+                  <%= truncate(last_message.body || 'Sent an attachment', length: 30) %>
+                </span>
+              <% end %>
+            </div>
+          <% end %>
+        <% end %>
+      </div>
+    </aside>
+
+    <%# Chat Area %>
+    <main class="pf-messages-main pf-chat-active">
+      <%# Chat Header %>
+      <div class="pf-chat-header">
+        <%= link_to user_path(@other_user), class: "pf-chat-user" do %>
+          <% if @other_user.profile_pic.attached? %>
+            <%= image_tag @other_user.profile_pic, class: "pf-avatar pf-avatar-md" %>
+          <% else %>
+            <%= image_tag 'user-pp.png', class: "pf-avatar pf-avatar-md" %>
+          <% end %>
+          <div class="pf-chat-user-info">
+            <span class="pf-chat-user-name"><%= @other_user.username %></span>
+            <span class="pf-chat-user-status">Active now</span>
+          </div>
+        <% end %>
+        <div class="pf-chat-actions">
+          <button type="button" class="pf-chat-action" title="Voice Call">
+            <i class="fa-solid fa-phone"></i>
+          </button>
+          <button type="button" class="pf-chat-action" title="Video Call">
+            <i class="fa-solid fa-video"></i>
+          </button>
+          <button type="button" class="pf-chat-action" title="Info">
+            <i class="fa-solid fa-circle-info"></i>
+          </button>
+        </div>
+      </div>
+
+      <%# Messages %>
+      <div class="pf-chat-messages" data-messages-target="messagesContainer">
+        <%# User Info at top %>
+        <div class="pf-chat-user-intro">
+          <% if @other_user.profile_pic.attached? %>
+            <%= image_tag @other_user.profile_pic, class: "pf-avatar pf-avatar-xl" %>
+          <% else %>
+            <%= image_tag 'user-pp.png', class: "pf-avatar pf-avatar-xl" %>
+          <% end %>
+          <h3><%= @other_user.full_name.presence || @other_user.username %></h3>
+          <p><%= @other_user.username %> · PhotoFlare</p>
+          <%= link_to "View Profile", user_path(@other_user), class: "pf-btn pf-btn-secondary pf-btn-sm" %>
+        </div>
+
+        <%# Messages List %>
+        <% @messages.each do |message| %>
+          <%= render 'messages/message', message: message %>
+        <% end %>
+
+        <%# Typing Indicator %>
+        <div class="pf-typing-indicator" data-messages-target="typingIndicator" style="display: none;">
+          <div class="pf-typing-dots">
+            <span></span>
+            <span></span>
+            <span></span>
+          </div>
+        </div>
+      </div>
+
+      <%# Message Input %>
+      <%= form_with url: conversation_messages_path(@conversation), method: :post, class: "pf-chat-input", data: { action: "submit->messages#send", messages_target: "form" } do |f| %>
+        <button type="button" class="pf-chat-emoji-btn" title="Add emoji">
+          <i class="fa-regular fa-face-smile"></i>
+        </button>
+        <%= f.text_field :body, placeholder: "Message...", autocomplete: "off", class: "pf-chat-input-field", data: { messages_target: "input", action: "input->messages#typing keydown.enter->messages#send" } %>
+        <div class="pf-chat-input-actions">
+          <button type="button" class="pf-chat-attach-btn" title="Attach file">
+            <i class="fa-regular fa-image"></i>
+          </button>
+          <button type="button" class="pf-chat-attach-btn" title="Like">
+            <i class="fa-regular fa-heart"></i>
+          </button>
+        </div>
+        <button type="submit" class="pf-chat-send-btn" data-messages-target="sendBtn" style="display: none;">
+          Send
+        </button>
+      <% end %>
+    </main>
+  </div>
+</div>

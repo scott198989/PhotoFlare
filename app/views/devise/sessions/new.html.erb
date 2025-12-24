@@ -1,47 +1,81 @@
-<div class="container home-sections d-flex flex-row justify-content-center align-items-center">
-  <div class="images-section pt-3 d-none d-lg-block"></div>
-
-  <div class="login-section pt-3">
-
-    <div class="card text-center pt-5" style="width: 23rem;">
-      <%= image_tag 'logo.png', class: "card-img-top" %>
-      <div class="card-body">
-        <%= form_for(resource, as: resource_name, url: session_path(resource_name)) do |f| %>
-          <div class="mb-3 mt-4">
-            <%= f.email_field :email, class: "form-control", placeholder: "Please enter email address" %>
+<div class="pf-auth-page">
+  <div class="pf-auth-container">
+    <%# Decorative background image for larger screens %>
+    <div class="pf-auth-showcase">
+      <div class="pf-auth-phone">
+        <div class="pf-phone-screen">
+          <div class="pf-phone-content">
+            <div class="pf-showcase-header">
+              <span class="pf-logo-text">PhotoFlare</span>
+            </div>
+            <div class="pf-showcase-image">
+              <i class="fa-solid fa-images"></i>
+            </div>
+            <p class="pf-showcase-text">Share your moments with the world</p>
           </div>
-          <div class="mb-3">
-            <%= f.password_field :password, class: "form-control", placeholder: "Password" %>
-          </div>
-          <%= f.submit "Log In", class:  "btn btn-primary w-100" %>
-        <% end %>
+        </div>
+      </div>
+    </div>
 
-        <div class="d-flex align-items-center mt-4">
-          <div class="line"></div>
-          <h2 class="line-text">OR</h2>
-          <div class="line"></div>
+    <%# Login Form Card %>
+    <div class="pf-auth-forms">
+      <div class="pf-auth-card">
+        <div class="pf-auth-logo">
+          <span class="pf-logo-text pf-logo-large">PhotoFlare</span>
         </div>
 
-        
+        <%= form_for(resource, as: resource_name, url: session_path(resource_name), html: { class: "pf-auth-form" }) do |f| %>
+          <div class="pf-form-group">
+            <%= f.email_field :email,
+                class: "pf-input",
+                placeholder: "Email address",
+                autocomplete: "email",
+                autofocus: true %>
+          </div>
 
-        <% if notice %>
-          <p class="notice"><%= notice %></p>
-        <% elsif alert%>
-          <p class="alert"><%= alert %></p>
-        <%end%>
+          <div class="pf-form-group">
+            <%= f.password_field :password,
+                class: "pf-input",
+                placeholder: "Password",
+                autocomplete: "current-password" %>
+          </div>
 
-  
+          <%= f.submit "Log In", class: "pf-btn pf-btn-primary pf-btn-block pf-btn-lg" %>
+        <% end %>
 
+        <div class="pf-auth-divider">
+          <span>OR</span>
+        </div>
+
+        <a href="#" class="pf-btn pf-btn-social pf-btn-facebook pf-btn-block">
+          <i class="fa-brands fa-facebook"></i>
+          <span>Log in with Facebook</span>
+        </a>
+
+        <% if notice.present? %>
+          <div class="pf-flash notice">
+            <i class="fa-solid fa-circle-check"></i>
+            <span class="message"><%= notice %></span>
+          </div>
+        <% end %>
+
+        <% if alert.present? %>
+          <div class="pf-flash alert">
+            <i class="fa-solid fa-circle-exclamation"></i>
+            <span class="message"><%= alert %></span>
+          </div>
+        <% end %>
+
+        <%= link_to "Forgot password?", new_password_path(resource_name), class: "pf-auth-link pf-forgot-link" %>
+      </div>
+
+      <div class="pf-auth-card pf-auth-card-secondary">
+        <p>Don't have an account? <%= link_to "Sign up", new_user_registration_path, class: "pf-auth-link pf-auth-link-primary" %></p>
+      </div>
+
+      <div class="pf-auth-footer">
+        <p class="pf-auth-tagline">Capture. Share. Connect.</p>
       </div>
     </div>
-
-    <div class="card text-center py-2 mt-3" style="width: 23rem;">
-      <div class="card-text">
-        Don't have an account? 
-        <%= link_to  "Sign up", new_user_registration_path, class: "fs-6  my-4 text-decoration-none" %>
-      </div>
-    </div>
-    <h6> ATTENTION! This is ONLY meant to be a personal project, I do not claim ANY rights to Instagram, its code base, its likeness, its features or anything! This is ONLY meant to be a project to enhances a skillset, not to infringe on copyrighted matrial! All rights are reserved to Instagram -The Developer</h6>
-
   </div>
 </div>

@@ -1,0 +1,64 @@
+<%# Story Viewer Modal - Full Screen %>
+<div class="pf-story-viewer" id="storyViewer" data-controller="story-viewer" data-story-viewer-target="viewer">
+  <%# Close button %>
+  <button type="button" class="pf-story-close" data-action="click->story-viewer#close">
+    <i class="fa-solid fa-xmark"></i>
+  </button>
+
+  <%# Story Container %>
+  <div class="pf-story-container">
+    <%# Previous button %>
+    <button type="button" class="pf-story-nav pf-story-prev" data-action="click->story-viewer#prev">
+      <i class="fa-solid fa-chevron-left"></i>
+    </button>
+
+    <%# Story Content %>
+    <div class="pf-story-content" data-story-viewer-target="content">
+      <%# Progress bars %>
+      <div class="pf-story-progress" data-story-viewer-target="progressContainer">
+        <%# Progress bars are dynamically added %>
+      </div>
+
+      <%# Header %>
+      <div class="pf-story-header">
+        <div class="pf-story-user">
+          <img src="" alt="" class="pf-story-user-avatar" data-story-viewer-target="avatar">
+          <div class="pf-story-user-info">
+            <span class="pf-story-user-name" data-story-viewer-target="username"></span>
+            <span class="pf-story-time" data-story-viewer-target="time"></span>
+          </div>
+        </div>
+        <div class="pf-story-actions">
+          <button type="button" class="pf-story-action" data-action="click->story-viewer#togglePause" data-story-viewer-target="pauseBtn">
+            <i class="fa-solid fa-pause"></i>
+          </button>
+          <button type="button" class="pf-story-action" data-action="click->story-viewer#toggleMute" data-story-viewer-target="muteBtn">
+            <i class="fa-solid fa-volume-high"></i>
+          </button>
+          <button type="button" class="pf-story-action" data-story-viewer-target="moreBtn">
+            <i class="fa-solid fa-ellipsis"></i>
+          </button>
+        </div>
+      </div>
+
+      <%# Media Container %>
+      <div class="pf-story-media" data-action="click->story-viewer#handleTap">
+        <img src="" alt="Story" class="pf-story-image" data-story-viewer-target="image">
+        <video class="pf-story-video" muted playsinline data-story-viewer-target="video"></video>
+      </div>
+
+      <%# Reply Section %>
+      <div class="pf-story-reply">
+        <input type="text" placeholder="Send message" class="pf-story-reply-input" data-story-viewer-target="replyInput">
+        <button type="button" class="pf-story-reply-btn">
+          <i class="fa-regular fa-paper-plane"></i>
+        </button>
+      </div>
+    </div>
+
+    <%# Next button %>
+    <button type="button" class="pf-story-nav pf-story-next" data-action="click->story-viewer#next">
+      <i class="fa-solid fa-chevron-right"></i>
+    </button>
+  </div>
+</div>

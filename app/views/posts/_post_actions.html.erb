@@ -1,33 +1,177 @@
 <%= turbo_frame_tag "post#{post.id}actions" do %>
-  <div class="d-flex justify-content-start align-items-center gap-1 mb-3">
-    <%= button_to toggle_like_path(post_id: post.id), method: :post, style: "border:none; background:none", id: "post#{post.id}actions-likeBtn" do %>
-      <i class="<%= post.likes.find_by(user: current_user) ? "fa-solid color-red" : "fa-regular" %> fa-heart fa-xl"></i>
-    <% end %>
-    <a href="#" data-bs-toggle="modal" data-bs-target="#post<%= post.id %>_commentsModal" style="text-decoration:none" >
-      <i class="fa-regular fa-comment fa-xl fa-flip-horizontal text-dark"> </i>
-    </a>
-  </div>
-  <a href="#" data-bs-toggle="modal" data-bs-target="#post<%= post.id %>_likesModal" style="text-decoration:none" class="text-dark">
-    <small class="fw-bold my-1"><%= pluralize(post.likes.count, "like") %> </small>
-  </a>
+  <%# Action Buttons %>
+  <%= button_to toggle_like_path(post_id: post.id),
+      method: :post,
+      class: "pf-action-btn #{'liked' if post.likes.exists?(user: current_user)}",
+      id: "post#{post.id}actions-likeBtn",
+      data: { like_button: true } do %>
+    <i class="<%= post.likes.exists?(user: current_user) ? 'fa-solid' : 'fa-regular' %> fa-heart"></i>
+  <% end %>
 
-  <!-- Modal -->
-  <div class="modal fade" id="post<%= post.id %>_likesModal" tabindex="-1" aria-labelledby="post<%= post.id %>_likesModalLabel" aria-hidden="true">
-    <div class="modal-dialog">
-      <div class="modal-content">
-        <div class="modal-header">
-          <h5 class="modal-title" id="post<%= post.id %>_likesModalLabel">Post Likes</h5>
-          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-        </div>
-        <div class="modal-body">
-          <div class="d-flex flex-column gap-3" >
-            <% post.likers.each do |liker| %>
-              <%= render "posts/liker", liker: liker %>
-            <% end %>
-          </div>
+  <button type="button" class="pf-action-btn" data-bs-toggle="modal" data-bs-target="#post<%= post.id %>_commentsModal">
+    <i class="fa-regular fa-comment"></i>
+  </button>
+
+  <button type="button" class="pf-action-btn">
+    <i class="fa-regular fa-paper-plane"></i>
+  </button>
+
+  <button type="button" class="pf-action-btn pf-action-save">
+    <i class="fa-regular fa-bookmark"></i>
+  </button>
+<% end %>
+
+<%# Likes Modal %>
+<div class="modal fade" id="post<%= post.id %>_likesModal" tabindex="-1" aria-labelledby="post<%= post.id %>_likesModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
+    <div class="modal-content pf-modal">
+      <div class="modal-header pf-modal-header">
+        <h5 class="modal-title pf-modal-title" id="post<%= post.id %>_likesModalLabel">Likes</h5>
+        <button type="button" class="pf-modal-close" data-bs-dismiss="modal" aria-label="Close">
+          <i class="fa-solid fa-xmark"></i>
+        </button>
+      </div>
+      <div class="modal-body pf-modal-body">
+        <div class="pf-followers-list">
+          <% post.likers.each do |liker| %>
+            <div class="pf-follower-item">
+              <%= link_to user_path(liker), class: "pf-follower-avatar" do %>
+                <% if liker.profile_pic.attached? %>
+                  <%= image_tag liker.profile_pic %>
+                <% else %>
+                  <%= image_tag 'user-pp.png' %>
+                <% end %>
+              <% end %>
+              <div class="info">
+                <%= link_to liker.username, user_path(liker), class: "username" %>
+                <span class="name"><%= liker.full_name %></span>
+              </div>
+              <% unless liker == current_user %>
+                <div class="action">
+                  <% if current_user.followings.include?(liker) %>
+                    <%= button_to unfollow_path(followed_id: liker.id), method: :delete, class: "pf-btn pf-btn-secondary pf-btn-sm" do %>
+                      Following
+                    <% end %>
+                  <% else %>
+                    <%= button_to follow_path(followed_id: liker.id), method: :post, class: "pf-btn pf-btn-primary pf-btn-sm" do %>
+                      Follow
+                    <% end %>
+                  <% end %>
+                </div>
+              <% end %>
+            </div>
+          <% end %>
         </div>
       </div>
     </div>
   </div>
-<% end %>
+</div>
 
+<%# Comments Modal %>
+<div class="modal fade" id="post<%= post.id %>_commentsModal" tabindex="-1" aria-labelledby="post<%= post.id %>_commentsModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable modal-lg">
+    <div class="modal-content pf-modal pf-post-modal">
+      <div class="pf-post-modal-content">
+        <%# Image Side %>
+        <div class="pf-post-modal-image">
+          <% if post.images.any? %>
+            <%= image_tag post.images.first %>
+          <% end %>
+        </div>
+
+        <%# Content Side %>
+        <div class="pf-post-modal-details">
+          <div class="pf-post-modal-header">
+            <%= link_to user_path(post.user), class: "pf-post-user" do %>
+              <% if post.user.profile_pic.attached? %>
+                <%= image_tag post.user.profile_pic, class: "avatar" %>
+              <% else %>
+                <%= image_tag 'user-pp.png', class: "avatar" %>
+              <% end %>
+              <span class="username"><%= post.user.username %></span>
+            <% end %>
+            <button type="button" class="pf-modal-close" data-bs-dismiss="modal" aria-label="Close">
+              <i class="fa-solid fa-xmark"></i>
+            </button>
+          </div>
+
+          <div class="pf-post-modal-comments">
+            <%# Caption as first comment %>
+            <% if post.caption.present? %>
+              <div class="pf-comment">
+                <%= link_to user_path(post.user) do %>
+                  <% if post.user.profile_pic.attached? %>
+                    <%= image_tag post.user.profile_pic, class: "pf-comment-avatar" %>
+                  <% else %>
+                    <%= image_tag 'user-pp.png', class: "pf-comment-avatar" %>
+                  <% end %>
+                <% end %>
+                <div class="pf-comment-content">
+                  <%= link_to post.user.username, user_path(post.user), class: "pf-comment-username" %>
+                  <span class="pf-comment-text"><%= post.caption %></span>
+                  <div class="pf-comment-meta">
+                    <span class="pf-comment-time"><%= time_ago_in_words(post.created_at) %></span>
+                  </div>
+                </div>
+              </div>
+            <% end %>
+
+            <%# Comments %>
+            <% post.comments.includes(:user).each do |comment| %>
+              <div class="pf-comment">
+                <%= link_to user_path(comment.user) do %>
+                  <% if comment.user.profile_pic.attached? %>
+                    <%= image_tag comment.user.profile_pic, class: "pf-comment-avatar" %>
+                  <% else %>
+                    <%= image_tag 'user-pp.png', class: "pf-comment-avatar" %>
+                  <% end %>
+                <% end %>
+                <div class="pf-comment-content">
+                  <%= link_to comment.user.username, user_path(comment.user), class: "pf-comment-username" %>
+                  <span class="pf-comment-text"><%= comment.body %></span>
+                  <div class="pf-comment-meta">
+                    <span class="pf-comment-time"><%= time_ago_in_words(comment.created_at) %></span>
+                  </div>
+                </div>
+              </div>
+            <% end %>
+          </div>
+
+          <div class="pf-post-modal-actions">
+            <div class="pf-post-actions">
+              <%= button_to toggle_like_path(post_id: post.id),
+                  method: :post,
+                  class: "pf-action-btn #{'liked' if post.likes.exists?(user: current_user)}" do %>
+                <i class="<%= post.likes.exists?(user: current_user) ? 'fa-solid' : 'fa-regular' %> fa-heart"></i>
+              <% end %>
+              <button type="button" class="pf-action-btn">
+                <i class="fa-regular fa-comment"></i>
+              </button>
+              <button type="button" class="pf-action-btn">
+                <i class="fa-regular fa-paper-plane"></i>
+              </button>
+              <button type="button" class="pf-action-btn pf-action-save">
+                <i class="fa-regular fa-bookmark"></i>
+              </button>
+            </div>
+            <div class="pf-post-likes">
+              <a href="#" data-bs-toggle="modal" data-bs-target="#post<%= post.id %>_likesModal">
+                <%= pluralize(post.likes.count, 'like') %>
+              </a>
+            </div>
+            <div class="pf-post-time"><%= time_ago_in_words(post.created_at) %> ago</div>
+          </div>
+
+          <%= form_with url: comments_path, method: :post, class: "pf-post-comment-form", data: { controller: "comments", action: "turbo:submit-end->comments#clear" } do |f| %>
+            <%= f.hidden_field :post_id, value: post.id %>
+            <button type="button" class="emoji-btn">
+              <i class="fa-regular fa-face-smile"></i>
+            </button>
+            <%= f.text_area :comment_body, placeholder: "Add a comment...", rows: 1, data: { comments_target: "input" } %>
+            <%= f.submit "Post", class: "submit-btn", disabled: true, data: { comments_target: "submit" } %>
+          <% end %>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

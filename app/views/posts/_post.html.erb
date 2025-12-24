@@ -1,81 +1,140 @@
-<div class="my-3" id="<%= dom_id post %>">
-
-
-  <div class="card" style="width: 25rem;">
-    <div class="card-header bg-white">
-      <div class="d-flex justify-content-between">
-        <div>
-          <%= link_to post.user, class:  "a-decoration-none" do %>
-            <% if post.user.profile_pic.attached? %>
-              <%= image_tag post.user.profile_pic, class: "img-thumbnail rounded-circle", style: "width: 10%" %>
-            <% else %>
-              <%= image_tag 'user-pp.png', class: "img-thumbnail rounded-circle", style: "width: 10%" %>
-            <% end %>
-          <% end %>
-          <%= link_to post.user, class:  "a-decoration-none" do %>
-            <span class="fw-bold mx-2"><%= post.user.username %></span>
-          <% end %>
-        </div>
-
-        <div>
-          <div class="dropdown">
-            <a class="text-dark fs-4" style="text-decoration:none" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-              ...
-            </a>
-
-            <ul class="dropdown-menu">
-              <li><%= button_to 'Delete post', post, method: :delete, class:"dropdown-item" %></li>
-            </ul>
-          </div>
-        </div>
-
+<article class="pf-post" id="<%= dom_id post %>" data-controller="post">
+  <%# Post Header %>
+  <header class="pf-post-header">
+    <%= link_to user_path(post.user), class: "pf-post-user" do %>
+      <% if post.user.profile_pic.attached? %>
+        <%= image_tag post.user.profile_pic, class: "avatar" %>
+      <% else %>
+        <%= image_tag 'user-pp.png', class: "avatar" %>
+      <% end %>
+      <div class="info">
+        <span class="username"><%= post.user.username %></span>
       </div>
-    </div>
+    <% end %>
 
-    <div class="card-body">
-      <div id="post<%= post.id %>_images" class="carousel slide" data-bs-ride="true">
+    <div class="pf-nav-dropdown">
+      <button type="button" class="pf-post-menu" data-bs-toggle="dropdown" aria-expanded="false">
+        <i class="fa-solid fa-ellipsis"></i>
+      </button>
+      <ul class="dropdown-menu pf-dropdown-menu">
+        <% if post.user == current_user %>
+          <li>
+            <%= button_to post_path(post), method: :delete, class: "pf-dropdown-item pf-dropdown-item-danger", data: { turbo_confirm: "Are you sure you want to delete this post?" } do %>
+              <i class="fa-regular fa-trash-can"></i>
+              <span>Delete post</span>
+            <% end %>
+          </li>
+        <% else %>
+          <li>
+            <a href="#" class="pf-dropdown-item">
+              <i class="fa-regular fa-flag"></i>
+              <span>Report</span>
+            </a>
+          </li>
+          <li>
+            <a href="#" class="pf-dropdown-item">
+              <i class="fa-regular fa-eye-slash"></i>
+              <span>Not interested</span>
+            </a>
+          </li>
+        <% end %>
+        <li>
+          <%= link_to post_path(post), class: "pf-dropdown-item" do %>
+            <i class="fa-regular fa-window-maximize"></i>
+            <span>Go to post</span>
+          <% end %>
+        </li>
+        <li>
+          <button type="button" class="pf-dropdown-item" onclick="navigator.clipboard.writeText('<%= post_url(post) %>')">
+            <i class="fa-regular fa-copy"></i>
+            <span>Copy link</span>
+          </button>
+        </li>
+      </ul>
+    </div>
+  </header>
+
+  <%# Post Images Carousel %>
+  <div class="pf-post-images" data-action="dblclick->post#like">
+    <% if post.images.count > 1 %>
+      <div id="post<%= post.id %>_carousel" class="carousel slide" data-bs-ride="false">
         <div class="carousel-inner">
           <% post.images.each_with_index do |img, i| %>
-            <div class="carousel-item <%= i==0 ?  'active' : '' %>" style="height: 25rem">
-             <%= image_tag img, class: "d-block w-100", style: "max-height: 100%; object-fit: cover;" %>
+            <div class="carousel-item <%= 'active' if i == 0 %>">
+              <%= image_tag img %>
             </div>
           <% end %>
         </div>
-        <button class="carousel-control-prev" type="button" data-bs-target="#post<%= post.id %>_images" data-bs-slide="prev">
-          <span class="carousel-control-prev-icon bg-dark rounded-circle " aria-hidden="true"></span>
-          <span class="visually-hidden">Previous</span>
+
+        <button class="carousel-control prev" type="button" data-bs-target="#post<%= post.id %>_carousel" data-bs-slide="prev">
+          <i class="fa-solid fa-chevron-left"></i>
         </button>
-        <button class="carousel-control-next" type="button" data-bs-target="#post<%= post.id %>_images" data-bs-slide="next">
-          <span class="carousel-control-next-icon bg-dark rounded-circle " aria-hidden="true"></span>
-          <span class="visually-hidden">Next</span>
+        <button class="carousel-control next" type="button" data-bs-target="#post<%= post.id %>_carousel" data-bs-slide="next">
+          <i class="fa-solid fa-chevron-right"></i>
         </button>
-        <div class="carousel-indicators" style="position:static">
+
+        <div class="carousel-indicators">
           <% post.images.each_with_index do |img, i| %>
-            <button type="button" data-bs-target="#post<%= post.id %>_images" data-bs-slide-to="<%= i %>" class=" bg-dark <%= i==0 ?  'active' : '' %>" <%= i==0 ? 'aria-current="true"' : '' %> aria-label="Slide <%= i+1 %>"></button>
+            <button type="button"
+                    data-bs-target="#post<%= post.id %>_carousel"
+                    data-bs-slide-to="<%= i %>"
+                    class="<%= 'active' if i == 0 %>"
+                    aria-label="Slide <%= i + 1 %>"></button>
           <% end %>
         </div>
       </div>
-      <%= render "posts/post_actions", post: post %>
-      <p class="card-text"><span class="fw-bold"><%= post.user.username %></span> <%= post.caption %></p>
 
-      <%= render "posts/post_comments", post: post %>
-
-      <small class="text-muted"><%= time_ago_in_words(post.created_at) %></small>
-    </div>
-    <%= form_with url: comments_path, method: :post, data: {controller: "comments", action: "turbo:submit-end->comments#clear"} do |f| %>
-      <div class="card-footer d-flex justify-content-between bg-white">
-        <%= f.hidden_field :post_id, value: post.id %>
-        <%= f.text_area :comment_body, class: "w-75", placeholder: "Add a comment...", style:"border:none" %>
-        <%= f.submit "Post", class: "text-primary fw-bold", style: "background:none;border:none"  %>
+      <div class="multi-indicator">
+        <i class="fa-solid fa-images"></i>
       </div>
+    <% else %>
+      <%= image_tag post.images.first %>
     <% end %>
+
+    <%# Double-tap like heart overlay %>
+    <div class="pf-like-heart-overlay" data-post-target="heartOverlay">
+      <i class="fa-solid fa-heart"></i>
+    </div>
   </div>
 
-</div>
+  <%# Post Actions %>
+  <div class="pf-post-actions">
+    <%= render "posts/post_actions", post: post %>
+  </div>
 
+  <%# Likes Count %>
+  <div class="pf-post-likes" id="post<%= post.id %>_likes">
+    <span><%= pluralize(post.likes.count, 'like') %></span>
+  </div>
 
-<script>
-  document.getElementById("post<%= post.id %>_images").addEventListener("dblclick", function(){
-    document.getElementById("post<%=post.id%>actions-likeBtn").click();
-  })
-</script>
+  <%# Caption %>
+  <% if post.caption.present? %>
+    <div class="pf-post-caption">
+      <%= link_to post.user.username, user_path(post.user), class: "username" %>
+      <span><%= post.caption %></span>
+    </div>
+  <% end %>
+
+  <%# Comments Preview %>
+  <% if post.comments.count > 2 %>
+    <%= link_to "View all #{post.comments.count} comments", post_path(post), class: "pf-post-comments-link" %>
+  <% end %>
+
+  <%# Recent Comments %>
+  <%= render "posts/post_comments", post: post %>
+
+  <%# Timestamp %>
+  <div class="pf-post-time">
+    <%= time_ago_in_words(post.created_at) %> ago
+  </div>
+
+  <%# Comment Form %>
+  <%= form_with url: comments_path, method: :post, class: "pf-post-comment-form", data: { controller: "comments", action: "turbo:submit-end->comments#clear" } do |f| %>
+    <%= f.hidden_field :post_id, value: post.id %>
+    <button type="button" class="emoji-btn" title="Add emoji">
+      <i class="fa-regular fa-face-smile"></i>
+    </button>
+    <%= f.text_area :comment_body, placeholder: "Add a comment...", rows: 1, data: { comments_target: "input" } %>
+    <%= f.submit "Post", class: "submit-btn", disabled: true, data: { comments_target: "submit" } %>
+  <% end %>
+</article>

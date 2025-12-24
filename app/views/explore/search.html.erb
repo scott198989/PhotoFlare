@@ -1,0 +1,105 @@
+<div class="pf-explore-page">
+  <div class="pf-explore-container">
+    <%# Search Bar %>
+    <div class="pf-explore-search" data-controller="explore-search">
+      <%= form_with url: explore_search_path, method: :get, class: "pf-explore-search-form" do |f| %>
+        <div class="pf-search-wrapper">
+          <i class="fa-solid fa-magnifying-glass pf-search-icon"></i>
+          <%= f.text_field :q, value: @query, placeholder: "Search", class: "pf-search-input", autocomplete: "off", data: { explore_search_target: "input" } %>
+          <% if @query.present? %>
+            <%= link_to explore_path, class: "pf-search-clear" do %>
+              <i class="fa-solid fa-xmark"></i>
+            <% end %>
+          <% end %>
+        </div>
+      <% end %>
+    </div>
+
+    <%# Search Results %>
+    <div class="pf-search-results">
+      <%# Users %>
+      <% if @users.any? %>
+        <section class="pf-search-section">
+          <h3 class="pf-search-section-title">Accounts</h3>
+          <div class="pf-search-users">
+            <% @users.each do |user| %>
+              <%= link_to user_path(user), class: "pf-search-user" do %>
+                <% if user.profile_pic.attached? %>
+                  <%= image_tag user.profile_pic, class: "pf-avatar pf-avatar-lg" %>
+                <% else %>
+                  <%= image_tag 'user-pp.png', class: "pf-avatar pf-avatar-lg" %>
+                <% end %>
+                <div class="pf-search-user-info">
+                  <span class="pf-search-username"><%= user.username %></span>
+                  <span class="pf-search-name"><%= user.full_name %></span>
+                </div>
+                <% unless user == current_user %>
+                  <% if current_user.followings.include?(user) %>
+                    <span class="pf-search-following">Following</span>
+                  <% end %>
+                <% end %>
+              <% end %>
+            <% end %>
+          </div>
+        </section>
+      <% end %>
+
+      <%# Hashtags %>
+      <% if @hashtags.any? %>
+        <section class="pf-search-section">
+          <h3 class="pf-search-section-title">Tags</h3>
+          <div class="pf-search-tags">
+            <% @hashtags.each do |hashtag| %>
+              <%= link_to explore_hashtag_path(tag: hashtag.name), class: "pf-search-tag" do %>
+                <div class="pf-tag-icon">
+                  <i class="fa-solid fa-hashtag"></i>
+                </div>
+                <div class="pf-tag-info">
+                  <span class="pf-tag-name">#<%= hashtag.name %></span>
+                  <span class="pf-tag-count"><%= number_with_delimiter(hashtag.posts_count) %> posts</span>
+                </div>
+              <% end %>
+            <% end %>
+          </div>
+        </section>
+      <% end %>
+
+      <%# Posts %>
+      <% if @posts.any? %>
+        <section class="pf-search-section">
+          <h3 class="pf-search-section-title">Posts</h3>
+          <div class="pf-explore-grid pf-search-posts">
+            <% @posts.each do |post| %>
+              <%= link_to post_path(post), class: "pf-explore-item", data: { turbo: false } do %>
+                <% if post.images.attached? %>
+                  <%= image_tag post.images.first %>
+                <% end %>
+                <div class="pf-explore-overlay">
+                  <div class="pf-explore-stats">
+                    <span class="pf-explore-stat">
+                      <i class="fa-solid fa-heart"></i>
+                      <%= post.likes.count %>
+                    </span>
+                    <span class="pf-explore-stat">
+                      <i class="fa-solid fa-comment"></i>
+                      <%= post.comments.count %>
+                    </span>
+                  </div>
+                </div>
+              <% end %>
+            <% end %>
+          </div>
+        </section>
+      <% end %>
+
+      <%# No Results %>
+      <% if @users.empty? && @hashtags.empty? && @posts.empty? && @query.present? %>
+        <div class="pf-search-empty">
+          <i class="fa-solid fa-magnifying-glass"></i>
+          <h3>No results found</h3>
+          <p>Try searching for something else.</p>
+        </div>
+      <% end %>
+    </div>
+  </div>
+</div>

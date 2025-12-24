@@ -1,0 +1,438 @@
+// PhotoFlare Components - Notifications
+// ======================================
+
+// ==========================================
+// NOTIFICATIONS DROPDOWN
+// ==========================================
+
+.pf-notifications-dropdown {
+  position: absolute;
+  top: 100%;
+  right: 0;
+  margin-top: var(--pf-space-3);
+  width: 440px;
+  max-height: 480px;
+  background: var(--pf-surface);
+  border: 1px solid var(--pf-border-light);
+  border-radius: var(--pf-radius-xl);
+  box-shadow: var(--pf-shadow-xl);
+  overflow: hidden;
+  z-index: var(--pf-z-dropdown);
+  animation: pf-fade-in-down var(--pf-transition-fast);
+
+  @media (max-width: 640px) {
+    width: calc(100vw - var(--pf-space-8));
+    right: calc(var(--pf-space-4) * -1);
+  }
+
+  // Arrow pointer
+  &::before {
+    content: '';
+    position: absolute;
+    top: -6px;
+    right: 16px;
+    width: 12px;
+    height: 12px;
+    background: var(--pf-surface);
+    border-left: 1px solid var(--pf-border-light);
+    border-top: 1px solid var(--pf-border-light);
+    transform: rotate(45deg);
+  }
+}
+
+.pf-notifications-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: var(--pf-space-4);
+  border-bottom: 1px solid var(--pf-border-light);
+
+  h3 {
+    font-size: var(--pf-text-base);
+    font-weight: var(--pf-font-bold);
+    margin: 0;
+  }
+
+  button {
+    font-size: var(--pf-text-sm);
+    font-weight: var(--pf-font-semibold);
+    color: var(--pf-primary);
+    background: none;
+    border: none;
+    cursor: pointer;
+
+    &:hover {
+      color: var(--pf-primary-dark);
+    }
+  }
+}
+
+.pf-notifications-list {
+  max-height: 400px;
+  overflow-y: auto;
+}
+
+// ==========================================
+// NOTIFICATION ITEM
+// ==========================================
+
+.pf-notification-item {
+  display: flex;
+  align-items: center;
+  gap: var(--pf-space-3);
+  padding: var(--pf-space-3) var(--pf-space-4);
+  cursor: pointer;
+  transition: background-color var(--pf-transition-fast);
+  text-decoration: none;
+
+  &:hover {
+    background-color: var(--pf-surface-hover);
+  }
+
+  // Unread state
+  &.unread {
+    background-color: rgba(var(--pf-primary-rgb), 0.05);
+
+    &::before {
+      content: '';
+      position: absolute;
+      left: var(--pf-space-2);
+      width: 6px;
+      height: 6px;
+      background: var(--pf-primary);
+      border-radius: var(--pf-radius-full);
+    }
+  }
+
+  // New notification animation
+  &.new {
+    animation: pf-fade-in-left var(--pf-transition-normal);
+  }
+}
+
+.pf-notification-avatar {
+  position: relative;
+  flex-shrink: 0;
+
+  img {
+    width: 44px;
+    height: 44px;
+    border-radius: var(--pf-radius-full);
+    object-fit: cover;
+  }
+
+  // Action icon overlay
+  .action-icon {
+    position: absolute;
+    bottom: -2px;
+    right: -2px;
+    width: 20px;
+    height: 20px;
+    background: var(--pf-surface);
+    border-radius: var(--pf-radius-full);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 0.625rem;
+
+    &.like {
+      background: var(--pf-error);
+      color: white;
+    }
+
+    &.comment {
+      background: var(--pf-primary);
+      color: white;
+    }
+
+    &.follow {
+      background: var(--pf-success);
+      color: white;
+    }
+
+    &.mention {
+      background: var(--pf-accent);
+      color: white;
+    }
+  }
+}
+
+.pf-notification-content {
+  flex: 1;
+  min-width: 0;
+}
+
+.pf-notification-text {
+  font-size: var(--pf-text-sm);
+  line-height: var(--pf-leading-snug);
+  color: var(--pf-text-primary);
+
+  .username {
+    font-weight: var(--pf-font-semibold);
+  }
+
+  .action {
+    color: var(--pf-text-secondary);
+  }
+}
+
+.pf-notification-time {
+  font-size: var(--pf-text-xs);
+  color: var(--pf-text-muted);
+  margin-top: var(--pf-space-1);
+}
+
+.pf-notification-thumb {
+  flex-shrink: 0;
+
+  img {
+    width: 44px;
+    height: 44px;
+    border-radius: var(--pf-radius-md);
+    object-fit: cover;
+  }
+}
+
+.pf-notification-action {
+  flex-shrink: 0;
+}
+
+// ==========================================
+// NOTIFICATION GROUPS
+// ==========================================
+
+.pf-notification-group {
+  &-header {
+    padding: var(--pf-space-2) var(--pf-space-4);
+    font-size: var(--pf-text-xs);
+    font-weight: var(--pf-font-semibold);
+    color: var(--pf-text-muted);
+    text-transform: uppercase;
+    letter-spacing: var(--pf-tracking-wider);
+    background: var(--pf-bg-secondary);
+  }
+}
+
+// ==========================================
+// EMPTY STATE
+// ==========================================
+
+.pf-notifications-empty {
+  padding: var(--pf-space-12);
+  text-align: center;
+
+  .icon {
+    width: 64px;
+    height: 64px;
+    margin: 0 auto var(--pf-space-4);
+    background: var(--pf-bg-secondary);
+    border-radius: var(--pf-radius-full);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    i {
+      font-size: 1.5rem;
+      color: var(--pf-text-muted);
+    }
+  }
+
+  h4 {
+    font-size: var(--pf-text-base);
+    font-weight: var(--pf-font-semibold);
+    margin-bottom: var(--pf-space-2);
+  }
+
+  p {
+    font-size: var(--pf-text-sm);
+    color: var(--pf-text-muted);
+  }
+}
+
+// ==========================================
+// FOLLOW REQUEST NOTIFICATION
+// ==========================================
+
+.pf-follow-request-item {
+  display: flex;
+  align-items: center;
+  gap: var(--pf-space-3);
+  padding: var(--pf-space-3) var(--pf-space-4);
+
+  img {
+    width: 44px;
+    height: 44px;
+    border-radius: var(--pf-radius-full);
+    object-fit: cover;
+  }
+
+  .info {
+    flex: 1;
+    min-width: 0;
+
+    .username {
+      font-weight: var(--pf-font-semibold);
+      font-size: var(--pf-text-sm);
+      color: var(--pf-text-primary);
+      display: block;
+    }
+
+    .name {
+      font-size: var(--pf-text-xs);
+      color: var(--pf-text-muted);
+    }
+  }
+
+  .actions {
+    display: flex;
+    gap: var(--pf-space-2);
+
+    button {
+      padding: var(--pf-space-2) var(--pf-space-4);
+      border-radius: var(--pf-radius-lg);
+      font-size: var(--pf-text-sm);
+      font-weight: var(--pf-font-semibold);
+      cursor: pointer;
+      transition: all var(--pf-transition-fast);
+    }
+
+    .accept-btn {
+      background: var(--pf-primary);
+      color: white;
+      border: none;
+
+      &:hover {
+        background: var(--pf-primary-dark);
+      }
+    }
+
+    .decline-btn {
+      background: var(--pf-surface-hover);
+      color: var(--pf-text-primary);
+      border: none;
+
+      &:hover {
+        background: var(--pf-surface-active);
+      }
+    }
+  }
+}
+
+// ==========================================
+// NOTIFICATION TOAST
+// ==========================================
+
+.pf-toast-container {
+  position: fixed;
+  bottom: var(--pf-space-6);
+  right: var(--pf-space-6);
+  z-index: var(--pf-z-toast);
+  display: flex;
+  flex-direction: column-reverse;
+  gap: var(--pf-space-3);
+
+  @media (max-width: 640px) {
+    left: var(--pf-space-4);
+    right: var(--pf-space-4);
+    bottom: calc(50px + var(--pf-space-4)); // Above mobile nav
+  }
+}
+
+.pf-toast {
+  display: flex;
+  align-items: center;
+  gap: var(--pf-space-3);
+  padding: var(--pf-space-3) var(--pf-space-4);
+  background: var(--pf-surface);
+  border: 1px solid var(--pf-border-light);
+  border-radius: var(--pf-radius-xl);
+  box-shadow: var(--pf-shadow-xl);
+  animation: pf-slide-in-right var(--pf-transition-normal);
+  max-width: 350px;
+
+  &.closing {
+    animation: pf-slide-out-right var(--pf-transition-fast) forwards;
+  }
+
+  img {
+    width: 40px;
+    height: 40px;
+    border-radius: var(--pf-radius-full);
+    object-fit: cover;
+    flex-shrink: 0;
+  }
+
+  .content {
+    flex: 1;
+    min-width: 0;
+
+    .text {
+      font-size: var(--pf-text-sm);
+      line-height: var(--pf-leading-snug);
+
+      .username {
+        font-weight: var(--pf-font-semibold);
+      }
+    }
+
+    .time {
+      font-size: var(--pf-text-xs);
+      color: var(--pf-text-muted);
+    }
+  }
+
+  .close-btn {
+    flex-shrink: 0;
+    background: none;
+    border: none;
+    color: var(--pf-text-muted);
+    cursor: pointer;
+    padding: var(--pf-space-1);
+
+    &:hover {
+      color: var(--pf-text-primary);
+    }
+  }
+}
+
+// ==========================================
+// ACTIVITY INDICATOR (for navbar)
+// ==========================================
+
+.pf-activity-badge {
+  position: absolute;
+  top: 6px;
+  right: 6px;
+  min-width: 18px;
+  height: 18px;
+  padding: 0 5px;
+  background: var(--pf-error);
+  color: white;
+  font-size: 11px;
+  font-weight: var(--pf-font-bold);
+  border-radius: var(--pf-radius-full);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  animation: pf-bounce-in 300ms;
+
+  // Empty badge (just a dot)
+  &.dot {
+    width: 8px;
+    height: 8px;
+    min-width: 8px;
+    padding: 0;
+    top: 8px;
+    right: 8px;
+  }
+
+  // Ping animation for new notifications
+  &.ping::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    border-radius: inherit;
+    background: var(--pf-error);
+    animation: pf-ping 1.5s cubic-bezier(0, 0, 0.2, 1) infinite;
+  }
+}

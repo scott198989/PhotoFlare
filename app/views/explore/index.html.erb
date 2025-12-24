@@ -1,0 +1,61 @@
+<div class="pf-explore-page">
+  <div class="pf-explore-container">
+    <%# Search Bar %>
+    <div class="pf-explore-search" data-controller="explore-search">
+      <%= form_with url: explore_search_path, method: :get, class: "pf-explore-search-form", data: { turbo_frame: "search_results", action: "submit->explore-search#search" } do |f| %>
+        <div class="pf-search-wrapper">
+          <i class="fa-solid fa-magnifying-glass pf-search-icon"></i>
+          <%= f.text_field :q, placeholder: "Search", class: "pf-search-input", autocomplete: "off", data: { explore_search_target: "input", action: "input->explore-search#liveSearch" } %>
+          <button type="button" class="pf-search-clear" data-action="click->explore-search#clear" style="display: none;" data-explore-search-target="clearBtn">
+            <i class="fa-solid fa-xmark"></i>
+          </button>
+        </div>
+      <% end %>
+    </div>
+
+    <%# Trending Hashtags %>
+    <% if @trending_hashtags.any? %>
+      <section class="pf-explore-section">
+        <h2 class="pf-explore-heading">Trending</h2>
+        <div class="pf-trending-tags">
+          <% @trending_hashtags.each do |hashtag| %>
+            <%= link_to explore_hashtag_path(tag: hashtag.name), class: "pf-trending-tag" do %>
+              <span class="pf-tag-name">#<%= hashtag.name %></span>
+              <span class="pf-tag-count"><%= number_with_delimiter(hashtag.posts_count) %> posts</span>
+            <% end %>
+          <% end %>
+        </div>
+      </section>
+    <% end %>
+
+    <%# Popular Posts Grid %>
+    <section class="pf-explore-section">
+      <div class="pf-explore-grid">
+        <% @popular_posts.each_with_index do |post, index| %>
+          <%= link_to post_path(post), class: "pf-explore-item #{'pf-explore-large' if index % 10 == 0}", data: { turbo: false } do %>
+            <% if post.images.attached? %>
+              <%= image_tag post.images.first %>
+            <% end %>
+            <div class="pf-explore-overlay">
+              <div class="pf-explore-stats">
+                <span class="pf-explore-stat">
+                  <i class="fa-solid fa-heart"></i>
+                  <%= number_with_delimiter(post.likes.count) %>
+                </span>
+                <span class="pf-explore-stat">
+                  <i class="fa-solid fa-comment"></i>
+                  <%= number_with_delimiter(post.comments.count) %>
+                </span>
+              </div>
+            </div>
+            <% if post.images.count > 1 %>
+              <div class="pf-explore-multi">
+                <i class="fa-solid fa-images"></i>
+              </div>
+            <% end %>
+          <% end %>
+        <% end %>
+      </div>
+    </section>
+  </div>
+</div>

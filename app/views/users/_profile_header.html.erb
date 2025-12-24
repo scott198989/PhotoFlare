@@ -1,25 +1,182 @@
-<div class="container border-bottom d-flex justify-content-center align-items-center gap-5", style="min-height: 20rem">
-  <%= image_tag user.profile_pic.attached? ? user.profile_pic : 'user-pp.png', class: "img-thumbnail rounded-circle w-25", style: "max-width: 8rem; max-height:8rem" %>
-
-  <div class="w-50 d-flex flex-column gap-4">
-    <div class="d-flex gap-3 align-items-center">
-      <p class="m-0 fw-bold"><%= user.username%></p>
-      <button class="btn border border-1"> Message </button>
-      <%= render 'layouts/shared/follow_state', user: user %>
+<header class="pf-profile-header">
+  <%# Avatar Section %>
+  <div class="pf-profile-avatar-section">
+    <div class="pf-profile-avatar">
+      <% if user.profile_pic.attached? %>
+        <%= image_tag user.profile_pic %>
+      <% else %>
+        <%= image_tag 'user-pp.png' %>
+      <% end %>
       <% if user == current_user %>
-        <%= link_to 'Edit Profile', edit_user_registration_path, class: "btn btn-transparent border"%>
+        <label class="change-photo" for="profile_pic_input">
+          <i class="fa-solid fa-camera"></i>
+        </label>
       <% end %>
     </div>
+  </div>
 
-    <div class="d-flex gap-5">
-      <small class="fw-bold"><%= pluralize(user.posts.count, "Post") %></small>
-      <small class="fw-bold"><%= pluralize(user.followers.count, "Follower") %></small>
-      <small class="fw-bold"><%= pluralize(user.followings.count, "Following") %></small>
+  <%# Info Section %>
+  <div class="pf-profile-info">
+    <%# Top Row: Username + Actions %>
+    <div class="pf-profile-top">
+      <h1 class="pf-profile-username"><%= user.username %></h1>
+
+      <div class="pf-profile-actions">
+        <% if user == current_user %>
+          <%= link_to edit_user_registration_path, class: "pf-profile-btn secondary" do %>
+            Edit profile
+          <% end %>
+          <button type="button" class="pf-profile-settings" title="Settings">
+            <i class="fa-solid fa-gear"></i>
+          </button>
+        <% else %>
+          <%# Follow/Message Buttons %>
+          <% if current_user.followings.include?(user) %>
+            <%= button_to unfollow_path(followed_id: user.id), method: :delete, class: "pf-profile-btn following" do %>
+              Following
+            <% end %>
+          <% elsif current_user.waiting_followings.include?(user) %>
+            <%= button_to cancel_request_path(user_id: user.id), method: :delete, class: "pf-profile-btn secondary" do %>
+              Requested
+            <% end %>
+          <% else %>
+            <%= button_to follow_path(followed_id: user.id), method: :post, class: "pf-profile-btn primary" do %>
+              Follow
+            <% end %>
+          <% end %>
+
+          <button type="button" class="pf-profile-btn secondary">
+            <i class="fa-regular fa-paper-plane"></i>
+            Message
+          </button>
+
+          <button type="button" class="pf-profile-btn secondary">
+            <i class="fa-solid fa-user-plus"></i>
+          </button>
+
+          <button type="button" class="pf-profile-settings" title="More options">
+            <i class="fa-solid fa-ellipsis"></i>
+          </button>
+        <% end %>
+      </div>
     </div>
 
-    <div class="d-flex flex-column">
-      <small class="fw-bold"><%= user.full_name%></small>
-      <small><%= user.bio%></small>
+    <%# Stats Row %>
+    <div class="pf-profile-stats">
+      <div class="pf-profile-stat">
+        <span class="count"><%= user.posts.count %></span>
+        <span class="label"><%= 'post'.pluralize(user.posts.count) %></span>
+      </div>
+      <div class="pf-profile-stat clickable" data-bs-toggle="modal" data-bs-target="#followersModal">
+        <span class="count"><%= user.followers.count %></span>
+        <span class="label"><%= 'follower'.pluralize(user.followers.count) %></span>
+      </div>
+      <div class="pf-profile-stat clickable" data-bs-toggle="modal" data-bs-target="#followingModal">
+        <span class="count"><%= user.followings.count %></span>
+        <span class="label">following</span>
+      </div>
+    </div>
+
+    <%# Bio Section %>
+    <div class="pf-profile-bio">
+      <% if user.full_name.present? %>
+        <div class="name"><%= user.full_name %></div>
+      <% end %>
+      <% if user.bio.present? %>
+        <div class="bio-text"><%= user.bio %></div>
+      <% end %>
+    </div>
+  </div>
+</header>
+
+<%# Followers Modal %>
+<div class="modal fade" id="followersModal" tabindex="-1" aria-labelledby="followersModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
+    <div class="modal-content pf-modal pf-followers-modal">
+      <div class="modal-header pf-modal-header">
+        <h5 class="modal-title pf-modal-title" id="followersModalLabel">Followers</h5>
+        <button type="button" class="pf-modal-close" data-bs-dismiss="modal" aria-label="Close">
+          <i class="fa-solid fa-xmark"></i>
+        </button>
+      </div>
+      <div class="modal-body pf-modal-body">
+        <div class="pf-followers-list">
+          <% user.followers.each do |follower| %>
+            <div class="pf-follower-item">
+              <%= link_to user_path(follower) do %>
+                <% if follower.profile_pic.attached? %>
+                  <%= image_tag follower.profile_pic %>
+                <% else %>
+                  <%= image_tag 'user-pp.png' %>
+                <% end %>
+              <% end %>
+              <div class="info">
+                <%= link_to follower.username, user_path(follower), class: "username" %>
+                <span class="name"><%= follower.full_name %></span>
+              </div>
+              <% unless follower == current_user %>
+                <div class="action">
+                  <% if current_user.followings.include?(follower) %>
+                    <%= button_to unfollow_path(followed_id: follower.id), method: :delete, class: "pf-btn pf-btn-secondary pf-btn-sm" do %>
+                      Following
+                    <% end %>
+                  <% else %>
+                    <%= button_to follow_path(followed_id: follower.id), method: :post, class: "pf-btn pf-btn-primary pf-btn-sm" do %>
+                      Follow
+                    <% end %>
+                  <% end %>
+                </div>
+              <% end %>
+            </div>
+          <% end %>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<%# Following Modal %>
+<div class="modal fade" id="followingModal" tabindex="-1" aria-labelledby="followingModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
+    <div class="modal-content pf-modal pf-followers-modal">
+      <div class="modal-header pf-modal-header">
+        <h5 class="modal-title pf-modal-title" id="followingModalLabel">Following</h5>
+        <button type="button" class="pf-modal-close" data-bs-dismiss="modal" aria-label="Close">
+          <i class="fa-solid fa-xmark"></i>
+        </button>
+      </div>
+      <div class="modal-body pf-modal-body">
+        <div class="pf-followers-list">
+          <% user.followings.each do |following| %>
+            <div class="pf-follower-item">
+              <%= link_to user_path(following) do %>
+                <% if following.profile_pic.attached? %>
+                  <%= image_tag following.profile_pic %>
+                <% else %>
+                  <%= image_tag 'user-pp.png' %>
+                <% end %>
+              <% end %>
+              <div class="info">
+                <%= link_to following.username, user_path(following), class: "username" %>
+                <span class="name"><%= following.full_name %></span>
+              </div>
+              <% unless following == current_user %>
+                <div class="action">
+                  <% if current_user.followings.include?(following) %>
+                    <%= button_to unfollow_path(followed_id: following.id), method: :delete, class: "pf-btn pf-btn-secondary pf-btn-sm" do %>
+                      Following
+                    <% end %>
+                  <% else %>
+                    <%= button_to follow_path(followed_id: following.id), method: :post, class: "pf-btn pf-btn-primary pf-btn-sm" do %>
+                      Follow
+                    <% end %>
+                  <% end %>
+                </div>
+              <% end %>
+            </div>
+          <% end %>
+        </div>
+      </div>
     </div>
   </div>
 </div>

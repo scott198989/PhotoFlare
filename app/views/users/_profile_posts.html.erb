@@ -1,29 +1,42 @@
-<div class="container d-flex flex-column">
-  <div class="d-flex justify-content-center align-items-center">
-    <div class="w-content border-2 border-top border-dark">
-      <i class="fa-solid fa-table-cells"> </i>
-      <small>Posts</small>
-    </div>
-  </div>
+<% if user.posts.any? %>
+  <div class="pf-profile-posts">
+    <% user.posts.order(created_at: :desc).each do |post| %>
+      <%= link_to post_path(post), class: "pf-profile-post", data: { turbo: false } do %>
+        <%= image_tag post.images.first %>
 
-  <div class="row justify-content-center align-items-center">
-    <% user.posts.each do |post| %>
-      <div class="col-lg-4 col-md-6 col-sm-8 p-3 mb-4 profile-post" style="height:20rem;position:relative">
-        <%= link_to post do %>
-          <%= image_tag post.images.first, class:"img-thumbnail", style:"width:100%;height:20rem;object-fit:cover" %>
-          <div class="d-flex align-items-center justify-content-center gap-1 w-100 profile-post-likes">
-            <i class="fa-solid fa-heart fa-xl text-white"> </i>
-            <small class="text-white fw-bold"><%= post.likes.count %> </small>
-            <i class="fa-solid fa-comment fa-xl fa-flip-horizontal text-white"> </i>
-            <small class="text-white fw-bold"><%= post.comments.count %> </small>
+        <div class="overlay">
+          <div class="stat">
+            <i class="fa-solid fa-heart"></i>
+            <span><%= post.likes.count %></span>
           </div>
-          <% if post.images.count > 1 %>
-            <i class="fa-solid fa-images text-white multiple-images"> </i>
-          <% end %>
+          <div class="stat">
+            <i class="fa-solid fa-comment"></i>
+            <span><%= post.comments.count %></span>
+          </div>
+        </div>
+
+        <% if post.images.count > 1 %>
+          <div class="multi-indicator">
+            <i class="fa-solid fa-images"></i>
+          </div>
         <% end %>
-      </div>
+      <% end %>
     <% end %>
-
   </div>
-
-</div>
+<% else %>
+  <div class="pf-profile-empty">
+    <div class="icon">
+      <i class="fa-solid fa-camera"></i>
+    </div>
+    <% if user == current_user %>
+      <h2>Share Photos</h2>
+      <p>When you share photos, they will appear on your profile.</p>
+      <button type="button" class="pf-btn pf-btn-primary" data-bs-toggle="modal" data-bs-target="#staticBackdrop">
+        Share your first photo
+      </button>
+    <% else %>
+      <h2>No Posts Yet</h2>
+      <p>When <%= user.username %> shares photos, you'll see them here.</p>
+    <% end %>
+  </div>
+<% end %>

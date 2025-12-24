@@ -1,0 +1,42 @@
+<% is_own = message.sender == current_user %>
+
+<div class="pf-message <%= 'pf-message-own' if is_own %>" id="<%= dom_id(message) %>">
+  <% unless is_own %>
+    <% if message.sender.profile_pic.attached? %>
+      <%= image_tag message.sender.profile_pic, class: "pf-message-avatar" %>
+    <% else %>
+      <%= image_tag 'user-pp.png', class: "pf-message-avatar" %>
+    <% end %>
+  <% end %>
+
+  <div class="pf-message-content">
+    <% case message.message_type %>
+    <% when 'text' %>
+      <div class="pf-message-bubble">
+        <p><%= message.body %></p>
+      </div>
+    <% when 'image' %>
+      <div class="pf-message-image">
+        <% if message.image.attached? %>
+          <%= image_tag message.image %>
+        <% end %>
+      </div>
+    <% when 'post_share' %>
+      <% if message.shared_post %>
+        <div class="pf-message-post">
+          <%= link_to post_path(message.shared_post), class: "pf-shared-post" do %>
+            <% if message.shared_post.images.attached? %>
+              <%= image_tag message.shared_post.images.first, class: "pf-shared-post-image" %>
+            <% end %>
+            <div class="pf-shared-post-info">
+              <span class="pf-shared-post-user"><%= message.shared_post.user.username %></span>
+              <span class="pf-shared-post-caption"><%= truncate(message.shared_post.caption, length: 50) %></span>
+            </div>
+          <% end %>
+        </div>
+      <% end %>
+    <% end %>
+
+    <span class="pf-message-time"><%= message.created_at.strftime("%l:%M %p") %></span>
+  </div>
+</div>

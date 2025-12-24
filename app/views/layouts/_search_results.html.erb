@@ -1,14 +1,23 @@
 <%= turbo_frame_tag "search_results" do %>
-  <% users.each do |u| %>
-    <li class="mt-3">
-      <div class="d-flex justify-content-between">
-        <div class="d-flex">
-          <%= image_tag u.profile_pic.attached? ? u.profile_pic : 'user-pp.png', class: "img-thumbnail rounded-circle", style: "width: 2.5rem" %>
-          <div class="d-flex flex-column mx-3 justify-content-center">
-            <small class="fw-bold" style="overflow: hidden;text-overflow: ellipsis;white-space: nowrap;max-width:10rem"><%= link_to u, class:  "a-decoration-none", data: {turbo: false} do %><%= u.username %><% end %></small>
+  <% if users.any? %>
+    <div class="pf-search-results-list">
+      <% users.each do |u| %>
+        <%= link_to user_path(u), class: "pf-search-result-item", data: { turbo: false } do %>
+          <% if u.profile_pic.attached? %>
+            <%= image_tag u.profile_pic, class: "pf-avatar pf-avatar-md" %>
+          <% else %>
+            <%= image_tag 'user-pp.png', class: "pf-avatar pf-avatar-md" %>
+          <% end %>
+          <div class="pf-search-result-info">
+            <span class="pf-search-result-username"><%= u.username %></span>
+            <span class="pf-search-result-name"><%= u.full_name %></span>
           </div>
-        </div>                    
-      </div>
-    </li>
+        <% end %>
+      <% end %>
+    </div>
+  <% else %>
+    <div class="pf-search-empty">
+      <p>No results found</p>
+    </div>
   <% end %>
 <% end %>

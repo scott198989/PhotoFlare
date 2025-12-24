@@ -1,4 +1,18 @@
-<div class="d-flex flex-column justify-content-center align-items-center">
-  <%= image_tag 'user-pp.png', class: "img-thumbnail rounded-circle border border-2 border-primary", style: "width: 3.5rem" %>
-  <small style="overflow: hidden;text-overflow: ellipsis;white-space: nowrap;max-width: 3.5rem">Username is </small>
+<%# Single Story Bubble %>
+<% user = local_assigns[:user] %>
+<% stories = local_assigns[:stories] || [] %>
+<% viewed = local_assigns[:viewed] || false %>
+
+<div class="pf-story-bubble <%= 'viewed' if viewed %>"
+     data-action="click->story-viewer#open"
+     data-user-id="<%= user&.id %>"
+     data-stories="<%= stories.to_json %>">
+  <div class="pf-story-avatar pf-story-ring">
+    <% if user&.profile_pic&.attached? %>
+      <%= image_tag user.profile_pic %>
+    <% else %>
+      <%= image_tag 'user-pp.png' %>
+    <% end %>
+  </div>
+  <span class="pf-story-username"><%= user&.username&.truncate(10) || 'Username' %></span>
 </div>

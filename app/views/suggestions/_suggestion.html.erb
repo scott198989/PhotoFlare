@@ -1,20 +1,24 @@
-<div class="d-flex justify-content-between">
-  <div class="d-flex">
-   <%= image_tag suggestion.profile_pic.attached? ? suggestion.profile_pic : 'user-pp.png', class: "img-thumbnail rounded-circle", style: "width: 2.5rem" %>
-    <div class="d-flex flex-column mx-3">
-      <small class="fw-bold" style="overflow: hidden;text-overflow: ellipsis;white-space: nowrap;max-width:10rem"><%= link_to suggestion, class:  "a-decoration-none", data: {turbo: 'false'} do %><%= suggestion.username %><% end %></small>
-      <small class="text-muted" style="font-size:.7rem;overflow: hidden;text-overflow: ellipsis;white-space: nowrap;max-width:10rem">Suggested for you by Photo Flare as He followed you before</small>
-    </div>
+<div class="pf-suggestion-item">
+  <%= link_to user_path(suggestion) do %>
+    <% if suggestion.profile_pic.attached? %>
+      <%= image_tag suggestion.profile_pic %>
+    <% else %>
+      <%= image_tag 'user-pp.png' %>
+    <% end %>
+  <% end %>
+
+  <div class="info">
+    <%= link_to suggestion.username, user_path(suggestion), class: "username", data: { turbo: 'false' } %>
+    <span class="reason">Suggested for you</span>
   </div>
 
   <% if current_user.waiting_followings.include?(suggestion) %>
-    <%= button_to cancel_request_path(user_id: suggestion.id), method: :delete, class:"btn bg-transparent border-0", data: {turbo: 'false'} do %>
-      <small class="fw-bold text-secondary">Cancel</small>
+    <%= button_to cancel_request_path(user_id: suggestion.id), method: :delete, class: "follow-btn", data: { turbo: 'false' } do %>
+      Requested
     <% end %>
   <% else %>
-    <%= button_to follow_path(user_id: suggestion.id), method: :post, class:"btn bg-transparent border-0", data: {turbo: 'false'} do %>
-      <small class="fw-bold text-primary">Follow</small>
+    <%= button_to follow_path(user_id: suggestion.id), method: :post, class: "follow-btn", data: { turbo: 'false' } do %>
+      Follow
     <% end %>
-
   <% end %>
 </div>

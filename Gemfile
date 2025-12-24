@@ -51,6 +51,10 @@ gem 'bootstrap', '~> 5.2.0'
 gem 'devise'
 gem "font-awesome-sass", "~> 6.1.2"
 gem 'activestorage-validator'
+gem 'pundit'                      # Authorization
+gem 'redis', '~> 5.0'             # Action Cable adapter
+gem 'kaminari'                    # Pagination
+gem 'image_processing', '~> 1.2'  # Image processing
 
 group :development, :test do
   # See https://guides.rubyonrails.org/debugging_rails_applications.html#debugging-with-the-debug-gem

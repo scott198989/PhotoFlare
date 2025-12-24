@@ -1,19 +1,74 @@
 <!DOCTYPE html>
-<html>
+<html data-theme="light" data-controller="theme">
   <head>
     <title>PhotoFlare</title>
     <meta name="viewport" content="width=device-width,initial-scale=1">
+    <meta name="theme-color" content="#ffffff">
+    <meta name="description" content="PhotoFlare - Share your moments with the world">
     <%= csrf_meta_tags %>
     <%= csp_meta_tag %>
 
+    <%# Preconnect to Google Fonts %>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+
     <%= stylesheet_link_tag "application", "data-turbo-track": "reload" %>
     <%= javascript_importmap_tags %>
+
+    <script>
+      // Prevent flash of wrong theme on page load
+      (function() {
+        const savedTheme = localStorage.getItem('pf-theme');
+        if (savedTheme) {
+          document.documentElement.setAttribute('data-theme', savedTheme);
+          document.querySelector('meta[name="theme-color"]')?.setAttribute('content',
+            savedTheme === 'dark' ? '#0f172a' : '#ffffff'
+          );
+        } else if (window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches) {
+          document.documentElement.setAttribute('data-theme', 'dark');
+          document.querySelector('meta[name="theme-color"]')?.setAttribute('content', '#0f172a');
+        }
+      })();
+    </script>
   </head>
 
   <body>
     <% if current_user %>
       <%= render 'layouts/navbar' %>
     <% end %>
-    <%= yield %>
+
+    <main>
+      <%= yield %>
+    </main>
+
+    <%# Story Viewer Modal %>
+    <% if current_user %>
+      <%= render 'story/viewer' %>
+    <% end %>
+
+    <%# Mobile bottom navigation %>
+    <% if current_user %>
+      <nav class="pf-navbar-mobile">
+        <%= link_to root_path, class: "pf-navbar-mobile-item #{'active' if current_page?(root_path)}" do %>
+          <i class="fa-solid fa-house"></i>
+        <% end %>
+        <%= link_to explore_path, class: "pf-navbar-mobile-item #{'active' if current_page?(explore_path)}" rescue nil do %>
+          <i class="fa-solid fa-magnifying-glass"></i>
+        <% end rescue nil %>
+        <button type="button" class="pf-navbar-mobile-item" data-bs-toggle="modal" data-bs-target="#staticBackdrop">
+          <i class="fa-solid fa-square-plus"></i>
+        </button>
+        <%= link_to "#", class: "pf-navbar-mobile-item" do %>
+          <i class="fa-solid fa-heart"></i>
+        <% end %>
+        <%= link_to user_path(current_user), class: "pf-navbar-mobile-item #{'active' if current_page?(user_path(current_user))}" do %>
+          <% if current_user.profile_pic.attached? %>
+            <%= image_tag current_user.profile_pic, style: "width: 24px; height: 24px; border-radius: 50%; object-fit: cover;" %>
+          <% else %>
+            <%= image_tag 'user-pp.png', style: "width: 24px; height: 24px; border-radius: 50%;" %>
+          <% end %>
+        <% end %>
+      </nav>
+    <% end %>
   </body>
 </html>

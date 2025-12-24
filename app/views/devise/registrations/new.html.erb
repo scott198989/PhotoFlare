@@ -1,56 +1,100 @@
-<div class="container home-sections d-flex flex-row justify-content-center align-items-center">
-  <div class="login-section pt-3">
-
-    <div class="card text-center pt-5 mx-auto" style="width: 23rem;">
-      <%= image_tag 'logo.png', class: "card-img-top" %>
-      <p class="w-75 fs-6 fw-bold text-secondary align-self-center mt-2"> Sign up to see photos and videos from your friends. </p>
-
-      <a href="#" class="d-block mt-4 text-decoration-none fw-bold bg-primary text-white rounded w-75 align-self-center p-1">
-        <%= image_tag("facebook.png", class:  "facebook") %>
-        Log in with Facebook
-      </a>
-
-      <div class="d-flex align-items-center mt-4">
-          <div class="line"></div>
-          <h2 class="line-text">OR</h2>
-          <div class="line"></div>
+<div class="pf-auth-page">
+  <div class="pf-auth-container pf-auth-container-center">
+    <%# Registration Form Card %>
+    <div class="pf-auth-forms">
+      <div class="pf-auth-card">
+        <div class="pf-auth-logo">
+          <span class="pf-logo-text pf-logo-large">PhotoFlare</span>
         </div>
 
-      <div class="card-body">
-        <%= form_for(resource, as: resource_name, url: registration_path(resource_name)) do |f| %>
-          <div class="mb-3 mt-4">
-            <%= f.email_field :email, class: "form-control", placeholder: "Phone number or email" %>
+        <p class="pf-auth-subtitle">Sign up to see photos and videos from your friends.</p>
+
+        <a href="#" class="pf-btn pf-btn-social pf-btn-facebook pf-btn-block">
+          <i class="fa-brands fa-facebook"></i>
+          <span>Log in with Facebook</span>
+        </a>
+
+        <div class="pf-auth-divider">
+          <span>OR</span>
+        </div>
+
+        <%= form_for(resource, as: resource_name, url: registration_path(resource_name), html: { class: "pf-auth-form" }) do |f| %>
+          <div class="pf-form-group">
+            <%= f.email_field :email,
+                class: "pf-input",
+                placeholder: "Email address",
+                autocomplete: "email",
+                autofocus: true %>
           </div>
-          <div class="mb-3 mt-4">
-            <%= f.text_field :full_name, class: "form-control", placeholder: "Full Name" %>
+
+          <div class="pf-form-group">
+            <%= f.text_field :full_name,
+                class: "pf-input",
+                placeholder: "Full Name",
+                autocomplete: "name" %>
           </div>
-          <div class="mb-3 mt-4">
-            <%= f.text_field :username, class: "form-control", placeholder: "Username" %>
+
+          <div class="pf-form-group">
+            <%= f.text_field :username,
+                class: "pf-input",
+                placeholder: "Username",
+                autocomplete: "username" %>
           </div>
-          <div class="mb-3">
-            <%= f.password_field :password, class: "form-control", placeholder: "Password" %>
+
+          <div class="pf-form-group">
+            <%= f.password_field :password,
+                class: "pf-input",
+                placeholder: "Password",
+                autocomplete: "new-password" %>
           </div>
-          <div class="mb-3">
-            <%= f.password_field :password_confirmation, class: "form-control", placeholder: "Password Confirmation" %>
+
+          <div class="pf-form-group">
+            <%= f.password_field :password_confirmation,
+                class: "pf-input",
+                placeholder: "Confirm Password",
+                autocomplete: "new-password" %>
           </div>
-          <%= f.submit "Sign up", class:  "btn btn-primary w-100" %>
+
+          <p class="pf-auth-terms">
+            By signing up, you agree to our <a href="#">Terms</a>, <a href="#">Privacy Policy</a> and <a href="#">Cookies Policy</a>.
+          </p>
+
+          <%= f.submit "Sign up", class: "pf-btn pf-btn-primary pf-btn-block pf-btn-lg" %>
         <% end %>
 
-        <% if notice %>
-          <p class="notice"><%= notice %></p>
-        <% elsif alert%>
-          <p class="alert"><%= alert %></p>
-        <%end%>
+        <% if notice.present? %>
+          <div class="pf-flash notice">
+            <i class="fa-solid fa-circle-check"></i>
+            <span class="message"><%= notice %></span>
+          </div>
+        <% end %>
 
+        <% if alert.present? %>
+          <div class="pf-flash alert">
+            <i class="fa-solid fa-circle-exclamation"></i>
+            <span class="message"><%= alert %></span>
+          </div>
+        <% end %>
+
+        <% if resource.errors.any? %>
+          <div class="pf-flash alert">
+            <i class="fa-solid fa-circle-exclamation"></i>
+            <span class="message">
+              <% resource.errors.full_messages.each do |message| %>
+                <%= message %><br>
+              <% end %>
+            </span>
+          </div>
+        <% end %>
+      </div>
+
+      <div class="pf-auth-card pf-auth-card-secondary">
+        <p>Have an account? <%= link_to "Log in", new_user_session_path, class: "pf-auth-link pf-auth-link-primary" %></p>
+      </div>
+
+      <div class="pf-auth-footer">
+        <p class="pf-auth-tagline">Capture. Share. Connect.</p>
       </div>
     </div>
-
-    <div class="card text-center py-2 mt-3 mx-auto" style="width: 23rem;">
-      <div class="card-text">
-        have an account? 
-        <%= link_to  "Sign in", new_user_session_path, class: "fs-6 my-4 text-decoration-none text-info" %>
-      </div>
-    </div>
-
   </div>
 </div>

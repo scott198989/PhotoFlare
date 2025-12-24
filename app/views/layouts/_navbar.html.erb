@@ -1,90 +1,149 @@
-<nav class="navbar navbar-expand-lg bg-light sticky-top bg-white border-bottom" style="border-color: #afafaf">
-  <div class="container-fluid w-75">
-    <%= link_to root_path, class:"navbar-brand" do %>
-      <%= image_tag 'logo.png', width: "100rem" %>
+<nav class="pf-navbar">
+  <div class="pf-navbar-container">
+    <%# Logo %>
+    <%= link_to root_path, class: "pf-navbar-logo" do %>
+      <span class="pf-logo-text">PhotoFlare</span>
     <% end %>
-    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-      <span class="navbar-toggler-icon"></span>
-    </button>
-    <div class="d-flex">
-      <div class="collapse navbar-collapse me-5" id="navbarSupportedContent">
-        <%= form_with(url: users_path, method: :get, data: {turbo_frame: "search_results", controller: "search-results"}, class:"d-flex") do |f| %>
 
-          <div class="dropdown">
-            <%= f.text_field :search_query, class: "form-control me-2 border-0", type:"search", placeholder:"Search",
-                "aria-label"=>"Search", style: "background: #efefef", "data-bs-toggle"=>"dropdown", "aria-expanded"=>"false",
-                data: {action: "input->search-results#search"} %>
+    <%# Search %>
+    <div class="pf-navbar-search" data-controller="search">
+      <%= form_with(url: users_path, method: :get, data: { turbo_frame: "search_results" }, class: "pf-search-form") do |f| %>
+        <i class="fa-solid fa-magnifying-glass pf-search-icon"></i>
+        <%= f.text_field :search_query,
+            class: "pf-search-input",
+            type: "search",
+            placeholder: "Search",
+            autocomplete: "off",
+            data: {
+              action: "input->search#search focus->search#showResults blur->search#hideResults",
+              search_target: "input"
+            } %>
+        <div class="pf-search-results" data-search-target="results">
+          <%= render 'layouts/search_results', users: [] %>
+        </div>
+      <% end %>
+    </div>
 
-            <ul class="dropdown-menu p-4 mt-2" style="width:25rem">
-              <%= render 'layouts/search_results', users: [] %>
-            </ul>
+    <%# Navigation Icons %>
+    <div class="pf-navbar-nav">
+      <%# Home %>
+      <%= link_to root_path, class: "pf-nav-item #{'active' if current_page?(root_path)}", title: "Home" do %>
+        <i class="fa-solid fa-house"></i>
+      <% end %>
+
+      <%# Messages %>
+      <%= link_to conversations_path, class: "pf-nav-item #{'active' if controller_name == 'conversations'}", title: "Messages" do %>
+        <i class="fa-regular fa-paper-plane"></i>
+      <% end %>
+
+      <%# Create Post %>
+      <button type="button" class="pf-nav-item" data-bs-toggle="modal" data-bs-target="#staticBackdrop" title="Create Post">
+        <i class="fa-regular fa-square-plus"></i>
+      </button>
+
+      <%# Explore %>
+      <%= link_to explore_path, class: "pf-nav-item #{'active' if controller_name == 'explore'}", title: "Explore" do %>
+        <i class="fa-regular fa-compass"></i>
+      <% end %>
+
+      <%# Notifications %>
+      <% unread_count = current_user.notifications.unread.count %>
+      <div class="pf-nav-dropdown" data-controller="notifications">
+        <button type="button" class="pf-nav-item" data-bs-toggle="dropdown" aria-expanded="false" title="Notifications">
+          <i class="fa-regular fa-heart"></i>
+          <span class="pf-notification-badge"
+                data-notifications-target="badge"
+                style="<%= unread_count == 0 ? 'display: none;' : '' %>">
+            <%= unread_count > 99 ? '99+' : unread_count %>
+          </span>
+        </button>
+        <div class="dropdown-menu pf-dropdown-menu pf-notifications-dropdown" data-notifications-target="dropdown">
+          <div class="pf-dropdown-header">
+            <h4>Notifications</h4>
+            <%= link_to notifications_path, class: "pf-dropdown-link" do %>
+              See All
+            <% end %>
           </div>
-
-        <% end %>
+          <div class="pf-dropdown-body" data-notifications-target="list">
+            <% recent_notifications = current_user.notifications.includes(actor: { profile_pic_attachment: :blob }).recent.limit(10) %>
+            <% if recent_notifications.any? %>
+              <% recent_notifications.each do |notification| %>
+                <div class="pf-notification-item <%= 'pf-notification-unread' unless notification.read? %>"
+                     data-notification-id="<%= notification.id %>"
+                     data-action="click->notifications#markAsRead"
+                     data-notification-id="<%= notification.id %>">
+                  <%= link_to user_path(notification.actor), class: "pf-notification-avatar" do %>
+                    <% if notification.actor.profile_pic.attached? %>
+                      <%= image_tag notification.actor.profile_pic, class: "pf-avatar pf-avatar-sm" %>
+                    <% else %>
+                      <%= image_tag 'user-pp.png', class: "pf-avatar pf-avatar-sm" %>
+                    <% end %>
+                  <% end %>
+                  <div class="pf-notification-content">
+                    <%= link_to notification.actor.username, user_path(notification.actor), class: "pf-notification-username" %>
+                    <span class="pf-notification-text"><%= notification.message %></span>
+                    <span class="pf-notification-time"><%= time_ago_in_words(notification.created_at) %></span>
+                  </div>
+                  <% if notification.action == 'follow_requested' %>
+                    <div class="pf-notification-actions">
+                      <%= button_to accept_follow_path(follow_id: notification.notifiable.id),
+                          method: :post,
+                          class: "pf-btn pf-btn-primary pf-btn-sm",
+                          data: { turbo: false } do %>
+                        Confirm
+                      <% end %>
+                    </div>
+                  <% end %>
+                </div>
+              <% end %>
+            <% else %>
+              <div class="pf-empty-state">
+                <i class="fa-regular fa-heart"></i>
+                <p>No notifications yet</p>
+              </div>
+            <% end %>
+          </div>
+        </div>
+        <span data-notifications-target="count" data-unread-count="<%= unread_count %>" style="display: none;"></span>
       </div>
 
-      <div class="navbar-collapse gap-4">
-        <%=  link_to root_path, class: "text-dark" do %> <i class="fa-solid fa-house fa-xl"></i> <% end %>
-        <i class="fa-brands fa-facebook-messenger fa-xl"></i>
-        <a type="button" class="text-dark" data-bs-toggle="modal" data-bs-target="#staticBackdrop">
-          <i class="fa-regular fa-square-plus fa-xl"></i>
-        </a>
-        <i class="fa-regular fa-compass fa-xl"></i>
+      <%# Theme Toggle %>
+      <button type="button"
+              class="pf-nav-item pf-theme-toggle"
+              data-action="click->theme#toggle"
+              data-theme-target="toggle"
+              title="Toggle theme">
+        <i class="fa-solid fa-sun" data-theme-target="icon"></i>
+      </button>
 
-
-        <div class="dropstart">
-          <i class="fa-regular fa-heart fa-xl" data-bs-toggle="dropdown" aria-expanded="false"></i>
-          <ul class="dropdown-menu p-4">
-            <% current_user.follow_requests.each do |fr| %>
-              <li>
-                <div class="d-flex justify-content-between">
-                  <div class="d-flex">
-                    <%= image_tag fr.follower.profile_pic.attached? ? fr.follower.profile_pic : 'user-pp.png', class: "img-thumbnail rounded-circle", style: "width: 2.5rem" %>
-                    <div class="d-flex flex-column mx-3 justify-content-center">
-                      <small class="fw-bold" style="overflow: hidden;text-overflow: ellipsis;white-space: nowrap;max-width:5rem"><%= link_to fr.follower, class:  "a-decoration-none" do %><%= fr.follower.username %><% end %></small>
-                    </div>
-                  </div>
-
-                  <div class="d-flex flex-row align-items-center justify-content-between", style="width: 10.5rem">
-                    <%= button_to accept_follow_path(follow_id: fr.id), method: :post, class:"btn btn-primary", style: "text-decoration:none" do %>
-                      <small class="fw-bold text-white">Accept</small>
-                    <% end %>
-                    <%= button_to decline_follow_path(follow_id: fr.id), method: :delete, class:"btn btn-danger", style: "text-decoration:none" do %>
-                      <small class="fw-bold text-white">Decline</small>
-                    <% end %>
-                  </div>
-                  
-                </div>
-              </li>
-            <% end %>
-          </ul>
+      <%# Profile Dropdown %>
+      <div class="pf-nav-dropdown">
+        <button type="button" class="pf-nav-item pf-nav-avatar" data-bs-toggle="dropdown" aria-expanded="false">
+          <% if current_user.profile_pic.attached? %>
+            <%= image_tag current_user.profile_pic, class: "pf-avatar pf-avatar-sm" %>
+          <% else %>
+            <%= image_tag 'user-pp.png', class: "pf-avatar pf-avatar-sm" %>
+          <% end %>
+        </button>
+        <div class="dropdown-menu pf-dropdown-menu pf-profile-dropdown">
+          <%= link_to user_path(current_user), class: "pf-dropdown-item" do %>
+            <i class="fa-regular fa-user"></i>
+            <span>Profile</span>
+          <% end %>
+          <%= link_to edit_user_registration_path, class: "pf-dropdown-item" do %>
+            <i class="fa-solid fa-gear"></i>
+            <span>Settings</span>
+          <% end %>
+          <div class="pf-dropdown-divider"></div>
+          <%= button_to destroy_user_session_path, method: :delete, class: "pf-dropdown-item pf-dropdown-item-danger" do %>
+            <i class="fa-solid fa-arrow-right-from-bracket"></i>
+            <span>Log out</span>
+          <% end %>
         </div>
-        <div class="dropdown">
-          <a class="" type="button" data-bs-toggle="dropdown" aria-expanded="false">
-            <% if current_user && current_user.profile_pic.attached? %>
-              <%= image_tag current_user.profile_pic, class: "img-thumbnail rounded-circle", style: "width: 2rem" %>
-            <% else %>
-              <%= image_tag 'user-pp.png', class: "img-thumbnail rounded-circle", style: "width: 2rem" %>
-            <% end %>
-          </a>
-          <ul class="dropdown-menu">
-            <li>
-              <%= link_to 'Profile', user_path(current_user), class: "dropdown-item" %>
-            </li>
-            <li>
-              <%= link_to 'Settings', edit_user_registration_path, class: "dropdown-item" %>
-            </li>
-            <li>
-              <%= button_to 'Log out', destroy_user_session_path, class: "dropdown-item", method: :delete%>
-            </li>
-          </ul>
-        </div>
-      
-        
       </div>
     </div>
   </div>
 </nav>
-<h6> ATTENTION! This is ONLY meant to be a personal project, I do not claim ANY rights to Instagram, its code base, its likeness, its features or anything! This is ONLY meant to be a project to enhances a skillset, not to infringe on copyrighted matrial! All rights are reserved to Instagram -The Developer</h6>
 
+<%# Post Creation Modal %>
 <%= render 'posts/form', post: Post.new %>

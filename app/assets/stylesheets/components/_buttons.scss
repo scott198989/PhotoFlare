@@ -1,0 +1,411 @@
+// PhotoFlare Components - Buttons
+// ================================
+
+// ==========================================
+// BASE BUTTON STYLES
+// ==========================================
+
+.pf-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--pf-space-2);
+  padding: var(--pf-space-2-5) var(--pf-space-5);
+  font-family: var(--pf-font-sans);
+  font-size: var(--pf-text-sm);
+  font-weight: var(--pf-font-semibold);
+  line-height: 1.5;
+  text-decoration: none;
+  border-radius: var(--pf-btn-radius);
+  border: 1px solid transparent;
+  cursor: pointer;
+  transition: all var(--pf-transition-fast);
+  white-space: nowrap;
+  user-select: none;
+
+  &:focus-visible {
+    outline: 2px solid var(--pf-primary);
+    outline-offset: 2px;
+  }
+
+  &:disabled,
+  &.disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+    pointer-events: none;
+  }
+
+  // Icons inside buttons
+  i, svg {
+    font-size: 1.1em;
+  }
+}
+
+// ==========================================
+// BUTTON VARIANTS
+// ==========================================
+
+// Primary Button
+.pf-btn-primary {
+  @extend .pf-btn;
+  background: var(--pf-gradient-primary);
+  color: var(--pf-text-inverse);
+  border-color: transparent;
+
+  &:hover {
+    transform: translateY(-1px);
+    box-shadow: var(--pf-shadow-md), var(--pf-glow-primary);
+  }
+
+  &:active {
+    transform: translateY(0);
+    box-shadow: var(--pf-shadow-sm);
+  }
+}
+
+// Secondary Button
+.pf-btn-secondary {
+  @extend .pf-btn;
+  background-color: var(--pf-surface);
+  color: var(--pf-text-primary);
+  border-color: var(--pf-border-medium);
+
+  &:hover {
+    background-color: var(--pf-surface-hover);
+    border-color: var(--pf-border-dark);
+  }
+
+  &:active {
+    background-color: var(--pf-surface-active);
+  }
+}
+
+// Outline Button
+.pf-btn-outline {
+  @extend .pf-btn;
+  background-color: transparent;
+  color: var(--pf-primary);
+  border-color: var(--pf-primary);
+
+  &:hover {
+    background-color: var(--pf-primary);
+    color: var(--pf-text-inverse);
+  }
+}
+
+// Ghost Button (no border)
+.pf-btn-ghost {
+  @extend .pf-btn;
+  background-color: transparent;
+  color: var(--pf-text-secondary);
+  border-color: transparent;
+
+  &:hover {
+    background-color: var(--pf-surface-hover);
+    color: var(--pf-text-primary);
+  }
+}
+
+// Danger Button
+.pf-btn-danger {
+  @extend .pf-btn;
+  background-color: var(--pf-error);
+  color: var(--pf-text-inverse);
+  border-color: var(--pf-error);
+
+  &:hover {
+    background-color: var(--pf-error-light);
+  }
+}
+
+// Success Button
+.pf-btn-success {
+  @extend .pf-btn;
+  background-color: var(--pf-success);
+  color: var(--pf-text-inverse);
+  border-color: var(--pf-success);
+
+  &:hover {
+    background-color: var(--pf-success-light);
+  }
+}
+
+// Link Button (looks like a link)
+.pf-btn-link {
+  @extend .pf-btn;
+  background-color: transparent;
+  color: var(--pf-text-link);
+  border-color: transparent;
+  padding-left: 0;
+  padding-right: 0;
+
+  &:hover {
+    color: var(--pf-text-link-hover);
+    text-decoration: underline;
+  }
+}
+
+// ==========================================
+// BUTTON SIZES
+// ==========================================
+
+.pf-btn-xs {
+  padding: var(--pf-space-1) var(--pf-space-2);
+  font-size: var(--pf-text-xs);
+}
+
+.pf-btn-sm {
+  padding: var(--pf-space-2) var(--pf-space-3);
+  font-size: var(--pf-text-sm);
+}
+
+.pf-btn-lg {
+  padding: var(--pf-space-3) var(--pf-space-6);
+  font-size: var(--pf-text-base);
+}
+
+.pf-btn-xl {
+  padding: var(--pf-space-4) var(--pf-space-8);
+  font-size: var(--pf-text-lg);
+}
+
+// Full width button
+.pf-btn-block {
+  width: 100%;
+}
+
+// ==========================================
+// ICON BUTTONS
+// ==========================================
+
+.pf-btn-icon {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 40px;
+  height: 40px;
+  padding: 0;
+  border-radius: var(--pf-radius-full);
+  background-color: transparent;
+  color: var(--pf-text-secondary);
+  border: none;
+  cursor: pointer;
+  transition: all var(--pf-transition-fast);
+
+  &:hover {
+    background-color: var(--pf-surface-hover);
+    color: var(--pf-text-primary);
+  }
+
+  &:active {
+    transform: scale(0.95);
+  }
+
+  i, svg {
+    font-size: 1.25rem;
+  }
+}
+
+.pf-btn-icon-sm {
+  width: 32px;
+  height: 32px;
+
+  i, svg {
+    font-size: 1rem;
+  }
+}
+
+.pf-btn-icon-lg {
+  width: 48px;
+  height: 48px;
+
+  i, svg {
+    font-size: 1.5rem;
+  }
+}
+
+// ==========================================
+// SOCIAL BUTTONS
+// ==========================================
+
+.pf-btn-facebook {
+  @extend .pf-btn;
+  background-color: #1877f2;
+  color: white;
+  border-color: #1877f2;
+
+  &:hover {
+    background-color: #166fe5;
+  }
+}
+
+.pf-btn-google {
+  @extend .pf-btn;
+  background-color: white;
+  color: #333;
+  border-color: var(--pf-border-medium);
+
+  &:hover {
+    background-color: var(--pf-bg-secondary);
+  }
+}
+
+// ==========================================
+// LIKE BUTTON
+// ==========================================
+
+.pf-like-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  background: transparent;
+  border: none;
+  cursor: pointer;
+  padding: var(--pf-space-1);
+  transition: transform var(--pf-transition-fast);
+
+  i {
+    font-size: 1.5rem;
+    color: var(--pf-text-primary);
+    transition: color var(--pf-transition-fast);
+  }
+
+  &:hover i {
+    color: var(--pf-error);
+  }
+
+  &:active {
+    transform: scale(0.9);
+  }
+
+  &.liked {
+    i {
+      color: var(--pf-error);
+      animation: pf-heart-beat 800ms ease-in-out;
+    }
+  }
+}
+
+// ==========================================
+// FOLLOW BUTTONS
+// ==========================================
+
+.pf-follow-btn {
+  @extend .pf-btn;
+  min-width: 100px;
+
+  &.following {
+    background-color: var(--pf-surface);
+    color: var(--pf-text-primary);
+    border-color: var(--pf-border-medium);
+
+    &:hover {
+      background-color: var(--pf-error-light);
+      border-color: var(--pf-error);
+      color: var(--pf-error);
+
+      .follow-text { display: none; }
+      .unfollow-text { display: inline; }
+    }
+
+    .unfollow-text { display: none; }
+  }
+
+  &.not-following {
+    background: var(--pf-gradient-primary);
+    color: var(--pf-text-inverse);
+  }
+
+  &.requested {
+    background-color: var(--pf-surface);
+    color: var(--pf-text-muted);
+    border-color: var(--pf-border-light);
+  }
+}
+
+// ==========================================
+// BUTTON GROUPS
+// ==========================================
+
+.pf-btn-group {
+  display: inline-flex;
+
+  .pf-btn {
+    border-radius: 0;
+
+    &:first-child {
+      border-top-left-radius: var(--pf-btn-radius);
+      border-bottom-left-radius: var(--pf-btn-radius);
+    }
+
+    &:last-child {
+      border-top-right-radius: var(--pf-btn-radius);
+      border-bottom-right-radius: var(--pf-btn-radius);
+    }
+
+    &:not(:last-child) {
+      border-right: none;
+    }
+  }
+}
+
+// ==========================================
+// LOADING BUTTON STATE
+// ==========================================
+
+.pf-btn-loading {
+  position: relative;
+  color: transparent !important;
+  pointer-events: none;
+
+  &::after {
+    content: '';
+    position: absolute;
+    width: 16px;
+    height: 16px;
+    border: 2px solid currentColor;
+    border-top-color: transparent;
+    border-radius: 50%;
+    animation: pf-spin 0.6s linear infinite;
+
+    // Use parent's original color
+    border-color: var(--pf-text-inverse);
+    border-top-color: transparent;
+  }
+}
+
+// ==========================================
+// FLOATING ACTION BUTTON (FAB)
+// ==========================================
+
+.pf-fab {
+  position: fixed;
+  bottom: var(--pf-space-6);
+  right: var(--pf-space-6);
+  width: 56px;
+  height: 56px;
+  border-radius: var(--pf-radius-full);
+  background: var(--pf-gradient-primary);
+  color: var(--pf-text-inverse);
+  border: none;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: var(--pf-shadow-xl);
+  transition: all var(--pf-transition-normal);
+  z-index: var(--pf-z-fixed);
+
+  &:hover {
+    transform: scale(1.1);
+    box-shadow: var(--pf-shadow-2xl), var(--pf-glow-primary);
+  }
+
+  &:active {
+    transform: scale(0.95);
+  }
+
+  i, svg {
+    font-size: 1.5rem;
+  }
+}

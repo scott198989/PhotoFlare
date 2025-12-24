@@ -1,0 +1,42 @@
+<div class="pf-notification-item <%= 'pf-notification-unread' unless notification.read? %>"
+     data-notification-id="<%= notification.id %>">
+  <%= link_to user_path(notification.actor), class: "pf-notification-avatar" do %>
+    <% if notification.actor.profile_pic.attached? %>
+      <%= image_tag notification.actor.profile_pic, class: "pf-avatar pf-avatar-md" %>
+    <% else %>
+      <%= image_tag 'user-pp.png', class: "pf-avatar pf-avatar-md" %>
+    <% end %>
+  <% end %>
+
+  <div class="pf-notification-content">
+    <p class="pf-notification-text">
+      <%= link_to notification.actor.username, user_path(notification.actor), class: "pf-notification-username" %>
+      <span class="pf-notification-action"><%= notification.message %></span>
+    </p>
+    <span class="pf-notification-time"><%= time_ago_in_words(notification.created_at) %> ago</span>
+  </div>
+
+  <% if notification.notifiable.is_a?(Like) || notification.notifiable.is_a?(Comment) %>
+    <% post = notification.notifiable.post rescue nil %>
+    <% if post && post.images.attached? %>
+      <%= link_to post_path(post), class: "pf-notification-preview" do %>
+        <%= image_tag post.images.first, class: "pf-notification-image" %>
+      <% end %>
+    <% end %>
+  <% elsif notification.action == 'follow_requested' %>
+    <div class="pf-notification-actions">
+      <%= button_to accept_follow_path(follow_id: notification.notifiable.id),
+          method: :post,
+          class: "pf-btn pf-btn-primary pf-btn-sm",
+          data: { turbo: false } do %>
+        Confirm
+      <% end %>
+      <%= button_to decline_follow_path(follow_id: notification.notifiable.id),
+          method: :delete,
+          class: "pf-btn pf-btn-secondary pf-btn-sm",
+          data: { turbo: false } do %>
+        Delete
+      <% end %>
+    </div>
+  <% end %>
+</div>

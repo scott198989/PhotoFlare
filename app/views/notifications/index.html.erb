@@ -1,0 +1,69 @@
+<div class="pf-notifications-page">
+  <div class="pf-notifications-container">
+    <div class="pf-notifications-header">
+      <h1>Notifications</h1>
+      <% if @notifications.any? && @notifications.any?(&:unread?) %>
+        <%= button_to mark_all_as_read_notifications_path,
+            method: :post,
+            class: "pf-btn pf-btn-ghost",
+            data: { turbo: false } do %>
+          Mark all as read
+        <% end %>
+      <% end %>
+    </div>
+
+    <div class="pf-notifications-list">
+      <% if @notifications.any? %>
+        <% # Group by time period %>
+        <% today = @notifications.select { |n| n.created_at.today? } %>
+        <% this_week = @notifications.select { |n| n.created_at.between?(7.days.ago, Date.yesterday.end_of_day) } %>
+        <% this_month = @notifications.select { |n| n.created_at.between?(30.days.ago, 7.days.ago) } %>
+        <% earlier = @notifications.select { |n| n.created_at < 30.days.ago } %>
+
+        <% if today.any? %>
+          <div class="pf-notifications-section">
+            <h3 class="pf-notifications-section-title">Today</h3>
+            <% today.each do |notification| %>
+              <%= render 'notifications/notification', notification: notification %>
+            <% end %>
+          </div>
+        <% end %>
+
+        <% if this_week.any? %>
+          <div class="pf-notifications-section">
+            <h3 class="pf-notifications-section-title">This Week</h3>
+            <% this_week.each do |notification| %>
+              <%= render 'notifications/notification', notification: notification %>
+            <% end %>
+          </div>
+        <% end %>
+
+        <% if this_month.any? %>
+          <div class="pf-notifications-section">
+            <h3 class="pf-notifications-section-title">This Month</h3>
+            <% this_month.each do |notification| %>
+              <%= render 'notifications/notification', notification: notification %>
+            <% end %>
+          </div>
+        <% end %>
+
+        <% if earlier.any? %>
+          <div class="pf-notifications-section">
+            <h3 class="pf-notifications-section-title">Earlier</h3>
+            <% earlier.each do |notification| %>
+              <%= render 'notifications/notification', notification: notification %>
+            <% end %>
+          </div>
+        <% end %>
+      <% else %>
+        <div class="pf-empty-state pf-empty-notifications">
+          <div class="pf-empty-icon">
+            <i class="fa-regular fa-heart"></i>
+          </div>
+          <h3>No notifications yet</h3>
+          <p>When someone likes or comments on your posts, you'll see it here.</p>
+        </div>
+      <% end %>
+    </div>
+  </div>
+</div>

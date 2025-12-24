@@ -1,7 +1,40 @@
 Rails.application.routes.draw do
   resources :posts
   devise_for :users
-  # get 'home/index'
+
+  # Stories
+  resources :stories, only: [:index, :show, :create, :destroy] do
+    member do
+      post :view, to: 'stories#mark_viewed'
+    end
+    collection do
+      get 'user/:user_id', to: 'stories#user_stories', as: :user
+    end
+  end
+
+  # Direct Messaging
+  resources :conversations, only: [:index, :show, :create] do
+    resources :messages, only: [:create]
+  end
+
+  # Explore
+  get 'explore', to: 'explore#index'
+  get 'explore/search', to: 'explore#search', as: :explore_search
+  get 'explore/hashtag/:tag', to: 'explore#hashtag', as: :explore_hashtag
+
+  # Notifications
+  resources :notifications, only: [:index] do
+    collection do
+      post :mark_all_as_read
+    end
+    member do
+      post :mark_as_read
+    end
+  end
+
+  # Action Cable
+  mount ActionCable.server => '/cable'
+
   # Define your application routes per the DSL in https://guides.rubyonrails.org/routing.html
 
   # Defines the root path route ("/")

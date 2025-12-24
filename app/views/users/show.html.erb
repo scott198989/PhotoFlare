@@ -1,6 +1,30 @@
-<%= render 'users/profile_header', user: @user %>
-<% if !@user.private || @user == current_user || current_user.followings.include?(@user) %>
-  <%= render 'users/profile_posts', user: @user %>
-<% else %>
-  <%= render 'users/profile_private' %>
-<% end%>
+<div class="pf-profile-page">
+  <div class="pf-profile-container">
+    <%= render 'users/profile_header', user: @user %>
+
+    <%# Profile Tabs %>
+    <div class="pf-profile-tabs">
+      <%= link_to user_path(@user), class: "pf-profile-tab active" do %>
+        <i class="fa-solid fa-table-cells"></i>
+        <span>Posts</span>
+      <% end %>
+      <% if @user == current_user %>
+        <%= link_to "#", class: "pf-profile-tab" do %>
+          <i class="fa-regular fa-bookmark"></i>
+          <span>Saved</span>
+        <% end %>
+      <% end %>
+      <%= link_to "#", class: "pf-profile-tab" do %>
+        <i class="fa-regular fa-id-card"></i>
+        <span>Tagged</span>
+      <% end %>
+    </div>
+
+    <%# Posts Grid %>
+    <% if !@user.private || @user == current_user || current_user.followings.include?(@user) %>
+      <%= render 'users/profile_posts', user: @user %>
+    <% else %>
+      <%= render 'users/profile_private' %>
+    <% end %>
+  </div>
+</div>

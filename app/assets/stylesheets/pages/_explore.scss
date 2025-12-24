@@ -1,0 +1,479 @@
+// PhotoFlare Pages - Explore
+// ===========================
+
+// ==========================================
+// EXPLORE LAYOUT
+// ==========================================
+
+.pf-explore-page {
+  min-height: calc(100vh - var(--pf-navbar-height));
+  background: var(--pf-bg-primary);
+  padding: var(--pf-space-6) var(--pf-space-4);
+}
+
+.pf-explore-container {
+  max-width: 935px;
+  margin: 0 auto;
+}
+
+// ==========================================
+// SEARCH BAR
+// ==========================================
+
+.pf-explore-search {
+  margin-bottom: var(--pf-space-6);
+}
+
+.pf-search-wrapper {
+  position: relative;
+  max-width: 500px;
+  margin: 0 auto;
+}
+
+.pf-search-input {
+  width: 100%;
+  height: 50px;
+  padding: 0 var(--pf-space-12) 0 var(--pf-space-5);
+  font-size: var(--pf-text-base);
+  background: var(--pf-surface);
+  border: 1px solid var(--pf-border-light);
+  border-radius: var(--pf-radius-xl);
+  color: var(--pf-text-primary);
+  transition: all var(--pf-transition-fast);
+
+  &::placeholder {
+    color: var(--pf-text-muted);
+  }
+
+  &:focus {
+    outline: none;
+    border-color: var(--pf-border-medium);
+    box-shadow: var(--pf-shadow-md);
+  }
+}
+
+.pf-search-icon {
+  position: absolute;
+  right: var(--pf-space-4);
+  top: 50%;
+  transform: translateY(-50%);
+  color: var(--pf-text-muted);
+}
+
+// ==========================================
+// TRENDING HASHTAGS
+// ==========================================
+
+.pf-trending-section {
+  margin-bottom: var(--pf-space-8);
+}
+
+.pf-section-title {
+  font-size: var(--pf-text-base);
+  font-weight: var(--pf-font-semibold);
+  color: var(--pf-text-primary);
+  margin-bottom: var(--pf-space-4);
+}
+
+.pf-hashtags-scroll {
+  display: flex;
+  gap: var(--pf-space-3);
+  overflow-x: auto;
+  padding: var(--pf-space-1) 0;
+  scrollbar-width: none;
+
+  &::-webkit-scrollbar {
+    display: none;
+  }
+}
+
+.pf-hashtag-pill {
+  display: inline-flex;
+  flex-direction: column;
+  align-items: flex-start;
+  padding: var(--pf-space-3) var(--pf-space-4);
+  background: var(--pf-surface);
+  border: 1px solid var(--pf-border-light);
+  border-radius: var(--pf-radius-xl);
+  text-decoration: none;
+  flex-shrink: 0;
+  transition: all var(--pf-transition-fast);
+
+  &:hover {
+    border-color: var(--pf-primary);
+    background: rgba(var(--pf-primary-rgb), 0.05);
+    transform: translateY(-2px);
+  }
+
+  .hashtag-name {
+    font-size: var(--pf-text-sm);
+    font-weight: var(--pf-font-semibold);
+    color: var(--pf-text-primary);
+  }
+
+  .hashtag-count {
+    font-size: var(--pf-text-xs);
+    color: var(--pf-text-muted);
+    margin-top: var(--pf-space-1);
+  }
+}
+
+// ==========================================
+// EXPLORE GRID (Masonry-like)
+// ==========================================
+
+.pf-explore-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 4px;
+
+  @media (max-width: 768px) {
+    gap: 3px;
+  }
+}
+
+.pf-explore-item {
+  position: relative;
+  aspect-ratio: 1 / 1;
+  cursor: pointer;
+  overflow: hidden;
+  border-radius: var(--pf-radius-sm);
+
+  &:nth-child(7n + 1),
+  &:nth-child(7n + 3) {
+    // Make some items larger for variety
+    // grid-row: span 2;
+    // grid-column: span 2;
+  }
+
+  img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform var(--pf-transition-slow);
+  }
+
+  .overlay {
+    position: absolute;
+    inset: 0;
+    background: rgba(0, 0, 0, 0.3);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: var(--pf-space-6);
+    opacity: 0;
+    transition: opacity var(--pf-transition-fast);
+  }
+
+  .stat {
+    display: flex;
+    align-items: center;
+    gap: var(--pf-space-2);
+    color: white;
+    font-weight: var(--pf-font-bold);
+    font-size: var(--pf-text-base);
+    text-shadow: 0 1px 2px rgba(0, 0, 0, 0.3);
+  }
+
+  &:hover {
+    img {
+      transform: scale(1.05);
+    }
+
+    .overlay {
+      opacity: 1;
+    }
+  }
+
+  // Multiple images/video indicators
+  .type-indicator {
+    position: absolute;
+    top: var(--pf-space-2);
+    right: var(--pf-space-2);
+    color: white;
+    text-shadow: 0 1px 3px rgba(0, 0, 0, 0.5);
+    font-size: 1rem;
+  }
+}
+
+// ==========================================
+// SEARCH RESULTS
+// ==========================================
+
+.pf-search-results {
+  background: var(--pf-surface);
+  border: 1px solid var(--pf-border-light);
+  border-radius: var(--pf-radius-xl);
+  padding: var(--pf-space-4);
+  margin-bottom: var(--pf-space-6);
+  animation: pf-fade-in-down var(--pf-transition-fast);
+}
+
+.pf-search-section {
+  margin-bottom: var(--pf-space-6);
+
+  &:last-child {
+    margin-bottom: 0;
+  }
+}
+
+.pf-search-section-title {
+  font-size: var(--pf-text-sm);
+  font-weight: var(--pf-font-semibold);
+  color: var(--pf-text-muted);
+  margin-bottom: var(--pf-space-3);
+  text-transform: uppercase;
+  letter-spacing: var(--pf-tracking-wide);
+}
+
+.pf-search-users {
+  display: flex;
+  flex-direction: column;
+  gap: var(--pf-space-2);
+}
+
+.pf-search-user-item {
+  display: flex;
+  align-items: center;
+  gap: var(--pf-space-3);
+  padding: var(--pf-space-2);
+  border-radius: var(--pf-radius-lg);
+  text-decoration: none;
+  transition: background-color var(--pf-transition-fast);
+
+  &:hover {
+    background: var(--pf-surface-hover);
+  }
+
+  img {
+    width: 44px;
+    height: 44px;
+    border-radius: var(--pf-radius-full);
+    object-fit: cover;
+  }
+
+  .info {
+    flex: 1;
+
+    .username {
+      font-weight: var(--pf-font-semibold);
+      font-size: var(--pf-text-sm);
+      color: var(--pf-text-primary);
+    }
+
+    .name {
+      font-size: var(--pf-text-sm);
+      color: var(--pf-text-muted);
+    }
+  }
+}
+
+.pf-search-hashtags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--pf-space-2);
+}
+
+.pf-search-hashtag {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--pf-space-2);
+  padding: var(--pf-space-2) var(--pf-space-3);
+  background: var(--pf-surface-hover);
+  border-radius: var(--pf-radius-full);
+  text-decoration: none;
+  transition: background-color var(--pf-transition-fast);
+
+  &:hover {
+    background: var(--pf-surface-active);
+  }
+
+  .icon {
+    width: 24px;
+    height: 24px;
+    background: var(--pf-bg-tertiary);
+    border-radius: var(--pf-radius-full);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 0.75rem;
+    color: var(--pf-text-muted);
+  }
+
+  .info {
+    .name {
+      font-size: var(--pf-text-sm);
+      color: var(--pf-text-primary);
+    }
+
+    .count {
+      font-size: var(--pf-text-xs);
+      color: var(--pf-text-muted);
+    }
+  }
+}
+
+// ==========================================
+// HASHTAG PAGE
+// ==========================================
+
+.pf-hashtag-header {
+  display: flex;
+  align-items: center;
+  gap: var(--pf-space-6);
+  padding: var(--pf-space-8) 0;
+  border-bottom: 1px solid var(--pf-border-light);
+  margin-bottom: var(--pf-space-6);
+
+  @media (max-width: 768px) {
+    flex-direction: column;
+    text-align: center;
+    padding: var(--pf-space-6);
+  }
+}
+
+.pf-hashtag-icon {
+  width: 150px;
+  height: 150px;
+  background: var(--pf-gradient-primary);
+  border-radius: var(--pf-radius-full);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+
+  @media (max-width: 768px) {
+    width: 77px;
+    height: 77px;
+  }
+
+  i {
+    font-size: 4rem;
+    color: white;
+
+    @media (max-width: 768px) {
+      font-size: 2rem;
+    }
+  }
+}
+
+.pf-hashtag-info {
+  h1 {
+    font-size: var(--pf-text-3xl);
+    font-weight: var(--pf-font-light);
+    margin-bottom: var(--pf-space-2);
+
+    @media (max-width: 768px) {
+      font-size: var(--pf-text-2xl);
+    }
+  }
+
+  .posts-count {
+    font-size: var(--pf-text-base);
+    color: var(--pf-text-secondary);
+    margin-bottom: var(--pf-space-4);
+  }
+
+  .follow-btn {
+    padding: var(--pf-space-2) var(--pf-space-6);
+  }
+}
+
+// ==========================================
+// EMPTY STATE
+// ==========================================
+
+.pf-explore-empty {
+  text-align: center;
+  padding: var(--pf-space-16) var(--pf-space-4);
+
+  .icon {
+    width: 80px;
+    height: 80px;
+    margin: 0 auto var(--pf-space-6);
+    background: var(--pf-bg-secondary);
+    border-radius: var(--pf-radius-full);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    i {
+      font-size: 2rem;
+      color: var(--pf-text-muted);
+    }
+  }
+
+  h3 {
+    font-size: var(--pf-text-xl);
+    font-weight: var(--pf-font-semibold);
+    margin-bottom: var(--pf-space-2);
+  }
+
+  p {
+    color: var(--pf-text-muted);
+    font-size: var(--pf-text-sm);
+  }
+}
+
+// ==========================================
+// SUGGESTED USERS SECTION
+// ==========================================
+
+.pf-suggested-users {
+  background: var(--pf-surface);
+  border: 1px solid var(--pf-border-light);
+  border-radius: var(--pf-radius-xl);
+  padding: var(--pf-space-4);
+  margin-bottom: var(--pf-space-8);
+}
+
+.pf-suggested-scroll {
+  display: flex;
+  gap: var(--pf-space-4);
+  overflow-x: auto;
+  padding: var(--pf-space-2) 0;
+  scrollbar-width: none;
+
+  &::-webkit-scrollbar {
+    display: none;
+  }
+}
+
+.pf-suggested-user-card {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: var(--pf-space-4);
+  background: var(--pf-surface-hover);
+  border-radius: var(--pf-radius-xl);
+  text-decoration: none;
+  min-width: 150px;
+  flex-shrink: 0;
+  transition: all var(--pf-transition-fast);
+
+  &:hover {
+    background: var(--pf-surface-active);
+    transform: translateY(-2px);
+  }
+
+  img {
+    width: 56px;
+    height: 56px;
+    border-radius: var(--pf-radius-full);
+    object-fit: cover;
+    margin-bottom: var(--pf-space-2);
+  }
+
+  .username {
+    font-weight: var(--pf-font-semibold);
+    font-size: var(--pf-text-sm);
+    color: var(--pf-text-primary);
+    margin-bottom: var(--pf-space-1);
+  }
+
+  .name {
+    font-size: var(--pf-text-xs);
+    color: var(--pf-text-muted);
+    margin-bottom: var(--pf-space-3);
+  }
+}

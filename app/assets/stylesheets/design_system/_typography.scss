@@ -1,0 +1,431 @@
+// PhotoFlare Design System - Typography
+// ======================================
+// Font imports, typography styles, and text utilities
+
+// ==========================================
+// FONT IMPORTS (Google Fonts)
+// ==========================================
+
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Outfit:wght@400;500;600;700;800&display=swap');
+
+// ==========================================
+// BASE TYPOGRAPHY
+// ==========================================
+
+html {
+  font-size: 16px;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  text-rendering: optimizeLegibility;
+}
+
+body {
+  font-family: var(--pf-font-sans);
+  font-size: var(--pf-text-base);
+  font-weight: var(--pf-font-normal);
+  line-height: var(--pf-leading-normal);
+  color: var(--pf-text-primary);
+  letter-spacing: var(--pf-tracking-normal);
+}
+
+// ==========================================
+// HEADINGS
+// ==========================================
+
+h1, h2, h3, h4, h5, h6,
+.h1, .h2, .h3, .h4, .h5, .h6 {
+  font-family: var(--pf-font-display);
+  font-weight: var(--pf-font-bold);
+  line-height: var(--pf-leading-tight);
+  color: var(--pf-text-primary);
+  margin-top: 0;
+  margin-bottom: var(--pf-space-4);
+}
+
+h1, .h1 {
+  font-size: var(--pf-text-4xl);
+  letter-spacing: var(--pf-tracking-tight);
+
+  @media (min-width: 768px) {
+    font-size: var(--pf-text-5xl);
+  }
+}
+
+h2, .h2 {
+  font-size: var(--pf-text-3xl);
+  letter-spacing: var(--pf-tracking-tight);
+}
+
+h3, .h3 {
+  font-size: var(--pf-text-2xl);
+}
+
+h4, .h4 {
+  font-size: var(--pf-text-xl);
+}
+
+h5, .h5 {
+  font-size: var(--pf-text-lg);
+}
+
+h6, .h6 {
+  font-size: var(--pf-text-base);
+  font-weight: var(--pf-font-semibold);
+}
+
+// Display Headings (extra large)
+.display-1 {
+  font-family: var(--pf-font-display);
+  font-size: 4rem;
+  font-weight: var(--pf-font-extrabold);
+  line-height: 1.1;
+  letter-spacing: var(--pf-tracking-tighter);
+
+  @media (min-width: 768px) {
+    font-size: 5rem;
+  }
+}
+
+.display-2 {
+  font-family: var(--pf-font-display);
+  font-size: 3.5rem;
+  font-weight: var(--pf-font-extrabold);
+  line-height: 1.1;
+  letter-spacing: var(--pf-tracking-tighter);
+
+  @media (min-width: 768px) {
+    font-size: 4rem;
+  }
+}
+
+// ==========================================
+// PARAGRAPHS & BODY TEXT
+// ==========================================
+
+p {
+  margin-top: 0;
+  margin-bottom: var(--pf-space-4);
+
+  &:last-child {
+    margin-bottom: 0;
+  }
+}
+
+.lead {
+  font-size: var(--pf-text-xl);
+  font-weight: var(--pf-font-light);
+  line-height: var(--pf-leading-relaxed);
+  color: var(--pf-text-secondary);
+}
+
+.small, small {
+  font-size: var(--pf-text-sm);
+}
+
+.tiny {
+  font-size: var(--pf-text-xs);
+}
+
+// ==========================================
+// LINKS
+// ==========================================
+
+a {
+  color: var(--pf-text-link);
+  text-decoration: none;
+  transition: color var(--pf-transition-fast);
+
+  &:hover {
+    color: var(--pf-text-link-hover);
+  }
+
+  &:focus-visible {
+    outline: 2px solid var(--pf-primary);
+    outline-offset: 2px;
+    border-radius: var(--pf-radius-sm);
+  }
+}
+
+.link-underline {
+  text-decoration: underline;
+  text-underline-offset: 2px;
+}
+
+.link-hover-underline {
+  &:hover {
+    text-decoration: underline;
+    text-underline-offset: 2px;
+  }
+}
+
+.link-muted {
+  color: var(--pf-text-muted);
+
+  &:hover {
+    color: var(--pf-text-secondary);
+  }
+}
+
+// ==========================================
+// TEXT COLORS
+// ==========================================
+
+.text-primary { color: var(--pf-text-primary) !important; }
+.text-secondary { color: var(--pf-text-secondary) !important; }
+.text-tertiary { color: var(--pf-text-tertiary) !important; }
+.text-muted { color: var(--pf-text-muted) !important; }
+.text-inverse { color: var(--pf-text-inverse) !important; }
+
+.text-brand { color: var(--pf-primary) !important; }
+.text-brand-light { color: var(--pf-primary-light) !important; }
+.text-accent { color: var(--pf-accent) !important; }
+.text-success { color: var(--pf-success) !important; }
+.text-warning { color: var(--pf-warning) !important; }
+.text-error { color: var(--pf-error) !important; }
+
+// Gradient Text
+.text-gradient {
+  background: var(--pf-gradient-primary);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+.text-gradient-warm {
+  background: var(--pf-gradient-warm);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+.text-gradient-instagram {
+  background: var(--pf-gradient-instagram);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+// ==========================================
+// FONT SIZES
+// ==========================================
+
+.text-xs { font-size: var(--pf-text-xs) !important; }
+.text-sm { font-size: var(--pf-text-sm) !important; }
+.text-base { font-size: var(--pf-text-base) !important; }
+.text-lg { font-size: var(--pf-text-lg) !important; }
+.text-xl { font-size: var(--pf-text-xl) !important; }
+.text-2xl { font-size: var(--pf-text-2xl) !important; }
+.text-3xl { font-size: var(--pf-text-3xl) !important; }
+.text-4xl { font-size: var(--pf-text-4xl) !important; }
+.text-5xl { font-size: var(--pf-text-5xl) !important; }
+
+// ==========================================
+// FONT WEIGHTS
+// ==========================================
+
+.font-light { font-weight: var(--pf-font-light) !important; }
+.font-normal { font-weight: var(--pf-font-normal) !important; }
+.font-medium { font-weight: var(--pf-font-medium) !important; }
+.font-semibold { font-weight: var(--pf-font-semibold) !important; }
+.font-bold { font-weight: var(--pf-font-bold) !important; }
+.font-extrabold { font-weight: var(--pf-font-extrabold) !important; }
+
+// ==========================================
+// FONT FAMILIES
+// ==========================================
+
+.font-sans { font-family: var(--pf-font-sans) !important; }
+.font-display { font-family: var(--pf-font-display) !important; }
+.font-mono { font-family: var(--pf-font-mono) !important; }
+
+// ==========================================
+// LINE HEIGHTS
+// ==========================================
+
+.leading-none { line-height: var(--pf-leading-none) !important; }
+.leading-tight { line-height: var(--pf-leading-tight) !important; }
+.leading-snug { line-height: var(--pf-leading-snug) !important; }
+.leading-normal { line-height: var(--pf-leading-normal) !important; }
+.leading-relaxed { line-height: var(--pf-leading-relaxed) !important; }
+.leading-loose { line-height: var(--pf-leading-loose) !important; }
+
+// ==========================================
+// LETTER SPACING
+// ==========================================
+
+.tracking-tighter { letter-spacing: var(--pf-tracking-tighter) !important; }
+.tracking-tight { letter-spacing: var(--pf-tracking-tight) !important; }
+.tracking-normal { letter-spacing: var(--pf-tracking-normal) !important; }
+.tracking-wide { letter-spacing: var(--pf-tracking-wide) !important; }
+.tracking-wider { letter-spacing: var(--pf-tracking-wider) !important; }
+
+// ==========================================
+// TEXT ALIGNMENT
+// ==========================================
+
+.text-left { text-align: left !important; }
+.text-center { text-align: center !important; }
+.text-right { text-align: right !important; }
+.text-justify { text-align: justify !important; }
+
+// ==========================================
+// TEXT TRANSFORMS
+// ==========================================
+
+.uppercase { text-transform: uppercase !important; }
+.lowercase { text-transform: lowercase !important; }
+.capitalize { text-transform: capitalize !important; }
+.normal-case { text-transform: none !important; }
+
+// ==========================================
+// TEXT DECORATIONS
+// ==========================================
+
+.underline { text-decoration: underline !important; }
+.line-through { text-decoration: line-through !important; }
+.no-underline { text-decoration: none !important; }
+
+// ==========================================
+// TEXT OVERFLOW
+// ==========================================
+
+.truncate {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.line-clamp-1 {
+  display: -webkit-box;
+  -webkit-line-clamp: 1;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
+.line-clamp-2 {
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
+.line-clamp-3 {
+  display: -webkit-box;
+  -webkit-line-clamp: 3;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
+.break-words {
+  word-wrap: break-word;
+  overflow-wrap: break-word;
+}
+
+.break-all {
+  word-break: break-all;
+}
+
+// ==========================================
+// WHITESPACE
+// ==========================================
+
+.whitespace-normal { white-space: normal !important; }
+.whitespace-nowrap { white-space: nowrap !important; }
+.whitespace-pre { white-space: pre !important; }
+.whitespace-pre-line { white-space: pre-line !important; }
+.whitespace-pre-wrap { white-space: pre-wrap !important; }
+
+// ==========================================
+// SPECIAL TEXT STYLES
+// ==========================================
+
+// Username style
+.username {
+  font-weight: var(--pf-font-semibold);
+  color: var(--pf-text-primary);
+
+  &:hover {
+    color: var(--pf-text-secondary);
+  }
+}
+
+// Caption text
+.caption-text {
+  font-size: var(--pf-text-sm);
+  line-height: var(--pf-leading-relaxed);
+  color: var(--pf-text-primary);
+
+  .username {
+    font-weight: var(--pf-font-semibold);
+    margin-right: var(--pf-space-1);
+  }
+}
+
+// Hashtag style
+.hashtag {
+  color: var(--pf-primary);
+  font-weight: var(--pf-font-medium);
+  cursor: pointer;
+
+  &:hover {
+    color: var(--pf-primary-dark);
+  }
+}
+
+// Mention style
+.mention {
+  color: var(--pf-primary);
+  font-weight: var(--pf-font-medium);
+
+  &:hover {
+    color: var(--pf-primary-dark);
+  }
+}
+
+// Timestamp
+.timestamp {
+  font-size: var(--pf-text-xs);
+  color: var(--pf-text-muted);
+  text-transform: uppercase;
+  letter-spacing: var(--pf-tracking-wide);
+}
+
+// Label
+.label {
+  font-size: var(--pf-text-xs);
+  font-weight: var(--pf-font-semibold);
+  text-transform: uppercase;
+  letter-spacing: var(--pf-tracking-wider);
+  color: var(--pf-text-muted);
+}
+
+// ==========================================
+// LISTS
+// ==========================================
+
+ul, ol {
+  margin-top: 0;
+  margin-bottom: var(--pf-space-4);
+  padding-left: var(--pf-space-6);
+}
+
+li {
+  margin-bottom: var(--pf-space-2);
+}
+
+.list-none {
+  list-style: none;
+  padding-left: 0;
+}
+
+.list-disc { list-style-type: disc; }
+.list-decimal { list-style-type: decimal; }
+
+// ==========================================
+// SELECTION STYLES
+// ==========================================
+
+::selection {
+  background-color: var(--pf-primary);
+  color: white;
+}

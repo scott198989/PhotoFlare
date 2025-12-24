@@ -1,0 +1,577 @@
+// PhotoFlare Design System - Animations
+// =====================================
+// Keyframe animations and animation utility classes
+
+// ==========================================
+// KEYFRAME ANIMATIONS
+// ==========================================
+
+// Fade Animations
+@keyframes pf-fade-in {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+@keyframes pf-fade-out {
+  from { opacity: 1; }
+  to { opacity: 0; }
+}
+
+@keyframes pf-fade-in-up {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes pf-fade-in-down {
+  from {
+    opacity: 0;
+    transform: translateY(-20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes pf-fade-in-left {
+  from {
+    opacity: 0;
+    transform: translateX(-20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+@keyframes pf-fade-in-right {
+  from {
+    opacity: 0;
+    transform: translateX(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+// Scale Animations
+@keyframes pf-scale-in {
+  from {
+    opacity: 0;
+    transform: scale(0.9);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+@keyframes pf-scale-out {
+  from {
+    opacity: 1;
+    transform: scale(1);
+  }
+  to {
+    opacity: 0;
+    transform: scale(0.9);
+  }
+}
+
+@keyframes pf-pop-in {
+  0% {
+    opacity: 0;
+    transform: scale(0.5);
+  }
+  70% {
+    transform: scale(1.1);
+  }
+  100% {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+@keyframes pf-bounce-in {
+  0% {
+    opacity: 0;
+    transform: scale(0.3);
+  }
+  50% {
+    transform: scale(1.05);
+  }
+  70% {
+    transform: scale(0.9);
+  }
+  100% {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+// Heart/Like Animation
+@keyframes pf-heart-beat {
+  0% { transform: scale(1); }
+  15% { transform: scale(1.3); }
+  30% { transform: scale(1); }
+  45% { transform: scale(1.3); }
+  60% { transform: scale(1); }
+}
+
+@keyframes pf-like-burst {
+  0% {
+    opacity: 1;
+    transform: scale(0);
+  }
+  50% {
+    opacity: 1;
+    transform: scale(1.5);
+  }
+  100% {
+    opacity: 0;
+    transform: scale(2);
+  }
+}
+
+// Pulse & Glow
+@keyframes pf-pulse {
+  0%, 100% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.5;
+  }
+}
+
+@keyframes pf-pulse-ring {
+  0% {
+    box-shadow: 0 0 0 0 rgba(var(--pf-primary-rgb), 0.4);
+  }
+  70% {
+    box-shadow: 0 0 0 10px rgba(var(--pf-primary-rgb), 0);
+  }
+  100% {
+    box-shadow: 0 0 0 0 rgba(var(--pf-primary-rgb), 0);
+  }
+}
+
+@keyframes pf-glow-pulse {
+  0%, 100% {
+    box-shadow: var(--pf-glow-primary);
+  }
+  50% {
+    box-shadow: 0 0 40px rgba(var(--pf-primary-rgb), 0.6);
+  }
+}
+
+// Spin
+@keyframes pf-spin {
+  from { transform: rotate(0deg); }
+  to { transform: rotate(360deg); }
+}
+
+@keyframes pf-spin-reverse {
+  from { transform: rotate(360deg); }
+  to { transform: rotate(0deg); }
+}
+
+// Float
+@keyframes pf-float {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-10px); }
+}
+
+@keyframes pf-float-subtle {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-5px); }
+}
+
+// Shake
+@keyframes pf-shake {
+  0%, 100% { transform: translateX(0); }
+  10%, 30%, 50%, 70%, 90% { transform: translateX(-5px); }
+  20%, 40%, 60%, 80% { transform: translateX(5px); }
+}
+
+@keyframes pf-wiggle {
+  0%, 100% { transform: rotate(0deg); }
+  25% { transform: rotate(-5deg); }
+  75% { transform: rotate(5deg); }
+}
+
+// Shimmer/Skeleton Loading
+@keyframes pf-shimmer {
+  0% {
+    background-position: -200% 0;
+  }
+  100% {
+    background-position: 200% 0;
+  }
+}
+
+// Story Ring Animation
+@keyframes pf-story-ring-rotate {
+  from { transform: rotate(0deg); }
+  to { transform: rotate(360deg); }
+}
+
+// Progress Bar (for stories)
+@keyframes pf-progress {
+  from { width: 0%; }
+  to { width: 100%; }
+}
+
+// Notification Badge
+@keyframes pf-ping {
+  75%, 100% {
+    transform: scale(2);
+    opacity: 0;
+  }
+}
+
+// Slide Animations
+@keyframes pf-slide-in-right {
+  from {
+    transform: translateX(100%);
+  }
+  to {
+    transform: translateX(0);
+  }
+}
+
+@keyframes pf-slide-out-right {
+  from {
+    transform: translateX(0);
+  }
+  to {
+    transform: translateX(100%);
+  }
+}
+
+@keyframes pf-slide-in-left {
+  from {
+    transform: translateX(-100%);
+  }
+  to {
+    transform: translateX(0);
+  }
+}
+
+@keyframes pf-slide-in-up {
+  from {
+    transform: translateY(100%);
+  }
+  to {
+    transform: translateY(0);
+  }
+}
+
+@keyframes pf-slide-in-down {
+  from {
+    transform: translateY(-100%);
+  }
+  to {
+    transform: translateY(0);
+  }
+}
+
+// Modal/Drawer backdrop
+@keyframes pf-backdrop-in {
+  from {
+    opacity: 0;
+    backdrop-filter: blur(0);
+  }
+  to {
+    opacity: 1;
+    backdrop-filter: blur(8px);
+  }
+}
+
+// Typing Indicator Dots
+@keyframes pf-typing-dot {
+  0%, 60%, 100% {
+    transform: translateY(0);
+    opacity: 0.6;
+  }
+  30% {
+    transform: translateY(-8px);
+    opacity: 1;
+  }
+}
+
+// Gradient Flow
+@keyframes pf-gradient-flow {
+  0% { background-position: 0% 50%; }
+  50% { background-position: 100% 50%; }
+  100% { background-position: 0% 50%; }
+}
+
+// ==========================================
+// ANIMATION UTILITY CLASSES
+// ==========================================
+
+// Duration modifiers
+.animate-duration-fast { animation-duration: 150ms !important; }
+.animate-duration-normal { animation-duration: 300ms !important; }
+.animate-duration-slow { animation-duration: 500ms !important; }
+.animate-duration-slower { animation-duration: 700ms !important; }
+
+// Delay modifiers
+.animate-delay-100 { animation-delay: 100ms; }
+.animate-delay-200 { animation-delay: 200ms; }
+.animate-delay-300 { animation-delay: 300ms; }
+.animate-delay-500 { animation-delay: 500ms; }
+.animate-delay-700 { animation-delay: 700ms; }
+.animate-delay-1000 { animation-delay: 1000ms; }
+
+// Fill modes
+.animate-fill-forwards { animation-fill-mode: forwards; }
+.animate-fill-backwards { animation-fill-mode: backwards; }
+.animate-fill-both { animation-fill-mode: both; }
+
+// Iteration
+.animate-infinite { animation-iteration-count: infinite; }
+.animate-once { animation-iteration-count: 1; }
+.animate-twice { animation-iteration-count: 2; }
+
+// Fade animations
+.animate-fade-in {
+  animation: pf-fade-in var(--pf-transition-normal) var(--pf-ease-out);
+}
+
+.animate-fade-out {
+  animation: pf-fade-out var(--pf-transition-normal) var(--pf-ease-in);
+}
+
+.animate-fade-in-up {
+  animation: pf-fade-in-up var(--pf-transition-normal) var(--pf-ease-out);
+}
+
+.animate-fade-in-down {
+  animation: pf-fade-in-down var(--pf-transition-normal) var(--pf-ease-out);
+}
+
+.animate-fade-in-left {
+  animation: pf-fade-in-left var(--pf-transition-normal) var(--pf-ease-out);
+}
+
+.animate-fade-in-right {
+  animation: pf-fade-in-right var(--pf-transition-normal) var(--pf-ease-out);
+}
+
+// Scale animations
+.animate-scale-in {
+  animation: pf-scale-in var(--pf-transition-normal) var(--pf-ease-out);
+}
+
+.animate-pop-in {
+  animation: pf-pop-in 400ms var(--pf-ease-bounce);
+}
+
+.animate-bounce-in {
+  animation: pf-bounce-in 500ms var(--pf-ease-out);
+}
+
+// Heart animation
+.animate-heart-beat {
+  animation: pf-heart-beat 800ms ease-in-out;
+}
+
+.animate-like-burst {
+  animation: pf-like-burst 600ms ease-out forwards;
+}
+
+// Continuous animations
+.animate-pulse {
+  animation: pf-pulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+}
+
+.animate-pulse-ring {
+  animation: pf-pulse-ring 1.5s infinite;
+}
+
+.animate-glow-pulse {
+  animation: pf-glow-pulse 2s ease-in-out infinite;
+}
+
+.animate-spin {
+  animation: pf-spin 1s linear infinite;
+}
+
+.animate-spin-slow {
+  animation: pf-spin 2s linear infinite;
+}
+
+.animate-float {
+  animation: pf-float 3s ease-in-out infinite;
+}
+
+.animate-float-subtle {
+  animation: pf-float-subtle 2s ease-in-out infinite;
+}
+
+.animate-shake {
+  animation: pf-shake 500ms ease-in-out;
+}
+
+.animate-wiggle {
+  animation: pf-wiggle 200ms ease-in-out;
+}
+
+// Skeleton loading
+.animate-shimmer,
+.skeleton {
+  background: linear-gradient(
+    90deg,
+    var(--pf-bg-tertiary) 25%,
+    var(--pf-bg-secondary) 50%,
+    var(--pf-bg-tertiary) 75%
+  );
+  background-size: 200% 100%;
+  animation: pf-shimmer 1.5s linear infinite;
+}
+
+// Story ring
+.animate-story-ring {
+  animation: pf-story-ring-rotate 3s linear infinite;
+}
+
+// Progress bar
+.animate-progress {
+  animation: pf-progress linear forwards;
+}
+
+// Notification ping
+.animate-ping {
+  animation: pf-ping 1s cubic-bezier(0, 0, 0.2, 1) infinite;
+}
+
+// Slide animations
+.animate-slide-in-right {
+  animation: pf-slide-in-right var(--pf-transition-normal) var(--pf-ease-out);
+}
+
+.animate-slide-out-right {
+  animation: pf-slide-out-right var(--pf-transition-normal) var(--pf-ease-in);
+}
+
+.animate-slide-in-left {
+  animation: pf-slide-in-left var(--pf-transition-normal) var(--pf-ease-out);
+}
+
+.animate-slide-in-up {
+  animation: pf-slide-in-up var(--pf-transition-normal) var(--pf-ease-out);
+}
+
+.animate-slide-in-down {
+  animation: pf-slide-in-down var(--pf-transition-normal) var(--pf-ease-out);
+}
+
+// Gradient flow
+.animate-gradient-flow {
+  background-size: 200% 200%;
+  animation: pf-gradient-flow 3s ease infinite;
+}
+
+// ==========================================
+// TRANSITION UTILITY CLASSES
+// ==========================================
+
+.transition-all {
+  transition-property: all;
+  transition-timing-function: var(--pf-ease-in-out);
+  transition-duration: var(--pf-transition-normal);
+}
+
+.transition-colors {
+  transition-property: color, background-color, border-color, fill, stroke;
+  transition-timing-function: var(--pf-ease-in-out);
+  transition-duration: var(--pf-transition-normal);
+}
+
+.transition-opacity {
+  transition-property: opacity;
+  transition-timing-function: var(--pf-ease-in-out);
+  transition-duration: var(--pf-transition-normal);
+}
+
+.transition-transform {
+  transition-property: transform;
+  transition-timing-function: var(--pf-ease-in-out);
+  transition-duration: var(--pf-transition-normal);
+}
+
+.transition-shadow {
+  transition-property: box-shadow;
+  transition-timing-function: var(--pf-ease-in-out);
+  transition-duration: var(--pf-transition-normal);
+}
+
+// ==========================================
+// HOVER & INTERACTION EFFECTS
+// ==========================================
+
+.hover-lift {
+  transition: transform var(--pf-transition-normal), box-shadow var(--pf-transition-normal);
+
+  &:hover {
+    transform: translateY(-4px);
+    box-shadow: var(--pf-shadow-lg);
+  }
+}
+
+.hover-scale {
+  transition: transform var(--pf-transition-fast);
+
+  &:hover {
+    transform: scale(1.05);
+  }
+
+  &:active {
+    transform: scale(0.98);
+  }
+}
+
+.hover-glow {
+  transition: box-shadow var(--pf-transition-normal);
+
+  &:hover {
+    box-shadow: var(--pf-glow-primary);
+  }
+}
+
+.hover-brighten {
+  transition: filter var(--pf-transition-fast);
+
+  &:hover {
+    filter: brightness(1.1);
+  }
+}
+
+.click-shrink {
+  transition: transform var(--pf-transition-fast);
+
+  &:active {
+    transform: scale(0.95);
+  }
+}
+
+// ==========================================
+// STAGGERED ANIMATIONS (for lists)
+// ==========================================
+
+.stagger-children > * {
+  animation: pf-fade-in-up var(--pf-transition-normal) var(--pf-ease-out) backwards;
+}
+
+@for $i from 1 through 20 {
+  .stagger-children > *:nth-child(#{$i}) {
+    animation-delay: #{$i * 50}ms;
+  }
+}

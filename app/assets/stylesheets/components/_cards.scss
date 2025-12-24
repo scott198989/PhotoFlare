@@ -1,0 +1,568 @@
+// PhotoFlare Components - Cards
+// ==============================
+
+// ==========================================
+// BASE CARD
+// ==========================================
+
+.pf-card {
+  background-color: var(--pf-card-bg);
+  border: 1px solid var(--pf-card-border);
+  border-radius: var(--pf-card-radius);
+  box-shadow: var(--pf-card-shadow);
+  overflow: hidden;
+  transition: all var(--pf-transition-normal);
+}
+
+// ==========================================
+// CARD VARIATIONS
+// ==========================================
+
+// Elevated card with stronger shadow
+.pf-card-elevated {
+  @extend .pf-card;
+  border: none;
+  box-shadow: var(--pf-shadow-lg);
+
+  &:hover {
+    box-shadow: var(--pf-shadow-xl);
+    transform: translateY(-2px);
+  }
+}
+
+// Flat card (no shadow)
+.pf-card-flat {
+  @extend .pf-card;
+  box-shadow: none;
+}
+
+// Glass card
+.pf-card-glass {
+  background: var(--pf-glass-bg);
+  backdrop-filter: var(--pf-glass-blur);
+  -webkit-backdrop-filter: var(--pf-glass-blur);
+  border: 1px solid var(--pf-glass-border);
+  border-radius: var(--pf-card-radius);
+  box-shadow: var(--pf-shadow-lg);
+}
+
+// Interactive card
+.pf-card-interactive {
+  @extend .pf-card;
+  cursor: pointer;
+
+  &:hover {
+    border-color: var(--pf-border-medium);
+    box-shadow: var(--pf-shadow-lg);
+    transform: translateY(-2px);
+  }
+
+  &:active {
+    transform: translateY(0);
+    box-shadow: var(--pf-shadow-sm);
+  }
+}
+
+// ==========================================
+// CARD SECTIONS
+// ==========================================
+
+.pf-card-header {
+  padding: var(--pf-space-4);
+  border-bottom: 1px solid var(--pf-border-light);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--pf-space-3);
+}
+
+.pf-card-body {
+  padding: var(--pf-space-4);
+}
+
+.pf-card-footer {
+  padding: var(--pf-space-4);
+  border-top: 1px solid var(--pf-border-light);
+}
+
+.pf-card-image {
+  width: 100%;
+  display: block;
+
+  img {
+    width: 100%;
+    height: auto;
+    display: block;
+  }
+}
+
+// ==========================================
+// POST CARD (Instagram-style)
+// ==========================================
+
+.pf-post-card {
+  @extend .pf-card;
+  max-width: 470px;
+  margin: 0 auto;
+
+  // Header with user info
+  .pf-post-header {
+    padding: var(--pf-space-3) var(--pf-space-4);
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: var(--pf-space-3);
+  }
+
+  .pf-post-user {
+    display: flex;
+    align-items: center;
+    gap: var(--pf-space-3);
+  }
+
+  .pf-post-avatar {
+    width: 32px;
+    height: 32px;
+    border-radius: var(--pf-radius-full);
+    object-fit: cover;
+  }
+
+  .pf-post-username {
+    font-weight: var(--pf-font-semibold);
+    font-size: var(--pf-text-sm);
+    color: var(--pf-text-primary);
+    text-decoration: none;
+
+    &:hover {
+      color: var(--pf-text-secondary);
+    }
+  }
+
+  // Image carousel
+  .pf-post-images {
+    position: relative;
+    background-color: var(--pf-bg-tertiary);
+    aspect-ratio: 1 / 1;
+
+    img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+  }
+
+  // Actions (like, comment, share)
+  .pf-post-actions {
+    padding: var(--pf-space-3) var(--pf-space-4);
+    display: flex;
+    align-items: center;
+    gap: var(--pf-space-4);
+  }
+
+  .pf-post-action-btn {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: none;
+    border: none;
+    cursor: pointer;
+    padding: var(--pf-space-2);
+    margin: calc(var(--pf-space-2) * -1);
+    border-radius: var(--pf-radius-full);
+    color: var(--pf-text-primary);
+    transition: all var(--pf-transition-fast);
+
+    &:hover {
+      background-color: var(--pf-surface-hover);
+    }
+
+    &:active {
+      transform: scale(0.9);
+    }
+
+    i {
+      font-size: 1.5rem;
+    }
+
+    &.liked {
+      color: var(--pf-error);
+
+      i {
+        animation: pf-heart-beat 800ms ease-in-out;
+      }
+    }
+  }
+
+  .pf-post-bookmark {
+    margin-left: auto;
+  }
+
+  // Likes count
+  .pf-post-likes {
+    padding: 0 var(--pf-space-4);
+    font-weight: var(--pf-font-semibold);
+    font-size: var(--pf-text-sm);
+  }
+
+  // Caption
+  .pf-post-caption {
+    padding: var(--pf-space-2) var(--pf-space-4);
+    font-size: var(--pf-text-sm);
+    line-height: var(--pf-leading-relaxed);
+
+    .username {
+      font-weight: var(--pf-font-semibold);
+      margin-right: var(--pf-space-1);
+    }
+  }
+
+  // Comments preview
+  .pf-post-comments-preview {
+    padding: 0 var(--pf-space-4);
+
+    a {
+      color: var(--pf-text-muted);
+      font-size: var(--pf-text-sm);
+      text-decoration: none;
+
+      &:hover {
+        color: var(--pf-text-secondary);
+      }
+    }
+  }
+
+  // Timestamp
+  .pf-post-time {
+    padding: var(--pf-space-2) var(--pf-space-4) var(--pf-space-3);
+    font-size: var(--pf-text-xs);
+    color: var(--pf-text-muted);
+    text-transform: uppercase;
+  }
+
+  // Comment input
+  .pf-post-comment-form {
+    padding: var(--pf-space-3) var(--pf-space-4);
+    border-top: 1px solid var(--pf-border-light);
+    display: flex;
+    align-items: center;
+    gap: var(--pf-space-3);
+
+    input, textarea {
+      flex: 1;
+      border: none;
+      background: transparent;
+      font-size: var(--pf-text-sm);
+      color: var(--pf-text-primary);
+      resize: none;
+
+      &::placeholder {
+        color: var(--pf-text-muted);
+      }
+
+      &:focus {
+        outline: none;
+      }
+    }
+
+    button {
+      color: var(--pf-primary);
+      font-weight: var(--pf-font-semibold);
+      font-size: var(--pf-text-sm);
+      background: none;
+      border: none;
+      cursor: pointer;
+
+      &:hover {
+        color: var(--pf-primary-dark);
+      }
+
+      &:disabled {
+        color: var(--pf-text-muted);
+        cursor: not-allowed;
+      }
+    }
+  }
+}
+
+// ==========================================
+// PROFILE CARD
+// ==========================================
+
+.pf-profile-card {
+  @extend .pf-card;
+  padding: var(--pf-space-6);
+  text-align: center;
+
+  .pf-profile-avatar {
+    width: 80px;
+    height: 80px;
+    border-radius: var(--pf-radius-full);
+    margin: 0 auto var(--pf-space-4);
+    object-fit: cover;
+    border: 3px solid var(--pf-primary);
+  }
+
+  .pf-profile-name {
+    font-size: var(--pf-text-lg);
+    font-weight: var(--pf-font-bold);
+    margin-bottom: var(--pf-space-1);
+  }
+
+  .pf-profile-username {
+    color: var(--pf-text-muted);
+    font-size: var(--pf-text-sm);
+    margin-bottom: var(--pf-space-4);
+  }
+
+  .pf-profile-stats {
+    display: flex;
+    justify-content: center;
+    gap: var(--pf-space-6);
+    margin-bottom: var(--pf-space-4);
+  }
+
+  .pf-profile-stat {
+    text-align: center;
+
+    .stat-value {
+      font-weight: var(--pf-font-bold);
+      font-size: var(--pf-text-lg);
+    }
+
+    .stat-label {
+      font-size: var(--pf-text-xs);
+      color: var(--pf-text-muted);
+      text-transform: uppercase;
+    }
+  }
+}
+
+// ==========================================
+// SUGGESTION CARD
+// ==========================================
+
+.pf-suggestion-card {
+  display: flex;
+  align-items: center;
+  gap: var(--pf-space-3);
+  padding: var(--pf-space-2) 0;
+
+  .pf-suggestion-avatar {
+    width: 44px;
+    height: 44px;
+    border-radius: var(--pf-radius-full);
+    object-fit: cover;
+    flex-shrink: 0;
+  }
+
+  .pf-suggestion-info {
+    flex: 1;
+    min-width: 0;
+  }
+
+  .pf-suggestion-username {
+    font-weight: var(--pf-font-semibold);
+    font-size: var(--pf-text-sm);
+    color: var(--pf-text-primary);
+    text-decoration: none;
+    display: block;
+
+    &:hover {
+      color: var(--pf-text-secondary);
+    }
+  }
+
+  .pf-suggestion-subtitle {
+    font-size: var(--pf-text-xs);
+    color: var(--pf-text-muted);
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+
+  .pf-suggestion-action {
+    flex-shrink: 0;
+  }
+}
+
+// ==========================================
+// AUTH CARD
+// ==========================================
+
+.pf-auth-card {
+  @extend .pf-card-glass;
+  width: 100%;
+  max-width: 400px;
+  margin: 0 auto;
+  padding: var(--pf-space-10);
+  text-align: center;
+
+  .pf-auth-logo {
+    max-width: 175px;
+    height: auto;
+    margin: 0 auto var(--pf-space-6);
+  }
+
+  .pf-auth-subtitle {
+    color: var(--pf-text-secondary);
+    font-size: var(--pf-text-base);
+    font-weight: var(--pf-font-semibold);
+    margin-bottom: var(--pf-space-6);
+  }
+
+  .pf-auth-form {
+    display: flex;
+    flex-direction: column;
+    gap: var(--pf-space-3);
+    margin-bottom: var(--pf-space-6);
+  }
+
+  .pf-auth-divider {
+    display: flex;
+    align-items: center;
+    gap: var(--pf-space-4);
+    margin: var(--pf-space-6) 0;
+
+    .line {
+      flex: 1;
+      height: 1px;
+      background-color: var(--pf-border-light);
+    }
+
+    .text {
+      font-size: var(--pf-text-sm);
+      color: var(--pf-text-muted);
+      font-weight: var(--pf-font-semibold);
+    }
+  }
+}
+
+.pf-auth-footer-card {
+  @extend .pf-card;
+  max-width: 400px;
+  margin: var(--pf-space-4) auto 0;
+  padding: var(--pf-space-6);
+  text-align: center;
+  font-size: var(--pf-text-sm);
+
+  a {
+    font-weight: var(--pf-font-semibold);
+    color: var(--pf-primary);
+  }
+}
+
+// ==========================================
+// NOTIFICATION CARD
+// ==========================================
+
+.pf-notification-card {
+  display: flex;
+  align-items: center;
+  gap: var(--pf-space-3);
+  padding: var(--pf-space-3) var(--pf-space-4);
+  transition: background-color var(--pf-transition-fast);
+
+  &:hover {
+    background-color: var(--pf-surface-hover);
+  }
+
+  &.unread {
+    background-color: rgba(var(--pf-primary-rgb), 0.05);
+  }
+
+  .pf-notification-avatar {
+    width: 44px;
+    height: 44px;
+    border-radius: var(--pf-radius-full);
+    object-fit: cover;
+    flex-shrink: 0;
+  }
+
+  .pf-notification-content {
+    flex: 1;
+    min-width: 0;
+  }
+
+  .pf-notification-text {
+    font-size: var(--pf-text-sm);
+    line-height: var(--pf-leading-snug);
+
+    .username {
+      font-weight: var(--pf-font-semibold);
+    }
+  }
+
+  .pf-notification-time {
+    font-size: var(--pf-text-xs);
+    color: var(--pf-text-muted);
+    margin-top: var(--pf-space-1);
+  }
+
+  .pf-notification-thumb {
+    width: 44px;
+    height: 44px;
+    border-radius: var(--pf-radius-md);
+    object-fit: cover;
+    flex-shrink: 0;
+  }
+}
+
+// ==========================================
+// EXPLORE GRID CARD
+// ==========================================
+
+.pf-explore-card {
+  position: relative;
+  aspect-ratio: 1 / 1;
+  overflow: hidden;
+  border-radius: var(--pf-radius-lg);
+  cursor: pointer;
+
+  img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform var(--pf-transition-slow);
+  }
+
+  .pf-explore-overlay {
+    position: absolute;
+    inset: 0;
+    background: rgba(0, 0, 0, 0.3);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: var(--pf-space-6);
+    opacity: 0;
+    transition: opacity var(--pf-transition-normal);
+  }
+
+  .pf-explore-stat {
+    display: flex;
+    align-items: center;
+    gap: var(--pf-space-2);
+    color: white;
+    font-weight: var(--pf-font-bold);
+    font-size: var(--pf-text-base);
+    text-shadow: 0 1px 2px rgba(0, 0, 0, 0.3);
+  }
+
+  &:hover {
+    img {
+      transform: scale(1.05);
+    }
+
+    .pf-explore-overlay {
+      opacity: 1;
+    }
+  }
+
+  // Multiple images indicator
+  .pf-explore-multi {
+    position: absolute;
+    top: var(--pf-space-3);
+    right: var(--pf-space-3);
+    color: white;
+    text-shadow: 0 1px 3px rgba(0, 0, 0, 0.5);
+  }
+}

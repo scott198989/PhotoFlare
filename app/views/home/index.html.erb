@@ -1,13 +1,38 @@
 <%= render "layouts/flash_messages" %>
-<div class="d-flex my-5 justify-content-center gap-5">
-  <div class="d-flex flex-column gap-3">
-    <%= render 'story/stories_list' %>
-    <div class="flex flex-column">
-      <% @feeds.each do |p| %>
-        <%= render 'posts/post', post: p %>
-      <% end %>
-     
+
+<div class="pf-feed-page">
+  <div class="pf-feed-container">
+    <%# Main Feed Column %>
+    <div class="pf-feed-main">
+      <%# Stories Section %>
+      <div class="pf-feed-stories">
+        <div class="pf-stories-scroll">
+          <%= render 'story/stories_list' %>
+        </div>
+      </div>
+
+      <%# Posts Feed %>
+      <div class="pf-posts-feed">
+        <% if @feeds.any? %>
+          <% @feeds.each do |p| %>
+            <%= render 'posts/post', post: p %>
+          <% end %>
+        <% else %>
+          <div class="pf-feed-empty">
+            <div class="icon">
+              <i class="fa-regular fa-compass"></i>
+            </div>
+            <h2>Welcome to PhotoFlare</h2>
+            <p>Start following people to see their photos and videos here.</p>
+            <%= link_to "Find people to follow", explore_path, class: "pf-btn pf-btn-primary" %>
+          </div>
+        <% end %>
+      </div>
+    </div>
+
+    <%# Sidebar %>
+    <div class="pf-feed-sidebar">
+      <%= render 'suggestions/suggestions_list', suggestions: @suggestions %>
     </div>
   </div>
-  <%= render 'suggestions/suggestions_list', suggestions: @suggestions %>
 </div>

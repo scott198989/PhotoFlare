@@ -1,0 +1,55 @@
+<div class="pf-explore-page">
+  <div class="pf-explore-container">
+    <%# Hashtag Header %>
+    <div class="pf-hashtag-header">
+      <div class="pf-hashtag-icon">
+        <i class="fa-solid fa-hashtag"></i>
+      </div>
+      <div class="pf-hashtag-info">
+        <h1 class="pf-hashtag-name">#<%= @hashtag.name %></h1>
+        <p class="pf-hashtag-count">
+          <strong><%= number_with_delimiter(@hashtag.posts_count) %></strong> posts
+        </p>
+      </div>
+    </div>
+
+    <%# Posts Grid %>
+    <div class="pf-explore-grid">
+      <% @posts.each do |post| %>
+        <%= link_to post_path(post), class: "pf-explore-item", data: { turbo: false } do %>
+          <% if post.images.attached? %>
+            <%= image_tag post.images.first %>
+          <% end %>
+          <div class="pf-explore-overlay">
+            <div class="pf-explore-stats">
+              <span class="pf-explore-stat">
+                <i class="fa-solid fa-heart"></i>
+                <%= number_with_delimiter(post.likes.count) %>
+              </span>
+              <span class="pf-explore-stat">
+                <i class="fa-solid fa-comment"></i>
+                <%= number_with_delimiter(post.comments.count) %>
+              </span>
+            </div>
+          </div>
+          <% if post.images.count > 1 %>
+            <div class="pf-explore-multi">
+              <i class="fa-solid fa-images"></i>
+            </div>
+          <% end %>
+        <% end %>
+      <% end %>
+    </div>
+
+    <%# Empty State %>
+    <% if @posts.empty? %>
+      <div class="pf-explore-empty">
+        <div class="pf-empty-icon">
+          <i class="fa-solid fa-hashtag"></i>
+        </div>
+        <h3>No posts yet</h3>
+        <p>Be the first to post with #<%= @hashtag.name %></p>
+      </div>
+    <% end %>
+  </div>
+</div>

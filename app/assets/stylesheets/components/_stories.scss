@@ -1,0 +1,534 @@
+// PhotoFlare Components - Stories
+// ================================
+
+// ==========================================
+// STORIES CONTAINER
+// ==========================================
+
+.pf-stories {
+  background: var(--pf-surface);
+  border: 1px solid var(--pf-border-light);
+  border-radius: var(--pf-radius-xl);
+  padding: var(--pf-space-4);
+  margin-bottom: var(--pf-space-6);
+}
+
+.pf-stories-scroll {
+  display: flex;
+  gap: var(--pf-space-4);
+  overflow-x: auto;
+  padding: var(--pf-space-1) 0;
+  scrollbar-width: none;
+  scroll-behavior: smooth;
+
+  &::-webkit-scrollbar {
+    display: none;
+  }
+}
+
+// ==========================================
+// STORY ITEM
+// ==========================================
+
+.pf-story-item {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: var(--pf-space-2);
+  flex-shrink: 0;
+  cursor: pointer;
+  text-decoration: none;
+  width: 66px;
+
+  &:hover .pf-story-avatar img {
+    transform: scale(1.05);
+  }
+}
+
+.pf-story-avatar {
+  position: relative;
+  width: var(--pf-story-size);
+  height: var(--pf-story-size);
+  border-radius: var(--pf-radius-full);
+  padding: 3px;
+  background: var(--pf-gradient-story-ring);
+
+  &::before {
+    content: '';
+    position: absolute;
+    inset: 3px;
+    background: var(--pf-bg-primary);
+    border-radius: var(--pf-radius-full);
+    z-index: 0;
+  }
+
+  img {
+    position: relative;
+    z-index: 1;
+    width: 100%;
+    height: 100%;
+    border-radius: var(--pf-radius-full);
+    object-fit: cover;
+    transition: transform var(--pf-transition-fast);
+  }
+
+  // Seen/viewed state
+  &.seen {
+    background: var(--pf-border-medium);
+  }
+
+  // New stories indicator
+  &.new::after {
+    content: '';
+    position: absolute;
+    inset: -2px;
+    border-radius: var(--pf-radius-full);
+    background: var(--pf-gradient-story-ring);
+    animation: pf-story-ring-rotate 3s linear infinite;
+    z-index: -1;
+    opacity: 0.5;
+  }
+}
+
+.pf-story-username {
+  font-size: var(--pf-text-xs);
+  color: var(--pf-text-primary);
+  max-width: 100%;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  text-align: center;
+}
+
+// ==========================================
+// ADD STORY ITEM (Your Story)
+// ==========================================
+
+.pf-story-add {
+  position: relative;
+
+  .pf-story-avatar {
+    background: transparent;
+    padding: 0;
+    border: 1px dashed var(--pf-border-medium);
+
+    &::before {
+      display: none;
+    }
+  }
+
+  .add-badge {
+    position: absolute;
+    bottom: 0;
+    right: 0;
+    width: 22px;
+    height: 22px;
+    background: var(--pf-primary);
+    color: white;
+    border: 3px solid var(--pf-bg-primary);
+    border-radius: var(--pf-radius-full);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 2;
+
+    i {
+      font-size: 0.625rem;
+    }
+  }
+
+  &:hover .add-badge {
+    background: var(--pf-primary-dark);
+    transform: scale(1.1);
+  }
+}
+
+// ==========================================
+// STORIES NAVIGATION ARROWS
+// ==========================================
+
+.pf-stories-wrapper {
+  position: relative;
+}
+
+.pf-stories-nav {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 28px;
+  height: 28px;
+  background: var(--pf-surface);
+  border: 1px solid var(--pf-border-light);
+  border-radius: var(--pf-radius-full);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  z-index: 10;
+  box-shadow: var(--pf-shadow-md);
+  transition: all var(--pf-transition-fast);
+  opacity: 0;
+
+  &:hover {
+    background: var(--pf-surface-hover);
+    box-shadow: var(--pf-shadow-lg);
+  }
+
+  i {
+    font-size: 0.75rem;
+    color: var(--pf-text-primary);
+  }
+
+  &.prev {
+    left: -14px;
+  }
+
+  &.next {
+    right: -14px;
+  }
+
+  &:disabled {
+    opacity: 0.3;
+    cursor: not-allowed;
+  }
+}
+
+.pf-stories-wrapper:hover .pf-stories-nav:not(:disabled) {
+  opacity: 1;
+}
+
+// ==========================================
+// STORY VIEWER
+// ==========================================
+
+.pf-story-viewer-backdrop {
+  position: fixed;
+  inset: 0;
+  background: black;
+  z-index: var(--pf-z-modal);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.pf-story-viewer {
+  position: relative;
+  width: 100%;
+  max-width: 420px;
+  height: 100%;
+  max-height: 750px;
+  background: var(--pf-bg-tertiary);
+  border-radius: var(--pf-radius-xl);
+  overflow: hidden;
+
+  @media (max-width: 640px) {
+    max-width: 100%;
+    max-height: 100%;
+    border-radius: 0;
+  }
+}
+
+// Progress bars at top
+.pf-story-progress-container {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  display: flex;
+  gap: 4px;
+  padding: var(--pf-space-3);
+  z-index: 10;
+}
+
+.pf-story-progress-bar {
+  flex: 1;
+  height: 2px;
+  background: rgba(255, 255, 255, 0.35);
+  border-radius: var(--pf-radius-full);
+  overflow: hidden;
+
+  .fill {
+    height: 100%;
+    background: white;
+    width: 0;
+    transition: width 0.1s linear;
+  }
+
+  &.active .fill {
+    animation: pf-progress linear forwards;
+    animation-duration: var(--story-duration, 5s);
+  }
+
+  &.completed .fill {
+    width: 100%;
+  }
+}
+
+// Story header
+.pf-story-header {
+  position: absolute;
+  top: var(--pf-space-8);
+  left: 0;
+  right: 0;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 var(--pf-space-4);
+  z-index: 10;
+}
+
+.pf-story-user-info {
+  display: flex;
+  align-items: center;
+  gap: var(--pf-space-3);
+
+  img {
+    width: 32px;
+    height: 32px;
+    border-radius: var(--pf-radius-full);
+    border: 2px solid white;
+    object-fit: cover;
+  }
+
+  .info {
+    display: flex;
+    align-items: center;
+    gap: var(--pf-space-2);
+  }
+
+  .username {
+    font-size: var(--pf-text-sm);
+    font-weight: var(--pf-font-semibold);
+    color: white;
+    text-shadow: 0 1px 3px rgba(0, 0, 0, 0.5);
+  }
+
+  .time {
+    font-size: var(--pf-text-xs);
+    color: rgba(255, 255, 255, 0.8);
+    text-shadow: 0 1px 3px rgba(0, 0, 0, 0.5);
+  }
+}
+
+.pf-story-actions {
+  display: flex;
+  align-items: center;
+  gap: var(--pf-space-2);
+
+  button {
+    background: none;
+    border: none;
+    color: white;
+    font-size: 1.25rem;
+    cursor: pointer;
+    padding: var(--pf-space-2);
+    text-shadow: 0 1px 3px rgba(0, 0, 0, 0.5);
+
+    &:hover {
+      opacity: 0.8;
+    }
+  }
+}
+
+// Story content
+.pf-story-content {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  img, video {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+}
+
+// Navigation areas
+.pf-story-nav-area {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  width: 30%;
+  z-index: 5;
+  cursor: pointer;
+
+  &.prev {
+    left: 0;
+  }
+
+  &.next {
+    right: 0;
+  }
+}
+
+// Story reply input
+.pf-story-reply {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  padding: var(--pf-space-4);
+  display: flex;
+  align-items: center;
+  gap: var(--pf-space-3);
+  z-index: 10;
+
+  input {
+    flex: 1;
+    height: 44px;
+    padding: 0 var(--pf-space-4);
+    background: rgba(255, 255, 255, 0.1);
+    border: 1px solid rgba(255, 255, 255, 0.3);
+    border-radius: var(--pf-radius-full);
+    color: white;
+    font-size: var(--pf-text-sm);
+
+    &::placeholder {
+      color: rgba(255, 255, 255, 0.6);
+    }
+
+    &:focus {
+      outline: none;
+      background: rgba(255, 255, 255, 0.15);
+      border-color: rgba(255, 255, 255, 0.5);
+    }
+  }
+
+  button {
+    background: none;
+    border: none;
+    color: white;
+    font-size: 1.5rem;
+    cursor: pointer;
+
+    &:hover {
+      color: var(--pf-error);
+    }
+  }
+}
+
+// Story viewers list
+.pf-story-viewers {
+  position: absolute;
+  bottom: var(--pf-space-16);
+  left: 0;
+  right: 0;
+  padding: var(--pf-space-4);
+  z-index: 10;
+
+  .viewers-toggle {
+    display: flex;
+    align-items: center;
+    gap: var(--pf-space-2);
+    color: white;
+    font-size: var(--pf-text-sm);
+    cursor: pointer;
+    text-shadow: 0 1px 3px rgba(0, 0, 0, 0.5);
+
+    i {
+      font-size: 1rem;
+    }
+  }
+}
+
+// ==========================================
+// CREATE STORY
+// ==========================================
+
+.pf-create-story {
+  position: fixed;
+  inset: 0;
+  background: black;
+  z-index: var(--pf-z-modal);
+  display: flex;
+  flex-direction: column;
+}
+
+.pf-create-story-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: var(--pf-space-4);
+  color: white;
+
+  h2 {
+    font-size: var(--pf-text-lg);
+    font-weight: var(--pf-font-semibold);
+    margin: 0;
+  }
+
+  button {
+    background: none;
+    border: none;
+    color: white;
+    font-size: 1.5rem;
+    cursor: pointer;
+  }
+}
+
+.pf-create-story-preview {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: var(--pf-space-4);
+
+  img, video {
+    max-width: 100%;
+    max-height: 100%;
+    border-radius: var(--pf-radius-xl);
+    object-fit: contain;
+  }
+}
+
+.pf-create-story-tools {
+  padding: var(--pf-space-4);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--pf-space-4);
+
+  button {
+    width: 48px;
+    height: 48px;
+    background: rgba(255, 255, 255, 0.1);
+    border: none;
+    border-radius: var(--pf-radius-full);
+    color: white;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    &:hover {
+      background: rgba(255, 255, 255, 0.2);
+    }
+
+    i {
+      font-size: 1.25rem;
+    }
+  }
+}
+
+.pf-create-story-footer {
+  padding: var(--pf-space-4);
+  display: flex;
+  justify-content: flex-end;
+  gap: var(--pf-space-3);
+
+  .share-btn {
+    background: var(--pf-primary);
+    color: white;
+    border: none;
+    padding: var(--pf-space-3) var(--pf-space-6);
+    border-radius: var(--pf-radius-lg);
+    font-weight: var(--pf-font-semibold);
+    cursor: pointer;
+
+    &:hover {
+      background: var(--pf-primary-dark);
+    }
+  }
+}

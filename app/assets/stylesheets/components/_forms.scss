@@ -1,0 +1,485 @@
+// PhotoFlare Components - Forms
+// ==============================
+
+// ==========================================
+// BASE INPUT STYLES
+// ==========================================
+
+.pf-input {
+  width: 100%;
+  padding: var(--pf-space-3) var(--pf-space-4);
+  font-family: var(--pf-font-sans);
+  font-size: var(--pf-text-sm);
+  color: var(--pf-text-primary);
+  background-color: var(--pf-input-bg);
+  border: 1px solid var(--pf-input-border);
+  border-radius: var(--pf-input-radius);
+  transition: all var(--pf-transition-fast);
+
+  &::placeholder {
+    color: var(--pf-text-muted);
+  }
+
+  &:hover {
+    border-color: var(--pf-border-medium);
+  }
+
+  &:focus {
+    outline: none;
+    border-color: var(--pf-border-focus);
+    box-shadow: 0 0 0 3px rgba(var(--pf-primary-rgb), 0.1);
+  }
+
+  &:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+    background-color: var(--pf-bg-tertiary);
+  }
+
+  &.error {
+    border-color: var(--pf-error);
+
+    &:focus {
+      box-shadow: 0 0 0 3px rgba(239, 68, 68, 0.1);
+    }
+  }
+
+  &.success {
+    border-color: var(--pf-success);
+
+    &:focus {
+      box-shadow: 0 0 0 3px rgba(16, 185, 129, 0.1);
+    }
+  }
+}
+
+// ==========================================
+// INPUT VARIATIONS
+// ==========================================
+
+// Filled input (darker background)
+.pf-input-filled {
+  @extend .pf-input;
+  background-color: var(--pf-bg-tertiary);
+  border-color: transparent;
+
+  &:hover {
+    background-color: var(--pf-bg-secondary);
+    border-color: transparent;
+  }
+
+  &:focus {
+    background-color: var(--pf-bg-secondary);
+    border-color: var(--pf-border-focus);
+  }
+}
+
+// Underline input
+.pf-input-underline {
+  @extend .pf-input;
+  background-color: transparent;
+  border: none;
+  border-bottom: 2px solid var(--pf-border-medium);
+  border-radius: 0;
+  padding-left: 0;
+  padding-right: 0;
+
+  &:focus {
+    border-color: var(--pf-border-focus);
+    box-shadow: none;
+  }
+}
+
+// ==========================================
+// INPUT SIZES
+// ==========================================
+
+.pf-input-sm {
+  padding: var(--pf-space-2) var(--pf-space-3);
+  font-size: var(--pf-text-xs);
+}
+
+.pf-input-lg {
+  padding: var(--pf-space-4) var(--pf-space-5);
+  font-size: var(--pf-text-base);
+}
+
+// ==========================================
+// TEXTAREA
+// ==========================================
+
+.pf-textarea {
+  @extend .pf-input;
+  min-height: 100px;
+  resize: vertical;
+  line-height: var(--pf-leading-relaxed);
+}
+
+.pf-textarea-no-resize {
+  resize: none;
+}
+
+// ==========================================
+// SELECT
+// ==========================================
+
+.pf-select {
+  @extend .pf-input;
+  appearance: none;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 20 20'%3E%3Cpath stroke='%236b7280' stroke-linecap='round' stroke-linejoin='round' stroke-width='1.5' d='M6 8l4 4 4-4'/%3E%3C/svg%3E");
+  background-position: right var(--pf-space-3) center;
+  background-repeat: no-repeat;
+  background-size: 1.5em 1.5em;
+  padding-right: var(--pf-space-10);
+  cursor: pointer;
+}
+
+// ==========================================
+// CHECKBOX & RADIO
+// ==========================================
+
+.pf-checkbox,
+.pf-radio {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--pf-space-2);
+  cursor: pointer;
+  font-size: var(--pf-text-sm);
+  color: var(--pf-text-primary);
+
+  input {
+    appearance: none;
+    width: 18px;
+    height: 18px;
+    border: 2px solid var(--pf-border-medium);
+    background-color: var(--pf-surface);
+    cursor: pointer;
+    transition: all var(--pf-transition-fast);
+    flex-shrink: 0;
+
+    &:hover {
+      border-color: var(--pf-primary);
+    }
+
+    &:focus {
+      outline: none;
+      box-shadow: 0 0 0 3px rgba(var(--pf-primary-rgb), 0.1);
+    }
+
+    &:checked {
+      background-color: var(--pf-primary);
+      border-color: var(--pf-primary);
+    }
+
+    &:disabled {
+      opacity: 0.5;
+      cursor: not-allowed;
+    }
+  }
+}
+
+.pf-checkbox input {
+  border-radius: var(--pf-radius-sm);
+
+  &:checked {
+    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 16 16' fill='white' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M12.207 4.793a1 1 0 010 1.414l-5 5a1 1 0 01-1.414 0l-2-2a1 1 0 011.414-1.414L6.5 9.086l4.293-4.293a1 1 0 011.414 0z'/%3E%3C/svg%3E");
+    background-size: 100% 100%;
+    background-position: center;
+    background-repeat: no-repeat;
+  }
+}
+
+.pf-radio input {
+  border-radius: var(--pf-radius-full);
+
+  &:checked {
+    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 16 16' fill='white' xmlns='http://www.w3.org/2000/svg'%3E%3Ccircle cx='8' cy='8' r='3'/%3E%3C/svg%3E");
+    background-size: 100% 100%;
+    background-position: center;
+    background-repeat: no-repeat;
+  }
+}
+
+// ==========================================
+// TOGGLE / SWITCH
+// ==========================================
+
+.pf-toggle {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--pf-space-3);
+  cursor: pointer;
+  font-size: var(--pf-text-sm);
+  color: var(--pf-text-primary);
+
+  input {
+    appearance: none;
+    width: 44px;
+    height: 24px;
+    background-color: var(--pf-bg-tertiary);
+    border-radius: var(--pf-radius-full);
+    position: relative;
+    cursor: pointer;
+    transition: all var(--pf-transition-fast);
+
+    &::after {
+      content: '';
+      position: absolute;
+      top: 2px;
+      left: 2px;
+      width: 20px;
+      height: 20px;
+      background-color: white;
+      border-radius: var(--pf-radius-full);
+      box-shadow: var(--pf-shadow-sm);
+      transition: transform var(--pf-transition-fast);
+    }
+
+    &:hover {
+      background-color: var(--pf-border-medium);
+    }
+
+    &:checked {
+      background-color: var(--pf-primary);
+
+      &::after {
+        transform: translateX(20px);
+      }
+    }
+
+    &:focus {
+      outline: none;
+      box-shadow: 0 0 0 3px rgba(var(--pf-primary-rgb), 0.1);
+    }
+
+    &:disabled {
+      opacity: 0.5;
+      cursor: not-allowed;
+    }
+  }
+}
+
+// ==========================================
+// FORM GROUPS
+// ==========================================
+
+.pf-form-group {
+  margin-bottom: var(--pf-space-4);
+}
+
+.pf-form-label {
+  display: block;
+  font-size: var(--pf-text-sm);
+  font-weight: var(--pf-font-medium);
+  color: var(--pf-text-primary);
+  margin-bottom: var(--pf-space-2);
+}
+
+.pf-form-hint {
+  font-size: var(--pf-text-xs);
+  color: var(--pf-text-muted);
+  margin-top: var(--pf-space-1);
+}
+
+.pf-form-error {
+  font-size: var(--pf-text-xs);
+  color: var(--pf-error);
+  margin-top: var(--pf-space-1);
+  display: flex;
+  align-items: center;
+  gap: var(--pf-space-1);
+
+  i {
+    font-size: 0.875rem;
+  }
+}
+
+// ==========================================
+// INPUT WITH ICON
+// ==========================================
+
+.pf-input-icon-wrapper {
+  position: relative;
+
+  .pf-input {
+    padding-left: var(--pf-space-10);
+  }
+
+  .pf-input-icon {
+    position: absolute;
+    left: var(--pf-space-3);
+    top: 50%;
+    transform: translateY(-50%);
+    color: var(--pf-text-muted);
+    pointer-events: none;
+  }
+
+  &.icon-right {
+    .pf-input {
+      padding-left: var(--pf-space-4);
+      padding-right: var(--pf-space-10);
+    }
+
+    .pf-input-icon {
+      left: auto;
+      right: var(--pf-space-3);
+    }
+  }
+}
+
+// ==========================================
+// INPUT WITH BUTTON
+// ==========================================
+
+.pf-input-group {
+  display: flex;
+
+  .pf-input {
+    border-top-right-radius: 0;
+    border-bottom-right-radius: 0;
+    flex: 1;
+  }
+
+  .pf-btn,
+  button {
+    border-top-left-radius: 0;
+    border-bottom-left-radius: 0;
+    flex-shrink: 0;
+  }
+}
+
+// ==========================================
+// SEARCH INPUT
+// ==========================================
+
+.pf-search-input {
+  position: relative;
+
+  input {
+    @extend .pf-input;
+    padding-left: var(--pf-space-10);
+    border-radius: var(--pf-radius-full);
+    background-color: var(--pf-bg-tertiary);
+    border-color: transparent;
+
+    &:focus {
+      background-color: var(--pf-surface);
+      border-color: var(--pf-border-focus);
+    }
+  }
+
+  .search-icon {
+    position: absolute;
+    left: var(--pf-space-4);
+    top: 50%;
+    transform: translateY(-50%);
+    color: var(--pf-text-muted);
+    pointer-events: none;
+  }
+
+  .clear-btn {
+    position: absolute;
+    right: var(--pf-space-3);
+    top: 50%;
+    transform: translateY(-50%);
+    background: none;
+    border: none;
+    color: var(--pf-text-muted);
+    cursor: pointer;
+    padding: var(--pf-space-1);
+    border-radius: var(--pf-radius-full);
+
+    &:hover {
+      color: var(--pf-text-secondary);
+      background-color: var(--pf-surface-hover);
+    }
+  }
+}
+
+// ==========================================
+// FILE INPUT
+// ==========================================
+
+.pf-file-input {
+  position: relative;
+  display: inline-flex;
+  cursor: pointer;
+
+  input[type="file"] {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    opacity: 0;
+    cursor: pointer;
+  }
+
+  .pf-file-label {
+    @extend .pf-btn-secondary;
+    display: inline-flex;
+    align-items: center;
+    gap: var(--pf-space-2);
+    pointer-events: none;
+  }
+}
+
+// Dropzone style
+.pf-dropzone {
+  border: 2px dashed var(--pf-border-medium);
+  border-radius: var(--pf-radius-xl);
+  padding: var(--pf-space-10);
+  text-align: center;
+  cursor: pointer;
+  transition: all var(--pf-transition-fast);
+  background-color: var(--pf-bg-secondary);
+
+  &:hover,
+  &.dragging {
+    border-color: var(--pf-primary);
+    background-color: rgba(var(--pf-primary-rgb), 0.05);
+  }
+
+  .dropzone-icon {
+    font-size: 3rem;
+    color: var(--pf-text-muted);
+    margin-bottom: var(--pf-space-4);
+  }
+
+  .dropzone-text {
+    color: var(--pf-text-secondary);
+    font-size: var(--pf-text-sm);
+
+    strong {
+      color: var(--pf-primary);
+    }
+  }
+
+  .dropzone-hint {
+    font-size: var(--pf-text-xs);
+    color: var(--pf-text-muted);
+    margin-top: var(--pf-space-2);
+  }
+
+  input[type="file"] {
+    display: none;
+  }
+}
+
+// ==========================================
+// CHARACTER COUNTER
+// ==========================================
+
+.pf-char-counter {
+  font-size: var(--pf-text-xs);
+  color: var(--pf-text-muted);
+  text-align: right;
+  margin-top: var(--pf-space-1);
+
+  &.warning {
+    color: var(--pf-warning);
+  }
+
+  &.error {
+    color: var(--pf-error);
+  }
+}

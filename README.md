@@ -15,15 +15,9 @@
 
 ## Disclaimer
 
-🚨 **This project resembles Instagram, but it's not Instagram!** 🚨 
+🚨 **This project resembles Instagram, but it's not Instagram!** 🚨
 
 This project is a labor of love for educational and professional development reasons only. Don't sue me, Instagram!
-
----
-
-## Live Link 🔗
-
-Wanna try it out? Here you go: [Photo Flare Live](https://photo-flare.onrender.com/users/sign_in)
 
 ---
 
@@ -107,7 +101,7 @@ Educational use. No funny business.
 
 ---
 
-## Contact 
+## Contact
 
 Connect with me! Email: [scott-tuschl@comcast.net](mailto:scott-tuschl@comcast.net)
 
