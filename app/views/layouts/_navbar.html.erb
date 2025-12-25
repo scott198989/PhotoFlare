@@ -31,9 +31,11 @@
         <i class="fa-solid fa-house"></i>
       <% end %>
 
-      <%# Messages %>
-      <%= link_to conversations_path, class: "pf-nav-item #{'active' if controller_name == 'conversations'}", title: "Messages" do %>
-        <i class="fa-regular fa-paper-plane"></i>
+      <%# Messages - only show if conversations table exists %>
+      <% if ActiveRecord::Base.connection.table_exists?(:conversations) rescue false %>
+        <%= link_to conversations_path, class: "pf-nav-item #{'active' if controller_name == 'conversations'}", title: "Messages" do %>
+          <i class="fa-regular fa-paper-plane"></i>
+        <% end %>
       <% end %>
 
       <%# Create Post %>
@@ -41,13 +43,17 @@
         <i class="fa-regular fa-square-plus"></i>
       </button>
 
-      <%# Explore %>
-      <%= link_to explore_path, class: "pf-nav-item #{'active' if controller_name == 'explore'}", title: "Explore" do %>
-        <i class="fa-regular fa-compass"></i>
+      <%# Explore - only show if hashtags table exists %>
+      <% if ActiveRecord::Base.connection.table_exists?(:hashtags) rescue false %>
+        <%= link_to explore_path, class: "pf-nav-item #{'active' if controller_name == 'explore'}", title: "Explore" do %>
+          <i class="fa-regular fa-compass"></i>
+        <% end %>
       <% end %>
 
-      <%# Notifications %>
-      <% unread_count = current_user.notifications.unread.count %>
+      <%# Notifications - with fallback for missing table %>
+      <% notifications_enabled = ActiveRecord::Base.connection.table_exists?(:notifications) rescue false %>
+      <% unread_count = notifications_enabled ? (current_user.notifications.unread.count rescue 0) : 0 %>
+      <% recent_notifications = notifications_enabled ? (current_user.notifications.includes(actor: { profile_pic_attachment: :blob }).recent.limit(10) rescue []) : [] %>
       <div class="pf-nav-dropdown" data-controller="notifications">
         <button type="button" class="pf-nav-item" data-bs-toggle="dropdown" aria-expanded="false" title="Notifications">
           <i class="fa-regular fa-heart"></i>
@@ -60,12 +66,13 @@
         <div class="dropdown-menu pf-dropdown-menu pf-notifications-dropdown" data-notifications-target="dropdown">
           <div class="pf-dropdown-header">
             <h4>Notifications</h4>
-            <%= link_to notifications_path, class: "pf-dropdown-link" do %>
-              See All
+            <% if notifications_enabled %>
+              <%= link_to notifications_path, class: "pf-dropdown-link" do %>
+                See All
+              <% end %>
             <% end %>
           </div>
           <div class="pf-dropdown-body" data-notifications-target="list">
-            <% recent_notifications = current_user.notifications.includes(actor: { profile_pic_attachment: :blob }).recent.limit(10) %>
             <% if recent_notifications.any? %>
               <% recent_notifications.each do |notification| %>
                 <div class="pf-notification-item <%= 'pf-notification-unread' unless notification.read? %>"

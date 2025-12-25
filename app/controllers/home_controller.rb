@@ -10,12 +10,17 @@ class HomeController < ApplicationController
   private
 
   # Load active stories from followed users
+  # Gracefully handles missing stories table (before migrations)
   def set_stories
+    return @stories_by_user = {} unless table_exists?(:stories)
+
     followed_ids = current_user.followings.pluck(:id) + [current_user.id]
     @stories_by_user = Story.where(user_id: followed_ids)
                             .active
                             .includes(user: { profile_pic_attachment: :blob }, media_attachment: :blob)
                             .group_by(&:user)
+  rescue ActiveRecord::StatementInvalid
+    @stories_by_user = {}
   end
 
   # Fixed N+1 queries with includes
@@ -56,5 +61,12 @@ class HomeController < ApplicationController
     # Eager load profile pics
     @suggestions = User.where(id: @suggestions.map(&:id))
                        .includes(profile_pic_attachment: :blob)
+  end
+
+  # Helper to check if table exists (for graceful degradation before migrations)
+  def table_exists?(table_name)
+    ActiveRecord::Base.connection.table_exists?(table_name)
+  rescue ActiveRecord::NoDatabaseError
+    false
   end
 end

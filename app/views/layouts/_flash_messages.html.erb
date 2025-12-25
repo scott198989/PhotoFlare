@@ -1,15 +1,24 @@
-<% if notice && notice.is_a?(Array) %>
-  <% notice.each do |n| %>
-    <p class="alert alert-success"> <%= n %> </p>
-  <% end %>
-<% elsif notice && notice.is_a?(String) %>
-  <p class="alert alert-success"> <%= notice %> </p>
-<% end %>
-
-<% if alert && alert.is_a?(Array) %>
-  <% alert.each do |a| %>
-    <p class="alert alert-danger"> <%= a %> </p>
-  <% end %>
-<% elsif alert && alert.is_a?(String) %>
-  <p class="alert alert-danger"> <%= alert %> </p>
+<% if flash.any? %>
+  <div class="pf-flash-container">
+    <% flash.each do |type, messages| %>
+      <% messages_array = messages.is_a?(Array) ? messages : [messages] %>
+      <% messages_array.each do |message| %>
+        <div class="pf-flash pf-flash-<%= type == 'notice' ? 'success' : (type == 'alert' ? 'error' : type) %>" data-controller="flash">
+          <div class="pf-flash-content">
+            <% if type == 'notice' || type == 'success' %>
+              <i class="fa-solid fa-circle-check"></i>
+            <% elsif type == 'alert' || type == 'error' %>
+              <i class="fa-solid fa-circle-exclamation"></i>
+            <% else %>
+              <i class="fa-solid fa-circle-info"></i>
+            <% end %>
+            <span><%= message %></span>
+          </div>
+          <button type="button" class="pf-flash-close" data-action="click->flash#dismiss">
+            <i class="fa-solid fa-xmark"></i>
+          </button>
+        </div>
+      <% end %>
+    <% end %>
+  </div>
 <% end %>

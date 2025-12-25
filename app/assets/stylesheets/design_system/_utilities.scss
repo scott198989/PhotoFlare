@@ -413,3 +413,134 @@ $spacing-values: (
   background-color: var(--pf-border-light);
   margin: 0 var(--pf-space-4);
 }
+
+// ==========================================
+// FLASH MESSAGES
+// ==========================================
+
+.pf-flash-container {
+  position: fixed;
+  top: calc(var(--pf-navbar-height) + var(--pf-space-4));
+  right: var(--pf-space-4);
+  z-index: calc(var(--pf-z-modal) + 10);
+  display: flex;
+  flex-direction: column;
+  gap: var(--pf-space-3);
+  max-width: 400px;
+  width: 100%;
+  pointer-events: none;
+
+  @media (max-width: 640px) {
+    left: var(--pf-space-4);
+    right: var(--pf-space-4);
+    max-width: none;
+  }
+}
+
+.pf-flash {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--pf-space-3);
+  padding: var(--pf-space-4);
+  border-radius: var(--pf-radius-lg);
+  background: var(--pf-surface);
+  box-shadow: var(--pf-shadow-lg);
+  border-left: 4px solid;
+  pointer-events: auto;
+  animation: pf-flash-slide-in 0.3s var(--pf-ease-out);
+
+  &.pf-flash-dismissing {
+    animation: pf-flash-slide-out 0.3s var(--pf-ease-in) forwards;
+  }
+
+  &.pf-flash-success {
+    border-left-color: var(--pf-success);
+
+    .pf-flash-content i {
+      color: var(--pf-success);
+    }
+  }
+
+  &.pf-flash-error {
+    border-left-color: var(--pf-error);
+
+    .pf-flash-content i {
+      color: var(--pf-error);
+    }
+  }
+
+  &.pf-flash-info {
+    border-left-color: var(--pf-primary);
+
+    .pf-flash-content i {
+      color: var(--pf-primary);
+    }
+  }
+
+  &.pf-flash-warning {
+    border-left-color: var(--pf-warning);
+
+    .pf-flash-content i {
+      color: var(--pf-warning);
+    }
+  }
+}
+
+.pf-flash-content {
+  display: flex;
+  align-items: center;
+  gap: var(--pf-space-3);
+  flex: 1;
+
+  i {
+    font-size: 1.25rem;
+  }
+
+  span {
+    font-size: var(--pf-text-sm);
+    color: var(--pf-text-primary);
+    line-height: 1.4;
+  }
+}
+
+.pf-flash-close {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 24px;
+  height: 24px;
+  border: none;
+  background: transparent;
+  color: var(--pf-text-tertiary);
+  cursor: pointer;
+  border-radius: var(--pf-radius-sm);
+  transition: all var(--pf-transition-fast);
+
+  &:hover {
+    background: var(--pf-bg-tertiary);
+    color: var(--pf-text-primary);
+  }
+}
+
+@keyframes pf-flash-slide-in {
+  from {
+    opacity: 0;
+    transform: translateX(100%);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+@keyframes pf-flash-slide-out {
+  from {
+    opacity: 1;
+    transform: translateX(0);
+  }
+  to {
+    opacity: 0;
+    transform: translateX(100%);
+  }
+}
