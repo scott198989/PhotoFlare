@@ -1,18 +1,26 @@
 databases:
-  - name: mysite
-    databaseName: mysite
-    user: mysite
+  - name: photoflare-db
+    plan: free
+    databaseName: photoflare
+    user: photoflare
 
 services:
   - type: web
-    name: mysite
+    name: photoflare
+    plan: free
     runtime: ruby
     buildCommand: "./bin/render-build.sh"
     startCommand: "bundle exec puma -C config/puma.rb"
     envVars:
       - key: DATABASE_URL
         fromDatabase:
-          name: mysite
+          name: photoflare-db
           property: connectionString
       - key: RAILS_MASTER_KEY
-        sync: false 
+        sync: false
+      - key: RAILS_ENV
+        value: production
+      - key: RAILS_SERVE_STATIC_FILES
+        value: "true"
+      - key: RAILS_LOG_TO_STDOUT
+        value: "true"
